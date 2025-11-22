@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rent vs. Own Crisis in AI (Final)</title>
+    <meta name="description" content="The diverging paths of Commodity Assistants vs. Custom Stacks.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Theme Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],the-custom-ai-gap
+                    },
+                    colors: {
+                        dark: {
+                            950: '#050505',
+                            900: '#09090b',
+                            800: '#18181b',
+                        },
+                        accent: {
+                            cyan: '#06b6d4',
+                            rose: '#f43f5e',
+                            amber: '#f59e0b',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'scan': 'scan 2s linear infinite',
+                        'glitch': 'glitch 4s infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px rgba(6, 182, 212, 0.2)' },
+                            '100%': { boxShadow: '0 0 20px rgba(6, 182, 212, 0.6), 0 0 10px rgba(6, 182, 212, 0.4)' },
+                        },
+                        scan: {
+                            '0%': { backgroundPosition: '0% 0%' },
+                            '100%': { backgroundPosition: '0% 100%' },
+                        },
+                        glitch: {
+                            '0%, 90%, 100%': { transform: 'translate(0,0)', opacity: '1' },
+                            '91%': { transform: 'translate(-2px,2px)', opacity: '0.9' },
+                            '92%': { transform: 'translate(2px,-2px)', opacity: '1' },
+                            '93%': { transform: 'translate(0,0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(24, 24, 27, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+        .cyan-glow-text { text-shadow: 0 0 15px rgba(6, 182, 212, 0.5); }
+        .rose-glow-text { text-shadow: 0 0 15px rgba(244, 63, 94, 0.5); }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
+        }
+        
+        /* Improved Slider Styling (Hit Area) */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+            height: 30px; /* Larger tap area */
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            background: #06b6d4;
+            cursor: pointer;
+            margin-top: -12px;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.8);
+            border: 3px solid #fff;
+            position: relative;
+            z-index: 10;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #334155;
+            border-radius: 2px;
+        }
+        
+        /* X-Ray Effect */
+        .xray-content {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            position: absolute;
+            inset: 0;
+            background: rgba(9, 9, 11, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            pointer-events: none; /* Let clicks pass through to container */
+        }
+        /* Desktop Hover */
+        @media (hover: hover) {
+            .group:hover .xray-content {
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+        }
+        /* Mobile Active State */
+        .group.active-scan .xray-content {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        
+        /* Terminal Overlay */
+        #terminal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 5, 0.98);
+            z-index: 50;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Viewfinder Corners */
+        .viewfinder-corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: rgba(255, 255, 255, 0.3);
+            border-style: solid;
+            pointer-events: none;
+        }
+        .vf-tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
+        .vf-tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
+        .vf-bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
+        .vf-br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+        
+        /* Glitch Effect Class */
+        .glitch-effect {
+            animation: glitch 3s infinite;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-accent-cyan selection:text-black">
+
+    <!-- Terminal Overlay for CTA -->
+    <div id="terminal-overlay">
+        <div class="max-w-lg w-full p-6 text-green-500 text-sm relative">
+            <div id="terminal-text" class="mb-4 space-y-1"></div>
+            <div id="terminal-cursor" class="h-4 w-3 bg-green-500 animate-pulse inline-block"></div>
+            
+            <!-- Success UI (Hidden Initially) -->
+            <div id="terminal-success" class="hidden text-center mt-8 border border-green-500/30 p-6 rounded bg-green-500/5">
+                <h2 class="text-2xl font-bold text-green-400 mb-2 glow-text">ACCESS GRANTED</h2>
+                <p class="text-green-600/80 mb-6">Protocol Initialized. Welcome to the build.</p>
+                <button id="btn-close-terminal" class="px-6 py-2 bg-green-500 text-black font-bold hover:bg-green-400 transition-colors uppercase tracking-widest text-xs">
+                    Enter System
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <header class="py-20 px-6 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-accent-cyan/10 blur-[100px] rounded-full pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto relative z-10">
+            <div class="inline-block px-3 py-1 mb-6 border border-accent-rose/30 bg-accent-rose/10 rounded-full">
+                <span class="text-accent-rose text-xs font-bold tracking-widest uppercase animate-pulse">Warning: Divergence Event Imminent</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-tight">
+                Are You a <span class="text-white">Renter</span><br>
+                Or an <span class="text-accent-cyan cyan-glow-text">Architect</span>?
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed">
+                The "easy" path of AI is a trap. <br class="hidden md:block"> 
+                Convenience is costing you <span class="text-white font-semibold">sovereignty</span>.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 md:px-6 py-12 space-y-20 md:space-y-32">
+
+        <!-- SECTION 1: THE TRAP -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <h2 class="text-3xl font-bold text-white">The "Utility" Lie</h2>
+                <p class="text-slate-300 text-lg leading-relaxed border-l-2 border-accent-rose pl-6">
+                    Big Tech sells AI as a utility. They want you to believe we all have the same power.
+                    <br><br>
+                    <strong class="text-accent-rose">They are lying.</strong>
+                    <br><br>
+                    If you use bundled AI, you are merely <em>renting intelligence</em>. You own nothing.
+                </p>
+            </div>
+            <div class="glass-panel p-8 rounded-2xl text-center relative group cursor-help">
+                <div class="absolute inset-0 bg-accent-rose/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+                <div class="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🪤</div>
+                <h3 class="text-xl font-bold text-white mb-2">The Convenience Trap</h3>
+                <p class="text-sm text-slate-400">Hover to see the cycle</p>
+                <!-- Tooltip Toy -->
+                <div class="absolute inset-0 bg-dark-900/90 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity p-6 pointer-events-none group-hover:pointer-events-auto">
+                    <p class="text-accent-rose font-mono text-sm font-bold mb-2">Cycle Detected:</p>
+                    <ul class="text-left text-slate-300 space-y-2 text-xs font-mono">
+                        <li>> DEPENDENCY_INIT...</li>
+                        <li>> SKILL_ATROPHY...</li>
+                        <li>> PRICE_HIKE_ACCEPTED...</li>
+                        <li>> LOCK_IN_COMPLETE.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: THE LINEAGES (X-RAY TOY) -->
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="text-sm font-bold text-accent-cyan uppercase tracking-[0.2em] mb-2">The Ecosystem Map</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-white">Tap/Hover to Scan Stack</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+                <!-- Renter Card (Glitch Fix) -->
+                <div class="bg-dark-800/50 border border-white/5 p-8 rounded-xl relative overflow-hidden group hover:border-accent-rose/50 transition-colors h-[320px] cursor-pointer xray-card glitch-effect">
+                    <div class="text-accent-rose font-mono text-xs mb-4 uppercase">The Renter</div>
+                    <h4 class="text-2xl font-bold text-white mb-2">Commodity Assistant</h4>
+                    <p class="text-slate-400 text-sm mb-6">"I use ChatGPT to write emails."</p>
+                    <div class="w-full bg-dark-900 h-1.5 rounded-full overflow-hidden mb-2">
+                        <div class="bg-accent-rose w-[20%] h-full"></div>
+                    </div>
+                    
+                    <!-- X-RAY OVERLAY -->
+                    <div class="xray-content border border-accent-rose/30">
+                        <span class="text-accent-rose text-3xl mb-2">🚫</span>
+                        <h5 class="text-white font-bold mb-2">System Audit: EMPTY</h5>
+                        <p class="text-xs text-slate-400 font-mono mb-2">No Proprietary Data.<br>Generic Model Weights.<br>Zero Moat.</p>
+                        <span class="px-2 py-1 bg-accent-rose/20 text-accent-rose text-[10px] rounded uppercase">Vulnerable</span>
+                    </div>
+                </div>
+
+                <!-- Manager Card -->
+                <div class="bg-dark-800/50 border border-white/5 p-8 rounded-xl relative overflow-hidden group hover:border-accent-amber/50 transition-colors h-[320px] cursor-pointer xray-card">
+                    <div class="text-accent-amber font-mono text-xs mb-4 uppercase">The Manager</div>
+                    <h4 class="text-2xl font-bold text-white mb-2">Orchestrated Agent</h4>
+                    <p class="text-slate-400 text-sm mb-6">"I chain tools together."</p>
+                    <div class="w-full bg-dark-900 h-1.5 rounded-full overflow-hidden mb-2">
+                        <div class="bg-accent-amber w-[50%] h-full"></div>
+                    </div>
+
+                    <!-- X-RAY OVERLAY -->
+                    <div class="xray-content border border-accent-amber/30">
+                        <span class="text-accent-amber text-3xl mb-2">⚠️</span>
+                        <h5 class="text-white font-bold mb-2">System Audit: BRITTLE</h5>
+                        <p class="text-xs text-slate-400 font-mono mb-2">Dependency Chain Risk.<br>API Breakage Likely.<br>Partial Control.</p>
+                        <span class="px-2 py-1 bg-accent-amber/20 text-accent-amber text-[10px] rounded uppercase">Unstable</span>
+                    </div>
+                </div>
+
+                <!-- Architect Card -->
+                <div class="bg-dark-800/50 border border-accent-cyan/50 p-8 rounded-xl relative overflow-hidden group shadow-[0_0_30px_rgba(6,182,212,0.1)] h-[320px] cursor-pointer xray-card">
+                    <div class="text-accent-cyan font-mono text-xs mb-4 uppercase">The Architect</div>
+                    <h4 class="text-2xl font-bold text-white mb-2">Custom Stack</h4>
+                    <p class="text-slate-400 text-sm mb-6">"I built a system that thinks."</p>
+                    <div class="w-full bg-dark-900 h-1.5 rounded-full overflow-hidden mb-2">
+                        <div class="bg-accent-cyan w-[95%] h-full animate-glow"></div>
+                    </div>
+
+                    <!-- X-RAY OVERLAY -->
+                    <div class="xray-content border border-accent-cyan/30">
+                        <span class="text-accent-cyan text-3xl mb-2">🛡️</span>
+                        <h5 class="text-white font-bold mb-2">System Audit: SOVEREIGN</h5>
+                        <p class="text-xs text-slate-400 font-mono mb-2">Local Vector DB.<br>Fine-tuned Weights.<br>Compounding Context.</p>
+                        <span class="px-2 py-1 bg-accent-cyan/20 text-accent-cyan text-[10px] rounded uppercase">Defensible</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: THE VELOCITY SLIDER TOY -->
+        <section class="bg-dark-900 rounded-3xl p-6 md:p-12 relative">
+            <!-- Viewfinder Corners (Visual Fix) -->
+            <div class="viewfinder-corner vf-tl"></div>
+            <div class="viewfinder-corner vf-tr"></div>
+            <div class="viewfinder-corner vf-bl"></div>
+            <div class="viewfinder-corner vf-br"></div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 relative z-10">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-2">The Velocity Gap</h2>
+                    <p class="text-slate-400 max-w-md">Drag the slider to simulate the compounding effect over time.</p>
+                </div>
+                <div class="text-right mt-4 md:mt-0">
+                    <div class="text-xs text-slate-500 uppercase tracking-widest mb-1">Time Horizon</div>
+                    <div id="time-readout" class="text-white font-black text-2xl tracking-tight">DAY 1</div>
+                    <div id="gap-status" class="text-accent-cyan text-sm font-mono mt-1">Status: Parity</div>
+                </div>
+            </div>
+
+            <!-- The Chart -->
+            <div class="chart-container relative z-10">
+                <canvas id="velocityChart"></canvas>
+            </div>
+
+            <!-- The Slider Toy -->
+            <div class="mt-8 px-4 relative z-10">
+                <input type="range" min="0" max="4" step="0.1" value="0" id="velocity-slider">
+                <div class="flex justify-between text-xs text-slate-600 font-mono mt-2 uppercase">
+                    <span>Start</span>
+                    <span>6 Months</span>
+                    <span>12 Months</span>
+                    <span>18 Months</span>
+                    <span>2+ Years</span>
+                </div>
+            </div>
+            
+            <!-- Integrity Disclaimer -->
+            <p class="text-[10px] text-slate-600 text-center mt-6 font-mono opacity-50">
+                * Figures are illustrative of compounding leverage effects, not empirical market data.
+            </p>
+        </section>
+
+        <!-- SECTION 4: PAIN MATRIX (Visual Fix) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="glass-panel p-8 rounded-2xl flex flex-col justify-center">
+                <h3 class="text-2xl font-bold text-white mb-4">The Pain Premium</h3>
+                <p class="text-slate-300 mb-6">Why doesn't everyone become an Architect? Because it hurts.</p>
+                <div class="mt-4 p-4 bg-dark-900 border border-white/10 rounded font-mono text-sm text-accent-amber">
+                    > ALERT: Ops Overhead Detected<br>
+                    > Code Maintenance Required<br>
+                    > Data Cleaning Required
+                </div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl relative h-full flex flex-col items-center">
+                <div class="chart-container h-[300px] w-full">
+                    <canvas id="painMatrixChart"></canvas>
+                </div>
+                <!-- Sweet Spot Label (Visual Fix) -->
+                <div class="absolute top-6 right-6 text-accent-cyan text-[10px] font-bold uppercase tracking-widest border border-accent-cyan/30 px-2 py-1 rounded bg-accent-cyan/5">
+                    Target Zone
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: CTA (BOOT TOY) -->
+        <section class="text-center py-12 max-w-2xl mx-auto">
+            <h2 class="text-4xl font-bold text-white mb-8">Stop Renting. Start Building.</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+                <div class="p-4 border border-white/10 rounded-lg opacity-50 cursor-not-allowed">
+                    <div class="text-xs text-slate-500 uppercase mb-1">The Comfortable Path</div>
+                    <div class="text-slate-300">Stay a Renter</div>
+                </div>
+                <button id="btn-deploy" class="p-4 bg-accent-cyan border border-accent-cyan text-dark-900 rounded-lg font-bold hover:bg-cyan-300 hover:scale-105 transition-all shadow-[0_0_30px_rgba(6,182,212,0.4)] uppercase tracking-widest">
+                    Initialize Architect Protocol
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-dark-900 border-t border-white/5 py-10 text-center">
+        <p class="text-slate-600 text-xs font-mono">
+            INFOGRAPHIC GENERATED BY: FORGE // THEMER // VIRALIZER // TOYSMITH
+        </p>
+    </footer>
+
+    <script>
+        // --- CHART CONFIG ---
+        Chart.defaults.color = '#64748b'; 
+        Chart.defaults.borderColor = '#27272a';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
+        // --- VELOCITY CHART & SLIDER LOGIC ---
+        const ctxVel = document.getElementById('velocityChart').getContext('2d');
+        const gradientCyan = ctxVel.createLinearGradient(0, 0, 0, 400);
+        gradientCyan.addColorStop(0, 'rgba(6, 182, 212, 0.5)');
+        gradientCyan.addColorStop(1, 'rgba(6, 182, 212, 0)');
+
+        const architectData = [10, 25, 60, 140, 300];
+        const renterData = [10, 15, 20, 25, 30];
+
+        const velocityChart = new Chart(ctxVel, {
+            type: 'line',
+            data: {
+                labels: ['Now', '6 Mo', '12 Mo', '18 Mo', '24 Mo'],
+                datasets: [
+                    {
+                        label: 'The Architect',
+                        data: architectData,
+                        borderColor: '#06b6d4',
+                        backgroundColor: gradientCyan,
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#06b6d4',
+                        pointBorderColor: '#fff',
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'The Renter',
+                        data: renterData,
+                        borderColor: '#f43f5e',
+                        borderWidth: 2,
+                        borderDash: [6, 6],
+                        pointRadius: 0,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { display: false, min: 0, max: 320 },
+                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+
+        // Slider Interaction
+        const slider = document.getElementById('velocity-slider');
+        const timeReadout = document.getElementById('time-readout');
+        const gapStatus = document.getElementById('gap-status');
+
+        slider.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            const activeIndex = Math.round(val);
+            
+            // Text updates
+            if (val < 0.5) {
+                timeReadout.innerText = "DAY 1";
+                gapStatus.innerText = "Status: Competitive Parity";
+                gapStatus.style.color = "#94a3b8";
+            } else if (val < 1.5) {
+                timeReadout.innerText = "6 MONTHS";
+                gapStatus.innerText = "Status: Slight Divergence";
+                gapStatus.style.color = "#f59e0b";
+            } else if (val < 2.5) {
+                timeReadout.innerText = "1 YEAR";
+                gapStatus.innerText = "Status: The Gap Opens";
+                gapStatus.style.color = "#f43f5e";
+            } else if (val < 3.5) {
+                timeReadout.innerText = "18 MONTHS";
+                gapStatus.innerText = "Status: Capability Chasm";
+                gapStatus.style.color = "#f43f5e";
+            } else {
+                timeReadout.innerText = "2+ YEARS";
+                gapStatus.innerText = "Status: TOTAL OBSOLESCENCE";
+                gapStatus.style.color = "#f43f5e";
+                gapStatus.style.textShadow = "0 0 10px rgba(244, 63, 94, 0.5)";
+            }
+
+            const newRadii = [0, 0, 0, 0, 0];
+            if(activeIndex >= 0 && activeIndex <= 4) newRadii[activeIndex] = 10;
+            velocityChart.data.datasets[0].pointRadius = newRadii;
+            velocityChart.update('none');
+        });
+
+        // --- PAIN MATRIX (Visual Fix: Target Reticles) ---
+        const ctxPain = document.getElementById('painMatrixChart').getContext('2d');
+        new Chart(ctxPain, {
+            type: 'bubble',
+            data: {
+                datasets: [
+                    { label: 'Renters', data: [{x: 2, y: 2, r: 15}], backgroundColor: 'transparent', borderColor: '#f43f5e', borderWidth: 3 },
+                    { label: 'Managers', data: [{x: 5, y: 4, r: 10}], backgroundColor: 'transparent', borderColor: '#f59e0b', borderWidth: 3 },
+                    { label: 'Architects', data: [{x: 9, y: 9, r: 25}], backgroundColor: 'rgba(6, 182, 212, 0.2)', borderColor: '#06b6d4', borderWidth: 3 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { title: { display: true, text: 'Pain (Ops)', color: '#94a3b8' }, min: 0, max: 10, grid: { color: '#27272a' } },
+                    y: { title: { display: true, text: 'Leverage', color: '#94a3b8' }, min: 0, max: 10, grid: { color: '#27272a' } }
+                }
+            }
+        });
+
+        // --- X-RAY MOBILE LOGIC (UX Fix) ---
+        const xrayCards = document.querySelectorAll('.xray-card');
+        xrayCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Toggle active class on click for mobile
+                card.classList.toggle('active-scan');
+            });
+        });
+
+        // --- TERMINAL BOOT TOY (UX Fix: No Alert) ---
+        const btnDeploy = document.getElementById('btn-deploy');
+        const terminalOverlay = document.getElementById('terminal-overlay');
+        const terminalText = document.getElementById('terminal-text');
+        const terminalCursor = document.getElementById('terminal-cursor');
+        const terminalSuccess = document.getElementById('terminal-success');
+        const btnCloseTerminal = document.getElementById('btn-close-terminal');
+
+        const bootLines = [
+            "INITIALIZING ARCHITECT PROTOCOL...",
+            "Loading local vector database...",
+            "Decrypting proprietary workflows...",
+            "Bypassing platform limits...",
+            "Connecting to neural mesh...",
+            "..."
+        ];
+
+        btnDeploy.addEventListener('click', () => {
+            terminalOverlay.style.display = 'flex';
+            terminalText.innerHTML = '';
+            terminalSuccess.classList.add('hidden');
+            terminalCursor.style.display = 'inline-block';
+            let lineIndex = 0;
+            
+            const typeLine = () => {
+                if (lineIndex < bootLines.length) {
+                    const p = document.createElement('div');
+                    p.innerText = "> " + bootLines[lineIndex];
+                    terminalText.appendChild(p);
+                    lineIndex++;
+                    setTimeout(typeLine, 500); 
+                } else {
+                    // Success State
+                    terminalCursor.style.display = 'none';
+                    terminalSuccess.classList.remove('hidden');
+                }
+            };
+            
+            typeLine();
+        });
+
+        btnCloseTerminal.addEventListener('click', () => {
+            terminalOverlay.style.display = 'none';
+        });
+
+    </script>
+</body>
+</html>
