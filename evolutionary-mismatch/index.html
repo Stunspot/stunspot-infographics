@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Evolutionary Mismatch: Stone Age Bodies in a Cyberpunk World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Your nervous system was tested on lions and cliffs, not notifications and debt. Stone Age bodies in cyberpunk cages — an evolutionary mismatch explainer about why modern life feels wrong."
+  />
+  <meta
+    property="og:title"
+    content="Your nervous system was tested on lions and cliffs, not notifications and debt."
+  />
+  <meta
+    property="og:description"
+    content="Stone Age bodies in cyberpunk cages. Evolutionary mismatch explains why modern life feels so off — and how to redesign the habitat."
+  />
+  <meta property="og:url" content="https://stunspot.github.io/stunspot-infographics/evolutionary-mismatch/index.html" />
+  <meta property="og:image" content="https://stunspot.github.io/stunspot-infographics/evolutionary-mismatch/assets/thumbnail.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta
+    name="twitter:title"
+    content="Your nervous system was tested on lions and cliffs, not notifications and debt."
+  />
+  <meta
+    name="twitter:description"
+    content="Stone Age bodies in cyberpunk cages. Evolutionary mismatch explains why modern life feels so off — and how to redesign the habitat."
+  />
+  <meta name="twitter:image" content="https://stunspot.github.io/stunspot-infographics/evolutionary-mismatch/assets/thumbnail.png" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Anthropocene Refit Pairing -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    :root {
+      /* Anthropocene Refit palette */
+      --anth-teal-primary: #22e6b8;
+      --anth-amber-secondary: #ffc857;
+      --anth-magenta-accent: #7c2a5b;
+      --anth-green-rewild: #cbe8b1;
+      --anth-ochre-base: #c58b3b;
+      --anth-skin-base: #f2d0a4;
+
+      --anth-neutral-100: #f9fafb;
+      --anth-neutral-300: #d1d5db;
+      --anth-neutral-600: #4b5563;
+      --anth-neutral-900: #050609;
+
+      --anth-bg-deep: #020617;
+      --anth-bg-concrete: #111827;
+      --anth-glass: rgba(15, 23, 42, 0.9);
+
+      --anth-highlight: rgba(34, 230, 184, 0.18);
+      --anth-error: #f97373;
+    }
+
+    body {
+      font-family: "Crimson Pro", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", serif;
+      background-color: var(--anth-bg-deep);
+      color: var(--anth-neutral-100);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      letter-spacing: 0.03em;
+    }
+
+    .section-card {
+      background-image:
+        radial-gradient(circle at top left, rgba(197, 139, 59, 0.08), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(124, 42, 91, 0.12), transparent 55%),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.9));
+      border-radius: 1.25rem;
+      border: 1px solid rgba(203, 232, 177, 0.22); /* soft moss edge */
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-card::before {
+      /* subtle HUD texture */
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background-image: radial-gradient(
+        circle at 0 0,
+        rgba(34, 230, 184, 0.07),
+        transparent 55%
+      );
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .section-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero background: smoother, less “scanline” */
+    .soft-grid {
+      background-image:
+        radial-gradient(circle at 0% 0%, rgba(148, 163, 184, 0.14), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(34, 197, 235, 0.12), transparent 55%),
+        linear-gradient(to bottom, #020617 0%, #020617 52%, #000 100%);
+      background-size: 120% 120%;
+      background-position: center;
+    }
+
+    .chip {
+      border-radius: 9999px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: rgba(203, 232, 177, 0.7);
+      background-color: rgba(17, 24, 39, 0.75);
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--anth-neutral-100);
+    }
+
+    .pill-badge {
+      border-radius: 9999px;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: radial-gradient(
+        circle at 0 0,
+        rgba(34, 230, 184, 0.25),
+        transparent 55%
+      );
+      backdrop-filter: blur(6px);
+    }
+
+    .panel {
+      scroll-margin-top: 5.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      .panel {
+        max-width: 80ch;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    /* Spine nav + scrollbar polish */
+    nav[aria-label="Infographic navigation"] {
+      position: relative;
+      overflow: hidden;
+    }
+
+    nav[aria-label="Infographic navigation"]::after {
+      content: "";
+      position: absolute;
+      inset-block: 0;
+      right: 0;
+      width: 3rem;
+      pointer-events: none;
+      background-image: linear-gradient(
+        to left,
+        rgba(2, 6, 23, 0.96),
+        transparent
+      );
+    }
+
+    .spine-nav {
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(51, 65, 85, 0.85) transparent;
+    }
+
+    .spine-nav::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .spine-nav::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .spine-nav::-webkit-scrollbar-thumb {
+      background-color: rgba(71, 85, 105, 0.9);
+      border-radius: 9999px;
+    }
+
+    .spine-nav a {
+      border-radius: 9999px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: rgba(148, 163, 184, 0.8);
+      padding: 0.35rem 0.9rem;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      transition: all 0.18s ease-out;
+      color: var(--anth-neutral-300);
+      background-color: rgba(17, 24, 39, 0.8);
+    }
+
+    .spine-nav a:hover,
+    .spine-nav a:focus-visible {
+      background-color: rgba(17, 24, 39, 1);
+      border-color: rgba(34, 230, 184, 0.9);
+      color: var(--anth-neutral-100);
+      box-shadow: 0 0 0 1px rgba(34, 230, 184, 0.8),
+        0 0 18px rgba(34, 230, 184, 0.35);
+    }
+
+    /* Section-specific visual metaphors */
+
+    #stress-engine .section-card {
+      border-color: rgba(255, 200, 87, 0.55);
+      box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.8),
+        0 0 32px rgba(255, 200, 87, 0.22);
+      background-image:
+        linear-gradient(120deg, rgba(255, 200, 87, 0.18), transparent 55%),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.9));
+    }
+
+    #dopamine-comfort .section-card {
+      border-color: rgba(124, 42, 91, 0.6);
+      background-image:
+        repeating-linear-gradient(
+          135deg,
+          rgba(124, 42, 91, 0.14),
+          rgba(124, 42, 91, 0.14) 6px,
+          transparent 6px,
+          transparent 16px
+        ),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.9));
+    }
+
+    #micro-rewilding .section-card {
+      border-color: rgba(203, 232, 177, 0.8);
+      background-image:
+        radial-gradient(circle at bottom left, rgba(203, 232, 177, 0.22), transparent 60%),
+        linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(15, 23, 42, 0.9));
+    }
+
+    #hero {
+      color: var(--anth-neutral-100);
+    }
+
+    /* Hero snapshot card softer than main title block */
+    .hero-snapshot-card {
+      border-color: rgba(148, 163, 184, 0.6);
+      box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(15, 23, 42, 0.95);
+      background-image: linear-gradient(
+        145deg,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.94)
+      );
+    }
+
+    .hero-snapshot-card::before {
+      opacity: 0.35;
+    }
+
+    /* Toys: chart view toggles */
+    .chart-toggle {
+      border-radius: 9999px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      padding: 0.2rem 0.7rem;
+      background-color: rgba(15, 23, 42, 0.9);
+      color: var(--anth-neutral-300);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.16s ease-out;
+    }
+
+    .chart-toggle[aria-pressed="true"] {
+      border-color: rgba(34, 230, 184, 0.9);
+      color: var(--anth-neutral-100);
+      box-shadow: 0 0 0 1px rgba(34, 230, 184, 0.6),
+        0 0 14px rgba(34, 230, 184, 0.3);
+    }
+
+    /* Toys: jargon triggers + explainer */
+    .jargon-trigger {
+      border: 0;
+      padding: 0;
+      margin: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      cursor: help;
+      border-bottom: 1px dotted rgba(148, 163, 184, 0.7);
+      text-decoration: none;
+      text-decoration-style: dotted;
+    }
+
+    .jargon-trigger:focus-visible {
+      outline: 2px solid rgba(34, 230, 184, 0.9);
+      outline-offset: 2px;
+    }
+
+    #jargon-explainer-bar {
+      max-width: 32rem;
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.8),
+        0 0 0 1px rgba(15, 23, 42, 0.9);
+      background-image:
+        linear-gradient(135deg, rgba(17, 24, 39, 0.98), rgba(15, 23, 42, 0.95));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spine-nav a,
+      .chart-toggle {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-50 antialiased">
+  <header
+    id="hero"
+    class="soft-grid border-b border-slate-800"
+    aria-labelledby="hero-title"
+  >
+    <div class="mx-auto flex max-w-5xl flex-col gap-8 px-4 pb-8 pt-10 sm:px-6 lg:px-8 lg:pb-10 lg:pt-14">
+      <div class="flex flex-wrap items-center gap-3 text-xs text-slate-300">
+        <span class="chip">Evolutionary Psychology</span>
+        <span class="chip">Systems Biology</span>
+        <span class="chip">Habitat Design</span>
+      </div>
+
+      <div class="grid gap-10 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:items-center">
+        <div class="space-y-6">
+          <h1 id="hero-title" class="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+            Evolutionary Mismatch:<br />
+            <span class="text-sky-300">Stone Age Bodies in a Cyberpunk World</span>
+          </h1>
+          <p class="max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
+            We’ve built the safest, comfiest era in human history—while our Stone Age biology quietly panics.
+            Evolutionary Mismatch Theory explains why your nervous system was tested on lions and cliffs,
+            not notifications and debt.
+          </p>
+          <div class="mt-1 flex flex-wrap items-center gap-3 text-xs text-slate-300">
+            <button
+              id="copy-x-hook"
+              type="button"
+              class="inline-flex items-center gap-1 rounded-full border border-sky-500/70 bg-sky-500/10 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-sky-200"
+            >
+              <span>Copy to Clipboard</span>
+            </button>
+            <span
+              id="copy-x-hook-status"
+              class="text-[0.7rem] text-slate-400"
+              aria-live="polite"
+            ></span>
+          </div>
+          <div class="grid gap-4 text-xs text-slate-300 sm:grid-cols-3 sm:text-sm">
+            <div class="rounded-xl border border-slate-800/80 bg-slate-900/60 p-3">
+              <p class="font-medium text-sky-300">The Mismatch</p>
+              <p class="mt-1 text-slate-300">
+                Old hardware, new world: evolved systems misfiring in novel environments.
+              </p>
+            </div>
+            <div class="rounded-xl border border-slate-800/80 bg-slate-900/60 p-3">
+              <p class="font-medium text-sky-300">Why It Hurts</p>
+              <p class="mt-1 text-slate-300">
+                Record comfort—but nervous systems reacting like everything’s on fire.
+              </p>
+            </div>
+            <div class="rounded-xl border border-slate-800/80 bg-slate-900/60 p-3">
+              <p class="font-medium text-sky-300">Design Target</p>
+              <p class="mt-1 text-slate-300">
+                The problem isn’t “broken people.” It’s a mismatched habitat we can redesign.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="section-card hero-snapshot-card relative overflow-hidden p-6"
+        >
+          <div
+            class="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-sky-500/20 blur-3xl"
+          ></div>
+          <p class="pill-badge bg-sky-500/10 text-[0.65rem] font-semibold text-sky-300">
+            Concept Snapshot
+          </p>
+          <h2 class="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">
+            Evolutionary Mismatch in One Glance
+          </h2>
+          <div class="mt-4 grid gap-3 text-xs text-slate-200">
+            <div
+              class="flex flex-col gap-1 rounded-xl border border-slate-700/90 bg-slate-900/60 p-3"
+            >
+              <p class="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                Stone Age Specs
+              </p>
+              <ul class="space-y-1 text-[0.8rem]">
+                <li>· Scarcity of calories</li>
+                <li>· Constant movement and varied terrain</li>
+                <li>· Darkness at night, daylight by day</li>
+                <li>· Small, tight-knit tribes (≈150 people)</li>
+                <li>· Acute, short-lived threats (lion, cliff, storm)</li>
+              </ul>
+            </div>
+            <div
+              class="flex flex-col gap-1 rounded-xl border border-sky-500/60 bg-slate-900/80 p-3"
+            >
+              <p class="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-sky-300">
+                Cyberpunk World
+              </p>
+              <ul class="space-y-1 text-[0.8rem]">
+                <li>· Unlimited calories, ultra-processed food</li>
+                <li>· Chairs, cars, and screens instead of walking</li>
+                <li>· 24/7 blue light and notifications</li>
+                <li>· Megacities, crowds, and thin relationships</li>
+                <li>· Chronic, abstract threats (debt, news, metrics)</li>
+              </ul>
+            </div>
+          </div>
+          <p class="mt-4 text-[0.75rem] text-slate-400">
+            <span class="font-semibold text-sky-300">Evolutionary Mismatch Theory</span> is what we
+            call the gap between those two worlds.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spine Navigation -->
+    <nav
+      class="mt-2 border-t border-slate-800 bg-slate-950/90"
+      aria-label="Infographic navigation"
+    >
+      <div
+        class="spine-nav mx-auto flex max-w-5xl gap-2 overflow-x-auto px-4 py-3 text-slate-300 sm:px-6 lg:px-8"
+      >
+        <a href="#comfort-paradox">1 · Comfort Paradox</a>
+        <a href="#mismatch-definition">2 · Mismatch Theory</a>
+        <a href="#stress-engine">3 · Stress Engine</a>
+        <a href="#dopamine-comfort">4 · Reward & Food</a>
+        <a href="#human-zoo">5 · Human Zoo</a>
+        <a href="#trend-chart">6 · Trends</a>
+        <a href="#turn-habitat">7 · The Reframe</a>
+        <a href="#design-futures">8 · Two Futures</a>
+        <a href="#micro-rewilding">9 · Micro-Rewild</a>
+        <a href="#key-facts">10 · Key Facts</a>
+      </div>
+    </nav>
+  </header>
+
+  <main
+    class="mx-auto max-w-5xl px-4 pb-16 pt-10 sm:px-6 lg:px-8 lg:pb-24 lg:pt-16"
+    aria-label="Evolutionary mismatch infographic content"
+  >
+    <!-- Section: Comfort Paradox -->
+    <section
+      id="comfort-paradox"
+      class="panel mb-10"
+      data-panel-title="The Comfort Paradox"
+      aria-labelledby="comfort-paradox-title"
+    >
+      <div class="section-card px-6 py-6 sm:px-8 sm:py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="comfort-paradox-title" class="text-lg font-semibold tracking-tight sm:text-xl">
+            1 · The Comfort Paradox
+          </h2>
+          <span
+            class="pill-badge bg-emerald-500/10 text-[0.65rem] font-semibold text-emerald-300"
+          >
+            Paradox · Big Picture
+          </span>
+        </div>
+        <div class="mt-4 grid gap-6 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:items-center">
+          <div class="space-y-3 text-sm text-slate-200">
+            <p>
+              In the early 21st century, humans enjoy unprecedented safety, medical care, and
+              physical comfort. Yet rates of chronic stress, anxiety, obesity, and metabolic disease
+              keep climbing.
+            </p>
+            <p>
+              This is the
+              <span class="font-semibold text-sky-300">Comfort Paradox</span>: by the numbers we’re
+              safer than ever, but our nervous systems behave as if the world is constantly on fire.
+            </p>
+            <p class="text-slate-400">
+              That paradox is the first clue that something about our relationship to our
+              environment is fundamentally out of spec.
+            </p>
+          </div>
+          <div
+            class="rounded-2xl border border-slate-700 bg-slate-950/80 p-4 text-xs text-slate-300"
+          >
+            <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-400">
+              Expectation vs Reality
+            </p>
+            <div class="mt-3 space-y-2">
+              <div class="flex items-start gap-2">
+                <span class="mt-[0.15rem] text-base text-emerald-400">✓</span>
+                <p>
+                  <span class="font-semibold">Expectation:</span> More safety + more comfort ⇒ less
+                  stress, less disease.
+                </p>
+              </div>
+              <div class="flex items-start gap-2">
+                <span class="mt-[0.15rem] text-base text-rose-400">✕</span>
+                <p>
+                  <span class="font-semibold">Reality:</span> Comfort skyrockets—but stress and
+                  chronic illness do too.
+                </p>
+              </div>
+            </div>
+            <p class="mt-3 text-[0.78rem] text-slate-400">
+              Evolutionary Mismatch reframes this not as a moral failure, but as a physics problem:
+              your biology is obeying laws written for a different game.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: What is Evolutionary Mismatch -->
+    <section
+      id="mismatch-definition"
+      class="panel mb-10"
+      data-panel-title="What Is Evolutionary Mismatch?"
+      aria-labelledby="mismatch-definition-title"
+    >
+      <div class="section-card px-6 py-6 sm:px-8 sm:py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="mismatch-definition-title" class="text-lg font-semibold tracking-tight sm:text-xl">
+            2 · What Is Evolutionary Mismatch Theory?
+          </h2>
+          <span class="pill-badge bg-sky-500/10 text-[0.65rem] font-semibold text-sky-300">
+            Concept · Definition
+          </span>
+        </div>
+
+        <div class="mt-5 grid gap-6 md:grid-cols-2">
+          <article class="space-y-3 text-sm text-slate-200">
+            <p>
+              <button
+                type="button"
+                class="jargon-trigger font-semibold text-sky-300"
+                data-term="evolutionary-mismatch"
+              >
+                Evolutionary Mismatch Theory
+              </button>
+              is the idea that organisms are adapted to past environments, not necessarily the ones
+              they currently inhabit.
+            </p>
+            <p>
+              Human bodies, brains, and hormones were shaped over hundreds of thousands of years in
+              conditions of intermittent danger, food scarcity, physical work, darkness at night,
+              and small, tightly bonded groups.
+            </p>
+            <p>
+              Modern life—cities, smartphones, sedentary jobs, ultra-processed diets, 24/7 light—is
+              just a few centuries old at best. That’s not nearly enough time for our biology to
+              retune.
+            </p>
+          </article>
+
+          <article
+            class="rounded-2xl border border-slate-700/90 bg-slate-950/90 p-4 text-xs text-slate-200"
+          >
+            <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-400">
+              Core Concepts
+            </p>
+            <dl class="mt-3 space-y-3">
+              <div>
+                <dt class="text-[0.8rem] font-semibold text-sky-300">
+                  <button
+                    type="button"
+                    class="jargon-trigger font-semibold text-sky-300"
+                    data-term="evolutionary-mismatch"
+                  >
+                    Evolutionary Mismatch
+                  </button>
+                </dt>
+                <dd class="mt-1 text-[0.82rem] text-slate-300">
+                  A condition where traits that were once adaptive become maladaptive because the
+                  environment changed faster than evolution could.
+                </dd>
+              </div>
+              <div>
+                <dt class="text-[0.8rem] font-semibold text-sky-300">
+                  <button
+                    type="button"
+                    class="jargon-trigger font-semibold text-sky-300"
+                    data-term="allostatic-load"
+                  >
+                    Allostatic Load
+                  </button>
+                </dt>
+                <dd class="mt-1 text-[0.82rem] text-slate-300">
+                  The cumulative wear and tear on the body’s systems from repeatedly having to
+                  adapt to stressors.
+                </dd>
+              </div>
+              <div>
+                <dt class="text-[0.8rem] font-semibold text-sky-300">
+                  <button
+                    type="button"
+                    class="jargon-trigger font-semibold text-sky-300"
+                    data-term="supernormal-stimulus"
+                  >
+                    Supernormal Stimulus
+                  </button>
+                </dt>
+                <dd class="mt-1 text-[0.82rem] text-slate-300">
+                  An exaggerated version of a natural cue—like ultra-sweet food or infinite social
+                  feeds—that hijacks ancient reward circuits.
+                </dd>
+              </div>
+            </dl>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Stress Engine / Allostatic Debt -->
+    <section
+      id="stress-engine"
+      class="panel mb-10"
+      data-panel-title="Allostatic Debt: Stress Engine"
+      aria-labelledby="stress-engine-title"
+    >
+      <div class="section-card px-6 py-6 sm:px-8 sm:py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="stress-engine-title" class="text-lg font-semibold tracking-tight sm:text-xl">
+            3 · Allostatic Debt: The Stress Engine That Never Cools
+          </h2>
+          <span class="pill-badge bg-amber-500/10 text-[0.65rem] font-semibold text-amber-300">
+            Stress · Physiology
+          </span>
+        </div>
+
+        <div class="mt-5 grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-start">
+          <div class="space-y-3 text-sm text-slate-200">
+            <p>
+              Your stress system was built for short, sharp emergencies: a predator, a fall, a
+              storm. Stress hormones like cortisol surge, mobilize energy, sharpen focus—and then,
+              once the danger passes, they drop back down.
+            </p>
+            <p>
+              In modern life, stressors are rarely lethal, but they never fully resolve. Bills,
+              deadlines, group chats, performance dashboards, and news alerts keep the stress engine
+              idling in the yellow zone.
+            </p>
+            <p>
+              Over time, that constant semi-emergency becomes
+              <button
+                type="button"
+                class="jargon-trigger font-semibold text-amber-300"
+                data-term="allostatic-load"
+              >
+                allostatic debt
+              </button>
+              : cumulative damage from systems that never get to shut off.
+            </p>
+          </div>
+
+          <div
+            class="space-y-3 rounded-2xl border border-slate-700 bg-slate-950/80 p-4 text-xs text-slate-200"
+          >
+            <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-400">
+              Acute vs Chronic Stress
+            </p>
+            <div class="mt-3 grid gap-3 sm:grid-cols-2">
+              <div class="rounded-xl border border-slate-700/80 bg-slate-900/60 p-3">
+                <p class="text-[0.75rem] font-semibold text-emerald-300">Acute Stress</p>
+                <ul class="mt-1 space-y-1 text-[0.78rem]">
+                  <li>· Intense and short-lived</li>
+                  <li>· Clear start and end</li>
+                  <li>· Useful for survival</li>
+                  <li>· Body recovers fully</li>
+                </ul>
+              </div>
+              <div class="rounded-xl border border-slate-700/80 bg-slate-900/60 p-3">
+                <p class="text-[0.75rem] font-semibold text-rose-300">Chronic Stress</p>
+                <ul class="mt-1 space-y-1 text-[0.78rem]">
+                  <li>· Low to moderate intensity</li>
+                  <li>· No clean “off” switch</li>
+                  <li>· Feels normal after a while</li>
+                  <li>· Slowly erodes health</li>
+                </ul>
+              </div>
+            </div>
+            <p class="mt-2 text-[0.78rem] text-slate-400">
+              Cardiovascular disease, mood disorders, and immune problems often trace back to this
+              invisible, chronic activation of systems meant for emergencies—not inboxes.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Dopamine Casino & Comfort Trap -->
+    <section
+      id="dopamine-comfort"
+      class="panel mb-10"
+      data-panel-title="Reward Systems & Comfort Trap"
+      aria-labelledby="dopamine-comfort-title"
+    >
+      <div class="section-card px-6 py-6 sm:px-8 sm:py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="dopamine-comfort-title" class="text-lg font-semibold tracking-tight sm:text-xl">
+            4 · Forager Brains in Casinos and Buffets
+          </h2>
+          <span
+            class="pill-badge bg-fuchsia-500/10 text-[0.65rem] font-semibold text-fuchsia-300"
+          >
+            Reward · Screens & Food
+          </span>
+        </div>
+
+        <div class="mt-5 grid gap-6 lg:grid-cols-2">
+          <article
+            class="rounded-2xl border border-slate-700/80 bg-slate-950/80 p-4 text-xs sm:text-sm"
+          >
+            <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-400">
+              The Dopamine Casino (Screens)
+            </p>
+            <p class="mt-2 text-slate-200">
+              Dopamine is not “pure pleasure.” It’s a
+              <span class="font-semibold">“pay attention to this and maybe chase it again”</span>
+              signal that evolved for foraging and social learning.
+            </p>
+            <p class="mt-2 text-slate-200">
+              Infinite scroll, notifications, and algorithmic feeds turn that system into a casino:
+              each swipe or refresh is a lever pull with maybe-rewards on the other side.
+            </p>
+            <ul class="mt-3 space-y-1 text-[0.82rem] text-slate-300">
+              <li>· Pull-to-refresh = slot machine lever</li>
+              <li>· Notifications = chips tossed on the table</li>
+              <li>· “Just one more” = forager loop caught in software</li>
+            </ul>
+            <p class="mt-3 text-[0.8rem] text-slate-400">
+              The result isn’t moral failure. It’s predictable exploitation of a system never meant
+              for infinite novelty.
+            </p>
+          </article>
+
+          <article
+            class="rounded-2xl border border-slate-700/80 bg-slate-950/80 p-4 text-xs sm:text-sm"
+          >
+            <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-400">
+              The Comfort Trap (Food & Movement)
+            </p>
+            <p class="mt-2 text-slate-200">
+              Your metabolism is a
+              <span class="font-semibold">thrifty furnace</span> built for long stretches of
+              scarcity, heavy walking, and whole foods that require chewing.
+            </p>
+            <p class="mt-2 text-slate-200">
+              Today, it faces ultra-processed food, soft drinks, and near-constant snacking layered
+              on top of sedentary days.
+            </p>
+            <ul class="mt-3 space-y-1 text-[0.82rem] text-slate-300">
+              <li>· Surplus calories treated as “save for famine”</li>
+              <li>· Famine never comes, but storage continues</li>
+              <li>· Low-grade inflammation becomes a lifestyle</li>
+            </ul>
+            <p class="mt-3 text-[0.8rem] text-slate-400">
+              Obesity, Type 2 diabetes, and related diseases are what it looks like when famine code
+              runs in a world without winter.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Human Zoo -->
+    <section
+      id="human-zoo"
+      class="panel mb-10"
+      data-panel-title="The Human Zoo"
+      aria-labelledby="human-zoo-title"
+    >
+      <div class="section-card px-6 py-6 sm:px-8 sm:py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="human-zoo-title" class="text-lg font-semibold tracking-tight sm:text-xl">
+            5 · The Human Zoo: When Habitat Makes Us Weird
+          </h2>
+          <span class="pill-badge bg-rose-500/10 text-[0.65rem] font-semibold text-rose-300">
+            Habitat · Mental Health
+          </span>
+        </div>
+
+        <div class="mt-5 grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-center">
+          <div class="space-y-3 text-sm text-slate-200">
+            <p>
+              Put a wild animal in a cramped, artificial enclosure and it develops stereotypic
+              behaviors: pacing, self-harm, repetitive motions. We call it
+              <button
+                type="button"
+                class="jargon-trigger font-semibold text-rose-300"
+                data-term="zoochosis"
+              >
+                zoochosis
+              </button>
+              .
+            </p>
+            <p>
+              Now scale that logic up to a species living in concrete boxes, under artificial light,
+              with thin, screen-mediated relationships and constant noise. The rise of anxiety,
+              loneliness, and social media mobs starts to look less mysterious.
+            </p>
+            <p>
+              Our mental health crisis is not just a problem inside individual brains—it’s a signal
+              that the habitat is deeply mismatched to what those brains expect.
+            </p>
+          </div>
+          <div
+            class="rounded-2xl border border-slate-700 bg-slate-950/80 p-4 text-xs text-slate-200"
+          >
+            <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-400">
+              Signs of Habitat Mismatch
+            </p>
+            <ul class="mt-3 space-y-2 text-[0.82rem]">
+              <li>· Tiny apartments with no access to greenery</li>
+              <li>· Constant background noise: sirens, traffic, other people’s lives</li>
+              <li>· Thousands of online “friends,” no one to call in crisis</li>
+              <li>· Commuting in metal boxes, working in windowless rooms</li>
+              <li>· Cities experimenting with “rewilding” and biophilic design just to stay sane</li>
+            </ul>
+            <p class="mt-3 text-[0.8rem] text-slate-400">
+              The feeling that “something about this life is off” is not neurosis. It’s your
+              nervous system noticing the cage.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Chart + Current Trends (placeholder data) -->
+    <section
+      id="trend-chart"
+      class="panel mb-10"
+      data-panel-title="Trends That Look Like Mismatch"
+      aria-labelledby="trend-chart-title"
+    >
+      <div class="section-card px-6 py-6 sm:px-8 sm:py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="trend-chart-title" class="text-lg font-semibold tracking-tight sm:text-xl">
+            6 · Trends That Look Like Mismatch
+          </h2>
+          <span class="pill-badge bg-indigo-500/10 text-[0.65rem] font-semibold text-indigo-300">
+            Trends · Illustrative
+          </span>
+        </div>
+
+        <aside
+          class="mt-3 rounded-xl border border-amber-500/30 bg-amber-900/10 p-3 text-xs text-amber-200"
+        >
+          <strong class="font-semibold">Data Note:</strong> The chart below uses illustrative
+          placeholder data to show the pattern Evolutionary Mismatch Theory is often invoked to
+          explain. Replace with real data for research or policy use.
+        </aside>
+
+        <div
+          class="mt-4 grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-center"
+        >
+          <div class="space-y-3">
+            <div class="mb-1 flex flex-wrap items-center gap-2 text-[0.7rem] text-slate-300">
+              <span class="uppercase tracking-[0.16em] text-slate-400">View</span>
+              <button
+                type="button"
+                class="chart-toggle"
+                data-chart-mode="stress-only"
+                aria-pressed="true"
+              >
+                Stress Only
+              </button>
+              <button
+                type="button"
+                class="chart-toggle"
+                data-chart-mode="stress-mismatch"
+                aria-pressed="false"
+              >
+                Stress + Metabolic
+              </button>
+            </div>
+            <div
+              class="relative h-64 w-full rounded-2xl border border-slate-700 bg-slate-950/80 p-3"
+            >
+              <canvas
+                id="chart-stress-mismatch"
+                role="img"
+                aria-label="Illustrative trend lines comparing chronic stress and metabolic disease prevalence over recent decades."
+                aria-describedby="chart-stress-mismatch-desc"
+              ></canvas>
+            </div>
+          </div>
+          <div class="space-y-3 text-xs sm:text-sm text-slate-200">
+            <p id="chart-stress-mismatch-desc">
+              In many countries, reported chronic stress and mood disorders have risen across recent
+              decades, alongside increases in metabolic conditions like obesity and Type 2 diabetes.
+            </p>
+            <p>
+              Evolutionary Mismatch doesn’t replace specific causes (like economic changes or food
+              systems), but it offers a unifying lens: our ancient regulation systems are reacting
+              to an environment they were never tested against.
+            </p>
+            <p class="text-[0.8rem] text-slate-400">
+              Any serious analysis needs real data and careful attribution, but the overall shape of
+              these curves is what keeps mismatch on the table for scientists, clinicians, and
+              designers.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Turn · It's Not You, It's The Habitat -->
+    <section
+      id="turn-habitat"
+      class="panel mb-10"
+      data-panel-title="It’s Not You. It’s the Habitat."
+      aria-labelledby="turn-habitat-title"
+    >
+      <div class="section-card px-6 py-6 sm:px-8 sm:py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="turn-habitat-title" class="text-lg font-semibold tracking-tight sm:text-xl">
+            7 · The Reframe: It’s Not You. It’s the Habitat.
+          </h2>
+          <span
+            class="pill-badge bg-emerald-500/10 text-[0.65rem] font-semibold text-emerald-300"
+          >
+            Reframe · Insight
+          </span>
+        </div>
+
+        <div class="mt-5 grid gap-6 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:items-center">
+          <div class="space-y-3 text-sm text-slate-200">
+            <p>
+              Once you frame these problems as
+              <span class="font-semibold text-sky-300">evolutionary mismatches</span>, the target
+              of blame shifts.
+            </p>
+            <p>
+              The central claim is not “humans are weak now.” It’s: we’ve built habitats and
+              technologies that systematically violate the assumptions our bodies quietly rely on.
+            </p>
+            <p>
+              That means solutions aren’t limited to individual willpower or self-discipline. They
+              live in how we design apps, buildings, food environments, policies, and rhythms of
+              daily life.
+            </p>
+          </div>
+          <div
+            class="rounded-2xl border border-slate-700 bg-slate-950/80 p-4 text-xs text-slate-200"
+          >
+            <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-400">
+              Reframe in One Line
+            </p>
+            <p class="mt-3 text-[0.92rem] font-semibold text-sky-200">
+              You are not a broken machine. You are a well-built Stone Age animal living in a
+              misconfigured terrarium.
+            </p>
+            <p class="mt-4 text-[0.8rem] text-slate-400">
+              That doesn’t erase individual responsibility—but it does widen the conversation to
+              include designers, engineers, and institutions as co-authors of our nervous systems’
+              reality.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Two Futures · Design Choices -->
+    <section
+      id="design-futures"
+      class="panel mb-10"
+      data-panel-title="Two Futures: Design Choices"
+      aria-labelledby="design-futures-title"
+    >
+      <div class="section-card px-6 py-6 sm:px-8 sm:py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="design-futures-title" class="text-lg font-semibold tracking-tight sm:text-xl">
+            8 · Two Futures: Casinos or Compatibility
+          </h2>
+          <span class="pill-badge bg-purple-500/10 text-[0.65rem] font-semibold text-purple-300">
+            Futures · Design Choices
+          </span>
+        </div>
+
+        <p class="mt-3 text-sm text-slate-200">
+          Designers, engineers, city planners, and policy makers are effectively writing the
+          <span class="font-semibold text-sky-300">physics</span> your nervous system has to obey.
+          Those choices roughly sort into two trajectories:
+        </p>
+
+        <div class="mt-5 grid gap-5 lg:grid-cols-2">
+          <article
+            class="rounded-2xl border border-rose-500/40 bg-gradient-to-b from-rose-950/80 to-slate-950/90 p-4 text-xs sm:text-sm"
+          >
+            <p class="text-[0.7rem] uppercase tracking-[0.18em] text-rose-300">
+              Extractive Design
+            </p>
+            <p class="mt-2 text-slate-200">
+              Systems optimized to harvest as much attention, data, or consumption as possible,
+              regardless of biological cost.
+            </p>
+            <ul class="mt-3 space-y-2 text-[0.82rem]">
+              <li>· Infinite scroll feeds with no natural stopping points</li>
+              <li>· Default-on notifications and engagement streaks</li>
+              <li>· Ultra-processed food positioned as “quick solutions”</li>
+              <li>· Offices and cities built for cars and metrics, not bodies and light</li>
+            </ul>
+            <p class="mt-3 text-[0.8rem] text-slate-300">
+              This path keeps treating evolutionary mismatch as a resource to mine.
+            </p>
+          </article>
+
+          <article
+            class="rounded-2xl border border-emerald-500/40 bg-gradient-to-b from-emerald-950/80 to-slate-950/90 p-4 text-xs sm:text-sm"
+          >
+            <p class="text-[0.7rem] uppercase tracking-[0.18em] text-emerald-300">
+              Human-Compatible Design
+            </p>
+            <p class="mt-2 text-slate-200">
+              Systems tuned to respect human limits and align with our evolved expectations.
+            </p>
+            <ul class="mt-3 space-y-2 text-[0.82rem]">
+              <li>· Finite feeds, honest stopping cues, and calm defaults</li>
+              <li>· Night modes that actually dim and slow stimulus</li>
+              <li>· Walkable neighborhoods, daylight-rich spaces, access to greenery</li>
+              <li>· Food environments that make the easier choice the healthier one</li>
+            </ul>
+            <p class="mt-3 text-[0.8rem] text-slate-300">
+              This path treats evolutionary insight as a design spec, not trivia.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Micro-Rewilding & Watchpoints -->
+    <section
+      id="micro-rewilding"
+      class="panel mb-10"
+      data-panel-title="Micro-Rewilding & Watchpoints"
+      aria-labelledby="micro-rewilding-title"
+    >
+      <div class="section-card px-6 py-6 sm:px-8 sm:py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="micro-rewilding-title" class="text-lg font-semibold tracking-tight sm:text-xl">
+            9 · Change the Cage, Change the Story
+          </h2>
+          <span class="pill-badge bg-teal-500/10 text-[0.65rem] font-semibold text-teal-300">
+            Next Steps · Action
+          </span>
+        </div>
+
+        <div class="mt-5 grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+          <div>
+            <p class="text-sm text-slate-200">
+              You can’t rewrite all of civilization yourself. But you can
+              <span class="font-semibold text-teal-300">micro-rewild</span> your own habitat—and
+              watch which institutions are moving toward compatibility vs deeper mismatch.
+            </p>
+
+            <div class="mt-4 grid gap-4 sm:grid-cols-2">
+              <div
+                class="rounded-2xl border border-slate-700/80 bg-slate-950/80 p-4 text-xs sm:text-sm"
+              >
+                <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-400">
+                  Micro-Rewilding Moves
+                </p>
+                <ul class="mt-2 space-y-2 text-[0.82rem]">
+                  <li>· Walk for more trips under 1 km; stack calls with walks.</li>
+                  <li>· Put phone in grayscale; batch notifications into specific windows.</li>
+                  <li>· Eat foods with structure and fiber; shrink the eating window a bit.</li>
+                  <li>· Treat the bedroom like a cave: dark, cool, screen-light minimal.</li>
+                  <li>· Invest in a small, real tribe you see in person.</li>
+                </ul>
+              </div>
+
+              <div
+                class="rounded-2xl border border-slate-700/80 bg-slate-950/80 p-4 text-xs sm:text-sm"
+              >
+                <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-400">
+                  Watch These Signals
+                </p>
+                <ul class="mt-2 space-y-2 text-[0.82rem]">
+                  <li>· Whether apps move toward finite, calmer designs—or away from them.</li>
+                  <li>· Whether cities add trees, light, and walkability—or more asphalt.</li>
+                  <li>· Whether workplaces respect circadian rhythms—or flatten them.</li>
+                  <li>· Whether health advice blames individuals—or questions environments.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div
+              class="mt-4 rounded-2xl border border-emerald-500/50 bg-emerald-900/20 p-4 text-xs sm:text-sm"
+            >
+              <div class="flex items-center justify-between gap-2">
+                <p class="text-[0.7rem] uppercase tracking-[0.18em] text-emerald-300">
+                  Micro-Rewilding Idea Shuffle
+                </p>
+                <button
+                  type="button"
+                  id="shuffle-rewild"
+                  class="rounded-full border border-emerald-400/70 px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-emerald-100"
+                >
+                  Shuffle
+                </button>
+              </div>
+              <p
+                id="shuffle-rewild-text"
+                class="mt-3 text-[0.82rem] text-emerald-50"
+              >
+                Tap “Shuffle” to get a small habitat tweak you can try this week.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="rounded-2xl border border-slate-700 bg-gradient-to-b from-slate-900/80 to-slate-950/90 p-4 text-xs text-slate-200"
+          >
+            <p class="text-[0.7rem] uppercase tracking-[0.18em] text-slate-400">
+              One-Line Takeaway
+            </p>
+            <p class="mt-3 text-[0.92rem] font-semibold text-teal-200">
+              The next era of health and attention isn’t about “fixing humans.” It’s about
+              rebuilding the habitat so Stone Age bodies can survive a godlike century.
+            </p>
+            <p class="mt-4 text-[0.8rem] text-slate-400">
+              Evolutionary Mismatch Theory doesn’t tell us to go back in time. It gives us a
+              blueprint for designing futures that our biology can actually inhabit.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Key Facts (SXO–GEO friendly) -->
+    <section
+      id="key-facts"
+      class="panel mt-12"
+      data-panel-title="Key Facts"
+      aria-labelledby="key-facts-title"
+    >
+      <div class="section-card px-6 py-6 sm:px-8 sm:py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="key-facts-title" class="text-lg font-semibold tracking-tight sm:text-xl">
+            10 · Key Facts: Evolutionary Mismatch at a Glance
+          </h2>
+          <span class="pill-badge bg-slate-800/90 text-[0.65rem] font-semibold text-slate-200">
+            Quick Facts · Reference
+          </span>
+        </div>
+
+        <ul class="mt-4 space-y-2 text-xs sm:text-sm text-slate-200">
+          <li>
+            · <span class="font-semibold">Evolutionary mismatch</span> occurs when traits that were
+            adaptive in ancestral environments become maladaptive in modern conditions that changed
+            too quickly for evolution to keep up.
+          </li>
+          <li>
+            · Human stress systems evolved for short, acute threats but are now activated by
+            persistent psychological and social stressors, contributing to chronic allostatic load.
+          </li>
+          <li>
+            · Modern technologies, foods, and cities frequently act as
+            <span class="font-semibold">supernormal stimuli</span>, exaggerating cues (sweetness,
+            novelty, social feedback) that ancient reward circuits were not designed to regulate
+            at scale.
+          </li>
+          <li>
+            · Patterns like rising chronic stress, metabolic disease, and loneliness in otherwise
+            high-income, safe societies are often interpreted through the lens of evolutionary
+            mismatch.
+          </li>
+          <li>
+            · Treating these problems purely as individual willpower failures ignores the role of
+            habitat and system design in generating biologically stressful conditions.
+          </li>
+          <li>
+            · Designing “human-compatible” environments—across apps, buildings, food systems, and
+            policies—requires aligning modern life with the constraints and expectations of evolved
+            biology.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Global Jargon Explainer Bar -->
+    <div
+      id="jargon-explainer-bar"
+      class="hidden fixed bottom-4 left-1/2 z-40 w-[92%] max-w-xl -translate-x-1/2 rounded-2xl border border-slate-700/90 px-4 py-3 text-xs text-slate-100 sm:px-5 sm:py-3"
+      role="status"
+      aria-live="polite"
+    >
+      <div class="flex items-start gap-3">
+        <div
+          class="mt-0.5 h-6 w-6 flex-shrink-0 rounded-full bg-sky-500/20 text-center text-[0.75rem] leading-6 text-sky-300"
+        >
+          ?
+        </div>
+        <div class="space-y-1">
+          <p class="text-[0.75rem] uppercase tracking-[0.16em] text-slate-400">
+            Term Decoder
+          </p>
+          <p class="text-[0.8rem]">
+            <span id="jargon-term-label" class="font-semibold text-sky-200"></span>
+            <span id="jargon-term-text" class="text-slate-100"></span>
+          </p>
+        </div>
+        <button
+          type="button"
+          id="jargon-explainer-close"
+          class="ml-auto rounded-full border border-slate-600 px-2 py-1 text-[0.7rem] uppercase tracking-[0.14em] text-slate-300"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-slate-800 bg-slate-950/95">
+    <div
+      class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-6 text-[0.78rem] text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8"
+    >
+      <p>Evolutionary Mismatch · Conceptual infographic for educational and design thinking use.</p>
+      <p class="text-slate-600">
+        Note: Trend chart uses illustrative placeholder data for storytelling, not real statistics.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // Illustrative placeholder data for trend visualization.
+      // Replace with real data if used in a research or policy context.
+      const ctx = document.getElementById("chart-stress-mismatch")?.getContext("2d");
+      let stressChart = null;
+
+      if (ctx) {
+        stressChart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: ["1980", "1990", "2000", "2010", "2020"],
+            datasets: [
+              {
+                label: "Chronic Stress Load (Index, illustrative)",
+                data: [20, 25, 30, 36, 45],
+                borderColor: "rgba(255, 200, 87, 1)", // amber heat
+                backgroundColor: "rgba(255, 200, 87, 0.22)",
+                tension: 0.35,
+                pointRadius: 3,
+              },
+              {
+                label: "Metabolic Mismatch Signals (Index, illustrative)",
+                data: [10, 15, 21, 28, 38],
+                borderColor: "rgba(124, 42, 91, 1)", // bruised magenta
+                backgroundColor: "rgba(124, 42, 91, 0.28)",
+                tension: 0.35,
+                pointRadius: 3,
+                hidden: true, // start with stress-only view
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                labels: {
+                  color: "#e5e7eb",
+                  font: { size: 11 },
+                },
+              },
+              tooltip: {
+                backgroundColor: "rgba(5, 6, 9, 0.98)",
+                borderColor: "rgba(148, 163, 184, 0.9)",
+                borderWidth: 1,
+                titleFont: { size: 11 },
+                bodyFont: { size: 11 },
+              },
+            },
+            scales: {
+              x: {
+                ticks: {
+                  color: "#9ca3af",
+                  font: { size: 10 },
+                },
+                grid: {
+                  color: "rgba(55, 65, 81, 0.4)",
+                },
+              },
+              y: {
+                ticks: {
+                  color: "#9ca3af",
+                  font: { size: 10 },
+                },
+                grid: {
+                  color: "rgba(55, 65, 81, 0.35)",
+                },
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      }
+
+      // Chart view toggle toy
+      const modeButtons = document.querySelectorAll("[data-chart-mode]");
+      if (modeButtons.length && stressChart) {
+        modeButtons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const mode = btn.getAttribute("data-chart-mode");
+            modeButtons.forEach((b) =>
+              b.setAttribute("aria-pressed", b === btn ? "true" : "false")
+            );
+            if (mode === "stress-only") {
+              if (stressChart.data.datasets[1]) {
+                stressChart.data.datasets[1].hidden = true;
+              }
+            } else if (mode === "stress-mismatch") {
+              if (stressChart.data.datasets[1]) {
+                stressChart.data.datasets[1].hidden = false;
+              }
+            }
+            stressChart.update();
+          });
+        });
+      }
+
+      // X hook copy toy
+      const copyBtn = document.getElementById("copy-x-hook");
+      const copyStatus = document.getElementById("copy-x-hook-status");
+      const xHookText =
+        "Your nervous system was tested on lions and cliffs, not notifications and debt.\nStone Age bodies. Cyberpunk cages. #EvolutionaryMismatch";
+
+      if (copyBtn) {
+        copyBtn.addEventListener("click", async () => {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              await navigator.clipboard.writeText(xHookText);
+            } else {
+              const temp = document.createElement("textarea");
+              temp.value = xHookText;
+              temp.setAttribute("readonly", "");
+              temp.style.position = "absolute";
+              temp.style.left = "-9999px";
+              document.body.appendChild(temp);
+              temp.select();
+              document.execCommand("copy");
+              document.body.removeChild(temp);
+            }
+            if (copyStatus) {
+              copyStatus.textContent = "Hook copied for X.";
+              setTimeout(() => {
+                copyStatus.textContent = "";
+              }, 2500);
+            }
+          } catch (e) {
+            if (copyStatus) {
+              copyStatus.textContent =
+                "Could not copy. Long-press to select manually.";
+            }
+          }
+        });
+      }
+
+      // Jargon decoder toy
+      const jargonDefinitions = {
+        "evolutionary-mismatch":
+          "Evolutionary mismatch: traits that helped ancestors survive now cause problems because modern life changed faster than our biology.",
+        "allostatic-load":
+          "Allostatic load / debt: the wear and tear from stress systems staying partly switched on instead of fully recovering.",
+        "supernormal-stimulus":
+          "Supernormal stimulus: an exaggerated version of a natural cue—like ultra-sweet food or infinite feeds—that hits reward circuits harder than anything found in nature.",
+        zoochosis:
+          "Zoochosis: abnormal, repetitive behaviors in captive animals when their enclosures don’t meet their needs—used here as a metaphor for humans in mismatched habitats.",
+      };
+
+      const jargonBar = document.getElementById("jargon-explainer-bar");
+      const jargonLabel = document.getElementById("jargon-term-label");
+      const jargonText = document.getElementById("jargon-term-text");
+      const jargonClose = document.getElementById("jargon-explainer-close");
+
+      function openJargon(term, labelText) {
+        if (!jargonBar || !jargonLabel || !jargonText) return;
+        const def = jargonDefinitions[term];
+        if (!def) return;
+        jargonLabel.textContent = labelText + ": ";
+        jargonText.textContent = def;
+        jargonBar.classList.remove("hidden");
+      }
+
+      if (jargonClose && jargonBar) {
+        jargonClose.addEventListener("click", () => {
+          jargonBar.classList.add("hidden");
+        });
+      }
+
+      document.querySelectorAll(".jargon-trigger").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const term = btn.getAttribute("data-term");
+          const labelText = btn.textContent?.trim() || "";
+          if (term) {
+            openJargon(term, labelText);
+          }
+        });
+      });
+
+      // Micro-rewild shuffle toy
+      const shuffleBtn = document.getElementById("shuffle-rewild");
+      const shuffleText = document.getElementById("shuffle-rewild-text");
+      const rewildIdeas = [
+        "Take one meeting a day as a walking call outside, even if it’s just loops around the block.",
+        "Pick one room to make screen-free after 9 p.m., and treat it like a cave: dark, cool, quiet.",
+        "Swap one ultra-processed snack each day for something with fiber and crunch you have to chew.",
+        "Schedule a weekly standing hang with 2–4 people in person—same time, same place, low fuss.",
+        "Move your phone charger out of the bedroom and use an old-school alarm clock instead.",
+        "Stack sunlight and movement: a 10–15 minute walk outside within an hour of waking.",
+      ];
+
+      if (shuffleBtn && shuffleText) {
+        shuffleBtn.addEventListener("click", () => {
+          const idea =
+            rewildIdeas[Math.floor(Math.random() * rewildIdeas.length)];
+          shuffleText.textContent = idea;
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
