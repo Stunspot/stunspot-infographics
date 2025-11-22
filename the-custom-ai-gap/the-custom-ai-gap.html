@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Rent vs. Own Crisis in AI (Final)</title>
+    <title>The Rent vs. Own Crisis in AI (Robust)</title>
     <meta name="description" content="The diverging paths of Commodity Assistants vs. Custom Stacks.">
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS (May be blocked in some environments) -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Chart.js -->
@@ -15,7 +15,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-    <!-- Theme Configuration -->
+    <!-- Tailwind Config (Runtime) -->
     <script>
         tailwind.config = {
             theme: {
@@ -25,16 +25,8 @@
                         mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        dark: {
-                            950: '#050505',
-                            900: '#09090b',
-                            800: '#18181b',
-                        },
-                        accent: {
-                            cyan: '#06b6d4',
-                            rose: '#f43f5e',
-                            amber: '#f59e0b',
-                        }
+                        dark: { 950: '#050505', 900: '#09090b', 800: '#18181b' },
+                        accent: { cyan: '#06b6d4', rose: '#f43f5e', amber: '#f59e0b' }
                     },
                     animation: {
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -63,17 +55,48 @@
         }
     </script>
 
+    <!-- NATIVE CSS FALLBACKS (Works even if JS is blocked) -->
     <style>
-        body {
-            background-color: #050505;
-            color: #e2e8f0;
-            overflow-x: hidden;
+        :root {
+            --bg-deep: #050505;
+            --bg-surface: #18181b;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-cyan: #06b6d4;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
         }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif; /* Fallback font application */
+            line-height: 1.5;
+        }
+
+        /* Critical Text Color Fallbacks */
+        h1, h2, h3, h4, h5, h6 { color: #ffffff; margin-bottom: 0.5em; }
+        p { color: var(--text-muted); margin-bottom: 1em; }
+        strong { color: #ffffff; }
+
+        /* Helper Classes Redefined in Native CSS */
+        .text-white { color: #ffffff !important; }
+        .text-slate-300 { color: #cbd5e1 !important; }
+        .text-slate-400 { color: #94a3b8 !important; }
+        .text-accent-cyan { color: var(--accent-cyan) !important; }
+        .text-accent-rose { color: var(--accent-rose) !important; }
+        .text-accent-amber { color: var(--accent-amber) !important; }
+        .bg-dark-800\/50 { background-color: rgba(24, 24, 27, 0.5); }
+        .border-white\/5 { border-color: rgba(255, 255, 255, 0.05); }
+
+        /* Custom Effects */
         .glass-panel {
             background: rgba(24, 24, 27, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.3s ease;
+            margin-bottom: 1rem; /* Fallback layout */
         }
         .cyan-glow-text { text-shadow: 0 0 15px rgba(6, 182, 212, 0.5); }
         .rose-glow-text { text-shadow: 0 0 15px rgba(244, 63, 94, 0.5); }
@@ -84,19 +107,19 @@
             height: 320px;
         }
         
-        /* Improved Slider Styling (Hit Area) */
+        /* Slider Styling */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
             background: transparent;
-            height: 30px; /* Larger tap area */
+            height: 30px;
         }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 28px;
             width: 28px;
             border-radius: 50%;
-            background: #06b6d4;
+            background: var(--accent-cyan);
             cursor: pointer;
             margin-top: -12px;
             box-shadow: 0 0 15px rgba(6, 182, 212, 0.8);
@@ -126,9 +149,8 @@
             align-items: center;
             padding: 20px;
             text-align: center;
-            pointer-events: none; /* Let clicks pass through to container */
+            pointer-events: none;
         }
-        /* Desktop Hover */
         @media (hover: hover) {
             .group:hover .xray-content {
                 opacity: 1;
@@ -136,7 +158,6 @@
                 pointer-events: auto;
             }
         }
-        /* Mobile Active State */
         .group.active-scan .xray-content {
             opacity: 1;
             transform: translateY(0);
@@ -169,10 +190,7 @@
         .vf-bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
         .vf-br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
         
-        /* Glitch Effect Class */
-        .glitch-effect {
-            animation: glitch 3s infinite;
-        }
+        .glitch-effect { animation: glitch 3s infinite; }
     </style>
 </head>
 <body class="antialiased selection:bg-accent-cyan selection:text-black">
@@ -183,7 +201,6 @@
             <div id="terminal-text" class="mb-4 space-y-1"></div>
             <div id="terminal-cursor" class="h-4 w-3 bg-green-500 animate-pulse inline-block"></div>
             
-            <!-- Success UI (Hidden Initially) -->
             <div id="terminal-success" class="hidden text-center mt-8 border border-green-500/30 p-6 rounded bg-green-500/5">
                 <h2 class="text-2xl font-bold text-green-400 mb-2 glow-text">ACCESS GRANTED</h2>
                 <p class="text-green-600/80 mb-6">Protocol Initialized. Welcome to the build.</p>
@@ -198,7 +215,8 @@
     <header class="py-20 px-6 text-center relative overflow-hidden">
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-accent-cyan/10 blur-[100px] rounded-full pointer-events-none"></div>
         <div class="max-w-5xl mx-auto relative z-10">
-            <div class="inline-block px-3 py-1 mb-6 border border-accent-rose/30 bg-accent-rose/10 rounded-full">
+            <!-- Inline styles for borders ensure visibility without JS -->
+            <div class="inline-block px-3 py-1 mb-6 border rounded-full" style="border-color: rgba(244,63,94,0.3); background-color: rgba(244,63,94,0.1);">
                 <span class="text-accent-rose text-xs font-bold tracking-widest uppercase animate-pulse">Warning: Divergence Event Imminent</span>
             </div>
             <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-tight">
@@ -218,7 +236,7 @@
         <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div class="space-y-6">
                 <h2 class="text-3xl font-bold text-white">The "Utility" Lie</h2>
-                <p class="text-slate-300 text-lg leading-relaxed border-l-2 border-accent-rose pl-6">
+                <p class="text-slate-300 text-lg leading-relaxed pl-6" style="border-left: 2px solid var(--accent-rose);">
                     Big Tech sells AI as a utility. They want you to believe we all have the same power.
                     <br><br>
                     <strong class="text-accent-rose">They are lying.</strong>
@@ -227,12 +245,12 @@
                 </p>
             </div>
             <div class="glass-panel p-8 rounded-2xl text-center relative group cursor-help">
-                <div class="absolute inset-0 bg-accent-rose/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+                <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" style="background-color: rgba(244,63,94,0.05);"></div>
                 <div class="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🪤</div>
                 <h3 class="text-xl font-bold text-white mb-2">The Convenience Trap</h3>
                 <p class="text-sm text-slate-400">Hover to see the cycle</p>
                 <!-- Tooltip Toy -->
-                <div class="absolute inset-0 bg-dark-900/90 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity p-6 pointer-events-none group-hover:pointer-events-auto">
+                <div class="absolute inset-0 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity p-6 pointer-events-none group-hover:pointer-events-auto" style="background-color: rgba(9,9,11,0.9);">
                     <p class="text-accent-rose font-mono text-sm font-bold mb-2">Cycle Detected:</p>
                     <ul class="text-left text-slate-300 space-y-2 text-xs font-mono">
                         <li>> DEPENDENCY_INIT...</li>
@@ -244,7 +262,7 @@
             </div>
         </section>
 
-        <!-- SECTION 2: THE LINEAGES (X-RAY TOY) -->
+        <!-- SECTION 2: THE LINEAGES -->
         <section>
             <div class="text-center mb-12">
                 <h2 class="text-sm font-bold text-accent-cyan uppercase tracking-[0.2em] mb-2">The Ecosystem Map</h2>
@@ -252,65 +270,64 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-                <!-- Renter Card (Glitch Fix) -->
-                <div class="bg-dark-800/50 border border-white/5 p-8 rounded-xl relative overflow-hidden group hover:border-accent-rose/50 transition-colors h-[320px] cursor-pointer xray-card glitch-effect">
+                <!-- Renter Card -->
+                <div class="glass-panel p-8 rounded-xl relative overflow-hidden group transition-colors h-[320px] cursor-pointer xray-card glitch-effect" style="border: 1px solid rgba(255,255,255,0.05);">
                     <div class="text-accent-rose font-mono text-xs mb-4 uppercase">The Renter</div>
                     <h4 class="text-2xl font-bold text-white mb-2">Commodity Assistant</h4>
                     <p class="text-slate-400 text-sm mb-6">"I use ChatGPT to write emails."</p>
-                    <div class="w-full bg-dark-900 h-1.5 rounded-full overflow-hidden mb-2">
-                        <div class="bg-accent-rose w-[20%] h-full"></div>
+                    <div class="w-full h-1.5 rounded-full overflow-hidden mb-2" style="background-color: #09090b;">
+                        <div class="bg-accent-rose w-[20%] h-full" style="background-color: var(--accent-rose);"></div>
                     </div>
                     
-                    <!-- X-RAY OVERLAY -->
-                    <div class="xray-content border border-accent-rose/30">
+                    <!-- X-RAY -->
+                    <div class="xray-content" style="border: 1px solid rgba(244,63,94,0.3);">
                         <span class="text-accent-rose text-3xl mb-2">🚫</span>
                         <h5 class="text-white font-bold mb-2">System Audit: EMPTY</h5>
                         <p class="text-xs text-slate-400 font-mono mb-2">No Proprietary Data.<br>Generic Model Weights.<br>Zero Moat.</p>
-                        <span class="px-2 py-1 bg-accent-rose/20 text-accent-rose text-[10px] rounded uppercase">Vulnerable</span>
+                        <span class="px-2 py-1 text-[10px] rounded uppercase" style="background-color: rgba(244,63,94,0.2); color: var(--accent-rose);">Vulnerable</span>
                     </div>
                 </div>
 
                 <!-- Manager Card -->
-                <div class="bg-dark-800/50 border border-white/5 p-8 rounded-xl relative overflow-hidden group hover:border-accent-amber/50 transition-colors h-[320px] cursor-pointer xray-card">
+                <div class="glass-panel p-8 rounded-xl relative overflow-hidden group transition-colors h-[320px] cursor-pointer xray-card" style="border: 1px solid rgba(255,255,255,0.05);">
                     <div class="text-accent-amber font-mono text-xs mb-4 uppercase">The Manager</div>
                     <h4 class="text-2xl font-bold text-white mb-2">Orchestrated Agent</h4>
                     <p class="text-slate-400 text-sm mb-6">"I chain tools together."</p>
-                    <div class="w-full bg-dark-900 h-1.5 rounded-full overflow-hidden mb-2">
-                        <div class="bg-accent-amber w-[50%] h-full"></div>
+                    <div class="w-full h-1.5 rounded-full overflow-hidden mb-2" style="background-color: #09090b;">
+                        <div class="bg-accent-amber w-[50%] h-full" style="background-color: var(--accent-amber);"></div>
                     </div>
 
-                    <!-- X-RAY OVERLAY -->
-                    <div class="xray-content border border-accent-amber/30">
+                    <!-- X-RAY -->
+                    <div class="xray-content" style="border: 1px solid rgba(245,158,11,0.3);">
                         <span class="text-accent-amber text-3xl mb-2">⚠️</span>
                         <h5 class="text-white font-bold mb-2">System Audit: BRITTLE</h5>
                         <p class="text-xs text-slate-400 font-mono mb-2">Dependency Chain Risk.<br>API Breakage Likely.<br>Partial Control.</p>
-                        <span class="px-2 py-1 bg-accent-amber/20 text-accent-amber text-[10px] rounded uppercase">Unstable</span>
+                        <span class="px-2 py-1 text-[10px] rounded uppercase" style="background-color: rgba(245,158,11,0.2); color: var(--accent-amber);">Unstable</span>
                     </div>
                 </div>
 
                 <!-- Architect Card -->
-                <div class="bg-dark-800/50 border border-accent-cyan/50 p-8 rounded-xl relative overflow-hidden group shadow-[0_0_30px_rgba(6,182,212,0.1)] h-[320px] cursor-pointer xray-card">
+                <div class="glass-panel p-8 rounded-xl relative overflow-hidden group h-[320px] cursor-pointer xray-card" style="border: 1px solid rgba(6,182,212,0.5); box-shadow: 0 0 30px rgba(6,182,212,0.1);">
                     <div class="text-accent-cyan font-mono text-xs mb-4 uppercase">The Architect</div>
                     <h4 class="text-2xl font-bold text-white mb-2">Custom Stack</h4>
                     <p class="text-slate-400 text-sm mb-6">"I built a system that thinks."</p>
-                    <div class="w-full bg-dark-900 h-1.5 rounded-full overflow-hidden mb-2">
-                        <div class="bg-accent-cyan w-[95%] h-full animate-glow"></div>
+                    <div class="w-full h-1.5 rounded-full overflow-hidden mb-2" style="background-color: #09090b;">
+                        <div class="w-[95%] h-full animate-glow" style="background-color: var(--accent-cyan);"></div>
                     </div>
 
-                    <!-- X-RAY OVERLAY -->
-                    <div class="xray-content border border-accent-cyan/30">
+                    <!-- X-RAY -->
+                    <div class="xray-content" style="border: 1px solid rgba(6,182,212,0.3);">
                         <span class="text-accent-cyan text-3xl mb-2">🛡️</span>
                         <h5 class="text-white font-bold mb-2">System Audit: SOVEREIGN</h5>
                         <p class="text-xs text-slate-400 font-mono mb-2">Local Vector DB.<br>Fine-tuned Weights.<br>Compounding Context.</p>
-                        <span class="px-2 py-1 bg-accent-cyan/20 text-accent-cyan text-[10px] rounded uppercase">Defensible</span>
+                        <span class="px-2 py-1 text-[10px] rounded uppercase" style="background-color: rgba(6,182,212,0.2); color: var(--accent-cyan);">Defensible</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 3: THE VELOCITY SLIDER TOY -->
-        <section class="bg-dark-900 rounded-3xl p-6 md:p-12 relative">
-            <!-- Viewfinder Corners (Visual Fix) -->
+        <!-- SECTION 3: VELOCITY SLIDER -->
+        <section class="rounded-3xl p-6 md:p-12 relative" style="background-color: #09090b; border: 1px solid rgba(255,255,255,0.05);">
             <div class="viewfinder-corner vf-tl"></div>
             <div class="viewfinder-corner vf-tr"></div>
             <div class="viewfinder-corner vf-bl"></div>
@@ -345,18 +362,17 @@
                 </div>
             </div>
             
-            <!-- Integrity Disclaimer -->
             <p class="text-[10px] text-slate-600 text-center mt-6 font-mono opacity-50">
                 * Figures are illustrative of compounding leverage effects, not empirical market data.
             </p>
         </section>
 
-        <!-- SECTION 4: PAIN MATRIX (Visual Fix) -->
+        <!-- SECTION 4: PAIN MATRIX -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div class="glass-panel p-8 rounded-2xl flex flex-col justify-center">
                 <h3 class="text-2xl font-bold text-white mb-4">The Pain Premium</h3>
                 <p class="text-slate-300 mb-6">Why doesn't everyone become an Architect? Because it hurts.</p>
-                <div class="mt-4 p-4 bg-dark-900 border border-white/10 rounded font-mono text-sm text-accent-amber">
+                <div class="mt-4 p-4 rounded font-mono text-sm text-accent-amber" style="background-color: #09090b; border: 1px solid rgba(255,255,255,0.1);">
                     > ALERT: Ops Overhead Detected<br>
                     > Code Maintenance Required<br>
                     > Data Cleaning Required
@@ -366,22 +382,22 @@
                 <div class="chart-container h-[300px] w-full">
                     <canvas id="painMatrixChart"></canvas>
                 </div>
-                <!-- Sweet Spot Label (Visual Fix) -->
-                <div class="absolute top-6 right-6 text-accent-cyan text-[10px] font-bold uppercase tracking-widest border border-accent-cyan/30 px-2 py-1 rounded bg-accent-cyan/5">
+                <!-- Sweet Spot Label -->
+                <div class="absolute top-6 right-6 text-accent-cyan text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded" style="border: 1px solid rgba(6,182,212,0.3); background-color: rgba(6,182,212,0.05);">
                     Target Zone
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 5: CTA (BOOT TOY) -->
+        <!-- SECTION 5: CTA -->
         <section class="text-center py-12 max-w-2xl mx-auto">
             <h2 class="text-4xl font-bold text-white mb-8">Stop Renting. Start Building.</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-                <div class="p-4 border border-white/10 rounded-lg opacity-50 cursor-not-allowed">
+                <div class="p-4 border rounded-lg opacity-50 cursor-not-allowed" style="border-color: rgba(255,255,255,0.1);">
                     <div class="text-xs text-slate-500 uppercase mb-1">The Comfortable Path</div>
                     <div class="text-slate-300">Stay a Renter</div>
                 </div>
-                <button id="btn-deploy" class="p-4 bg-accent-cyan border border-accent-cyan text-dark-900 rounded-lg font-bold hover:bg-cyan-300 hover:scale-105 transition-all shadow-[0_0_30px_rgba(6,182,212,0.4)] uppercase tracking-widest">
+                <button id="btn-deploy" class="p-4 text-dark-900 rounded-lg font-bold transition-all uppercase tracking-widest" style="background-color: var(--accent-cyan); border: 1px solid var(--accent-cyan); box-shadow: 0 0 30px rgba(6,182,212,0.4);">
                     Initialize Architect Protocol
                 </button>
             </div>
@@ -389,7 +405,7 @@
 
     </main>
 
-    <footer class="bg-dark-900 border-t border-white/5 py-10 text-center">
+    <footer class="py-10 text-center" style="background-color: #09090b; border-top: 1px solid rgba(255,255,255,0.05);">
         <p class="text-slate-600 text-xs font-mono">
             INFOGRAPHIC GENERATED BY: FORGE // THEMER // VIRALIZER // TOYSMITH
         </p>
@@ -488,7 +504,7 @@
             velocityChart.update('none');
         });
 
-        // --- PAIN MATRIX (Visual Fix: Target Reticles) ---
+        // --- PAIN MATRIX ---
         const ctxPain = document.getElementById('painMatrixChart').getContext('2d');
         new Chart(ctxPain, {
             type: 'bubble',
@@ -510,16 +526,15 @@
             }
         });
 
-        // --- X-RAY MOBILE LOGIC (UX Fix) ---
+        // --- X-RAY MOBILE LOGIC ---
         const xrayCards = document.querySelectorAll('.xray-card');
         xrayCards.forEach(card => {
             card.addEventListener('click', () => {
-                // Toggle active class on click for mobile
                 card.classList.toggle('active-scan');
             });
         });
 
-        // --- TERMINAL BOOT TOY (UX Fix: No Alert) ---
+        // --- TERMINAL BOOT TOY ---
         const btnDeploy = document.getElementById('btn-deploy');
         const terminalOverlay = document.getElementById('terminal-overlay');
         const terminalText = document.getElementById('terminal-text');
@@ -551,7 +566,6 @@
                     lineIndex++;
                     setTimeout(typeLine, 500); 
                 } else {
-                    // Success State
                     terminalCursor.style.display = 'none';
                     terminalSuccess.classList.remove('hidden');
                 }
