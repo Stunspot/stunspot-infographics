@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patreon Monetization Engine: A 7-Point Synthesis (Interactive)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Chart.js Plugins -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.2/dist/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script> 
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* THEME FIX: STRATEGIC DARK MODE */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212; /* Deep Black Background */
+            color: #EAEAEA; /* Primary Text */
+            transition: background-color 0.3s ease;
+        }
+        h1, h2, h3 {
+            color: #EAEAEA; 
+        }
+        /* Custom card style for lifted effect on dark mode */
+        .data-card {
+            background-color: #1E1E1E; /* Card Surface */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border for definition */
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .data-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.7), 0 6px 10px -3px rgba(0, 0, 0, 0.4);
+        }
+        /* Jargon Tooltip Styles */
+        .jargon-tooltip {
+            position: relative;
+            cursor: pointer;
+            border-bottom: 1px dashed #66D9EF;
+            color: #66D9EF;
+            transition: color 0.2s;
+        }
+        .jargon-tooltip .tooltip-content {
+            visibility: hidden;
+            opacity: 0;
+            background-color: #2a2a2a;
+            color: #EAEAEA;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .jargon-tooltip:hover .tooltip-content {
+            visibility: visible;
+            opacity: 1;
+        }
+        /* Chart Container Styling for responsiveness */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 768px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+            margin-top: 1.5rem; /* Added spacing fix */
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .decoy-card {
+            transition: all 0.5s ease-in-out;
+        }
+        .fade-out {
+            background-color: #444 !important;
+            border-color: #444 !important;
+            opacity: 0.3 !important;
+            transform: scale(0.95);
+        }
+        /* CTA Button Styling */
+        .cta-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #FF6B6B; /* Accent Red */
+            color: #121212;
+            font-weight: 700;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.5);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 1.125rem;
+        }
+        .cta-button:hover {
+            background-color: #FF9F43; /* Accent Orange on hover */
+            box-shadow: 0 6px 20px rgba(255, 159, 67, 0.7);
+        }
+    </style>
+<!-- OG Meta Tags for Facebook/LinkedIn/General -->
+<meta property="og:title" content="The Silent Engine: Patreon Monetization Synthesis (Interactive)" />
+<meta property="og:description" content="Stop optimizing traffic. Start fixing the 14-day churn spike. A 7-point framework for maximizing on-platform LTV." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://stunspot.github.io/stunspot-infographics/The%20Silent%20Engine%20-%20Patreon%20Monetization%20Synthesis.html" />
+<meta property="og:image" content="https://thumbnailpreview.com/" />
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@[YOUR TWITTER HANDLE]" />
+<meta name="twitter:title" content="The Silent Engine: The 7 Levers of Patreon Income" />
+<meta name="twitter:description" content="Fix the 14-day churn trigger and master the Decoy Pricing effect. An interactive framework for creators." />
+<meta name="twitter:image" content="https://thumbnailpreview.com/" />
+</head>
+
+
+<body class="text-[#EAEAEA]">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <header class="text-center my-8 md:my-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#FF6B6B]">
+                The Silent Engine
+            </h1>
+            <p class="text-lg md:text-xl mt-3 max-w-4xl mx-auto text-[#A8A8A8]">
+                <strong>The Myth of External Traffic:</strong> The true path to sustainable income is optimizing the <em>on-platform</em> engine, not relying on vanity metrics.
+            </p>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+            <!-- BEAT 2: SETUP - SHOPFRONT -->
+            <section class="md:col-span-2 lg:col-span-3 data-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-[#FF9F43] mb-3">1. The Shopfront Constraint: Maximizing Initial Patron Conversion</h2>
+                <p class="mb-6 text-base leading-relaxed text-[#EAEAEA]">
+                    A visitor's decision is made in seconds. The page must function as a high-stakes conversion funnel. Successful creators prioritize visual clarity and a direct, compelling pitch over complex narratives. This defines the <strong>Acquisition</strong> stage.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2 text-[#66D9EF]">Top Conversion Impact Factors</h3>
+                        <p class="text-sm mb-4 text-[#A8A8A8]">
+                            <span class="jargon-tooltip">Conversion Velocity<span class="tooltip-content">Rate at which visitors move to patrons.</span></span>: Acquisition hinges on clear personality communication and unambiguous reward structure.
+                        </p>
+                        <div class="chart-container">
+                            <canvas id="conversionChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2 text-[#66D9EF]">Optimal Above-Fold Structure</h3>
+                        <p class="text-sm mb-4 text-[#A8A8A8]">
+                            The layout should follow a linear path designed to answer: <em>Who are you? What do I get? How do I join?</em> The mission must be secondary to the immediate benefits.
+                        </p>
+                        <div class="border-2 border-dashed border-[#A8A8A8] p-4 rounded-lg space-y-3 bg-[#121212]">
+                            <div class="bg-[#FF6B6B] bg-opacity-30 p-3 rounded text-center font-bold text-[#FF6B6B] shadow-lg">
+                                Hero: Sub-90s Intro Video (Highest Impact)
+                            </div>
+                            <div class="bg-[#FF9F43] bg-opacity-30 p-3 rounded text-center font-semibold text-[#FF9F43] shadow-md">
+                                Headline: "I make [X], you get [Y]" (Clarity)
+                            </div>
+                            <div class="bg-[#66D9EF] bg-opacity-30 p-3 rounded text-center text-[#EAEAEA]">
+                                Visible Tier Structure & Primary Benefits
+                            </div>
+                            <div class="text-center font-semibold pt-2 text-[#A8A8A8]">→ Leads to: Detailed Mission (About Section)</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BEAT 3: MECHANISM - PRICING PSYCHOLOGY -->
+            <section class="lg:col-span-3 data-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-[#FF9F43] mb-3">2. The Psychology of Pricing: Anchoring & Reward Density</h2>
+                <p class="mb-6 text-base leading-relaxed text-[#EAEAEA]">
+                    Pricing is a game of psychological anchoring. The architecture must gently guide the patron toward the target tier—the one that provides the best balance of revenue and scalable fulfillment. The modal price point remains $5.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2 text-[#66D9EF]">Tier Distribution & Target Price Points</h3>
+                        <p class="text-sm mb-4 text-[#A8A8A8]">
+                            Most patrons land in the $5 'Standard' or $10 'Value' tiers. The $25+ tier is vital for high-value patron anchoring and providing disproportionate revenue with low fulfillment effort.
+                        </p>
+                        <div class="chart-container">
+                            <canvas id="pricingChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2 text-[#66D9EF]">The Anchoring & Decoy Effect in Action</h3>
+                        <p class="text-sm mb-4 text-[#A8A8A8]">
+                            Click the <strong>DECOY TIER</strong> below to see how its removal impacts the perceived value of the Target Tier.
+                            <span id="decoy-message" class="block mt-2 text-sm font-semibold text-[#FF6B6B]"></span>
+                        </p>
+                        <div class="grid grid-cols-3 gap-3 md:gap-4 items-stretch">
+                            <div class="border-2 border-[#A8A8A8] p-3 rounded-lg flex flex-col justify-between bg-[#121212]">
+                                <h4 class="font-bold text-lg text-[#EAEAEA]">$5</h4>
+                                <p class="text-sm text-[#A8A8A8]">Entry Access<br>+ 1 Core Benefit</p>
+                            </div>
+                            <!-- TOY: Decoy Fader Trigger -->
+                            <div id="decoy-card" class="decoy-card border-2 border-[#A8A8A8] p-3 rounded-lg flex flex-col justify-between bg-[#121212] relative cursor-pointer" onclick="toggleDecoyFade()">
+                                <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#FF6B6B] text-white text-xs font-bold px-2 py-0.5 rounded-full">DECOY TIER</span>
+                                <h4 class="font-bold text-lg text-[#EAEAEA]">$15</h4>
+                                <p class="text-sm text-[#A8A8A8]">Premium Access<br>+ 5 Benefits</p>
+                            </div>
+                            <div class="border-2 border-[#FF9F43] p-3 rounded-lg flex flex-col justify-between bg-[#FF9F43] bg-opacity-10 shadow-lg scale-[1.02]">
+                                <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#FF9F43] text-white text-xs font-bold px-2 py-0.5 rounded-full">TARGET TIER</span>
+                                <h4 class="font-bold text-lg text-[#FF9F43]">$20</h4>
+                                <p class="text-sm text-[#EAEAEA]">All Access<br>+ 8 Benefits (Best Value)</p>
+                            </div>
+                        </div>
+                        <p class="text-xs mt-3 text-center text-[#A8A8A8]">The $15 Decoy makes the $20 Target tier appear to offer disproportionately higher value for the incremental cost.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- BEAT 4 & 5: TENSION & THE TURN - RETENTION ENGINE -->
+            <section class="lg:col-span-3 data-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-[#FF9F43] mb-3">3. The Retention Engine: Cadence, Churn, and the Anti-Churn Mechanisms</h2>
+                <p class="mb-6 text-base leading-relaxed text-[#EAEAEA]">
+                    Acquisition is fleeting; <span class="jargon-tooltip">churn<span class="tooltip-content">The percentage of subscribers who cancel their pledges monthly.</span></span> is the constant threat, typically settling between 5-10% monthly for the average creator. Retention is governed by two factors: content frequency (cadence) and social bonds (community).
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2 text-[#66D9EF]">The 14-Day Churn Spike</h3>
+                        <!-- TOY: Annotation Toggle Button -->
+                        <button id="annotation-toggle" class="mb-4 px-3 py-1 bg-[#66D9EF] text-[#121212] font-semibold text-sm rounded-md shadow-lg hover:bg-opacity-80 transition-all">
+                            Highlight Critical 14-Day Threshold
+                        </button>
+                        <p class="text-sm mb-4 text-[#A8A8A8]">
+                            Retention efforts must be continuous. If a patron does not receive an <em>exclusive</em> post within <strong>14 days</strong>, the psychological cost of cancelling significantly decreases.
+                        </p>
+                        <div class="chart-container">
+                            <canvas id="churnChart"></canvas>
+                        </div>
+                        <p class="text-xs mt-2 text-[#A8A8A8] italic">Illustrative data based on composite creator modeling. Y-Axis shows the % increase in churn risk.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2 text-[#66D9EF]">The Turn: Community as Anti-Churn</h3>
+                        <p class="text-sm mb-4 text-[#A8A8A8]">
+                            <strong>Exclusive Content</strong> remains the primary driver, but <strong>Community Access</strong> is the "sticky" factor. Patrons cancel content; they rarely cancel relationships. Social bonds provide monthly, sustained value independent of content drops.
+                        </p>
+                        <div class="chart-container">
+                            <canvas id="retentionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- BEAT 6: INSIGHT - NATIVE TOOLS -->
+            <section class="lg:col-span-2 data-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-[#FF9F43] mb-3">4. The Engine Levers: Maximizing <span class="jargon-tooltip">LTV<span class="tooltip-content">Lifetime Value: The total revenue expected from a single patron.</span></span> with Native Tools</h2>
+                <p class="mb-6 text-base leading-relaxed text-[#EAEAEA]">
+                    Patreon’s native promotional tools are powerful, low-friction levers for maximizing patron <strong>Lifetime Value (LTV)</strong>. They focus on increasing pledge value (Shop) or increasing pledge duration (Annual Offers).
+                </p>
+                <h3 class="text-xl font-semibold mb-2 text-[#66D9EF]">Perceived Effectiveness of On-Platform Tools</h3>
+                <p class="text-sm mb-4 text-[#A8A8A8]">
+                    <strong>Annual Plans</strong> are the single most effective tool for locking in revenue and dramatically reducing the 14-day churn risk by removing the monthly pledge decision entirely.
+                </p>
+                <div class="chart-container">
+                    <canvas id="promoChart"></canvas>
+                </div>
+            </section>
+
+            <!-- BEAT 7: CLOSURE - SYNTHESIS -->
+            <section class="lg:col-span-1 data-card rounded-2xl p-6 md:p-8 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-[#FF9F43] mb-3">5. Synthesis & The Verdict</h2>
+                    <p class="mb-6 text-base leading-relaxed text-[#EAEAEA]">
+                        The highest-performing creators stop treating Patreon as a simple content dump and operate it as a synchronized engine. This is the <strong>3-Point Framework</strong> for maximizing on-platform income efficiency.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="p-3 bg-[#FF6B6B] bg-opacity-30 rounded-lg border-l-4 border-[#FF6B6B]">
+                            <h4 class="font-bold text-[#FF6B6B] mb-1">Lever 1: The Optimized Front Door</h4>
+                            <p class="text-sm text-[#EAEAEA]">Clear Video + Headline + Anchored Pricing is non-negotiable for acquisition.</p>
+                        </div>
+                        <div class="p-3 bg-[#FF9F43] bg-opacity-30 rounded-lg border-l-4 border-[#FF9F43]">
+                            <h4 class="font-bold text-[#FF9F43] mb-1">Lever 2: The Social Sticky Layer</h4>
+                            <p class="text-sm text-[#EAEAEA]">Use community (Discord, Polls) to build social bonds that resist the 14-day content drought churn.</p>
+                        </div>
+                        <div class="p-3 bg-[#81F7A0] bg-opacity-30 rounded-lg border-l-4 border-[#81F7A0]">
+                            <h4 class="font-bold text-[#81F7A0] mb-1">Lever 3: The Duration Lock</h4>
+                            <p class="text-sm text-[#EAEAEA]">Promote Annual Pledges and use the Native Shop to unbundle high-effort rewards, maximizing LTV.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Final CTA -->
+                <div class="mt-8 text-center">
+                    <a href="#" class="cta-button">DOWNLOAD FRAMEWORK & CHECKLIST</a>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center text-sm my-8 text-[#A8A8A8]">
+            A Synthesis of Creator Strategy & Monetization Science. Optimize your Engine.
+        </footer>
+
+    </div>
+
+    <script>
+        // --- TOYSMITH JS IMPLEMENTATION ---
+
+        // Register the Datalabels plugin globally for the Doughnut chart
+        Chart.register(ChartDataLabels);
+
+        const palette = {
+            red: '#FF6B6B',
+            orange: '#FF9F43',
+            darkYellow: '#F9C74F',
+            lightYellow: '#F9C74F',
+            green: '#81F7A0',
+            teal: '#43AA8B',
+            blue: '#66D9EF',
+            bgRed: 'rgba(255, 107, 107, 0.4)',
+            bgOrange: 'rgba(255, 159, 67, 0.4)',
+            bgGreen: 'rgba(129, 247, 160, 0.4)',
+            bgBlue: 'rgba(102, 217, 239, 0.4)',
+            bgYellow: 'rgba(249, 199, 79, 0.4)',
+            white: '#EAEAEA'
+        };
+
+        let churnChartInstance = null;
+        let isAnnotationVisible = false;
+        let isDecoyFaded = false;
+
+        function wrapLabels(label) {
+            if (typeof label === 'string' && label.length > 16) {
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                words.forEach(word => {
+                    if ((currentLine + word).length > 16 && currentLine.length > 0) {
+                        lines.push(currentLine.trim());
+                        currentLine = word + ' ';
+                    } else {
+                        currentLine += word + ' ';
+                    }
+                });
+                lines.push(currentLine.trim());
+                return lines;
+            }
+            return label;
+        }
+
+        const tooltipCallbacks = {
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#A8A8A8' }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(30, 30, 30, 0.9)',
+                    titleColor: '#EAEAEA',
+                    bodyColor: '#EAEAEA',
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            if (!item || !item.chart || !item.chart.data || !item.chart.data.labels) {
+                                return '';
+                            }
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        
+        const chartDefaultOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+            ...tooltipCallbacks,
+            plugins: {
+                ...tooltipCallbacks.plugins,
+                title: { display: false },
+            },
+            scales: {
+                x: {
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: { color: '#A8A8A8' },
+                    title: { color: '#A8A8A8' }
+                },
+                y: {
+                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                    ticks: { color: '#A8A8A8' },
+                    title: { color: '#A8A8A8' }
+                }
+            }
+        };
+
+        // --- Toy Implementations ---
+        
+        // Toy 3: Decoy Fader & UX Confirmation
+        function toggleDecoyFade() {
+            const decoyCard = document.getElementById('decoy-card');
+            const messageElement = document.getElementById('decoy-message');
+            
+            if (decoyCard && messageElement) {
+                isDecoyFaded = !isDecoyFaded;
+                decoyCard.classList.toggle('fade-out');
+
+                if (isDecoyFaded) {
+                    messageElement.textContent = "Decoy removed. Notice the perceived drop in $20 tier's value.";
+                    messageElement.classList.add('animate-pulse');
+                    setTimeout(() => {
+                         messageElement.classList.remove('animate-pulse');
+                    }, 1000);
+                } else {
+                    messageElement.textContent = "Decoy restored. The $20 tier now appears high value.";
+                    messageElement.classList.add('animate-pulse');
+                    setTimeout(() => {
+                         messageElement.classList.remove('animate-pulse');
+                    }, 1000);
+                }
+            }
+        }
+
+        // Toy 2: Annotation Toggle
+        function toggleChurnAnnotation() {
+            if (!churnChartInstance) return;
+
+            isAnnotationVisible = !isAnnotationVisible;
+            const toggleButton = document.getElementById('annotation-toggle');
+
+            if (isAnnotationVisible) {
+                churnChartInstance.options.plugins.annotation.annotations.criticalLine.display = true;
+                toggleButton.textContent = 'Remove Critical 14-Day Annotation';
+            } else {
+                churnChartInstance.options.plugins.annotation.annotations.criticalLine.display = false;
+                toggleButton.textContent = 'Highlight Critical 14-Day Threshold';
+            }
+            churnChartInstance.update();
+        }
+
+        // --- Chart Initialization ---
+
+        window.onload = function() {
+            // Conversion Chart
+            const conversionLabels = ['Clear Intro Video', 'Well-Defined Tiers', 'Compelling Headline', 'Benefit-Focused Copy', 'High-Frequency Public Posts'].map(wrapLabels);
+            const conversionCtx = document.getElementById('conversionChart');
+            if (conversionCtx) {
+                new Chart(conversionCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: conversionLabels,
+                        datasets: [{
+                            label: 'Impact on Conversion (%)',
+                            data: [35, 30, 20, 10, 5],
+                            // Increased opacity for bars
+                            backgroundColor: [palette.bgRed + 'FF', palette.bgOrange + 'FF', palette.bgYellow + 'FF', palette.bgGreen + 'FF', palette.bgBlue + 'FF'],
+                            borderColor: [palette.red, palette.orange, palette.darkYellow, palette.green, palette.blue],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { 
+                        ...chartDefaultOptions, 
+                        indexAxis: 'y', 
+                        plugins: { ...chartDefaultOptions.plugins, legend: { display: false } },
+                        scales: { x: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.1)' } } }
+                    }
+                });
+            }
+
+            // Pricing Chart
+            const pricingLabels = ['$5 (Standard)', '$10 (Value)', '$1-3 (Access)', '$25+ (Patron)', 'Free (Follower)'].map(wrapLabels);
+            const pricingCtx = document.getElementById('pricingChart');
+            if (pricingCtx) {
+                new Chart(pricingCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: pricingLabels,
+                        datasets: [{
+                            label: 'Patron Distribution (%)',
+                            data: [45, 25, 15, 10, 5],
+                            backgroundColor: [palette.bgGreen + 'FF', palette.bgOrange + 'FF', palette.bgYellow + 'FF', palette.bgRed + 'FF', palette.bgBlue + 'FF'],
+                            borderColor: [palette.green, palette.orange, palette.darkYellow, palette.red, palette.blue],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: { 
+                        ...chartDefaultOptions, 
+                        plugins: { ...chartDefaultOptions.plugins, legend: { display: false } },
+                        scales: { y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.1)' } } }
+                    }
+                });
+            }
+
+            // Churn Chart (with Annotation Plugin)
+            const churnLabels = ['1-3 Days', '7 Days', '14 Days', '21 Days', '30+ Days'].map(wrapLabels);
+            const churnCtx = document.getElementById('churnChart');
+            if (churnCtx) {
+                churnChartInstance = new Chart(churnCtx, {
+                    type: 'line',
+                    data: {
+                        labels: churnLabels,
+                        datasets: [{
+                            label: 'Churn Risk Multiplier',
+                            data: [1, 1.2, 1.8, 2.4, 3],
+                            fill: true,
+                            backgroundColor: palette.bgRed,
+                            borderColor: palette.red,
+                            pointBackgroundColor: palette.red,
+                            tension: 0.2
+                        }]
+                    },
+                    options: { 
+                        ...chartDefaultOptions,
+                        plugins: {
+                            ...chartDefaultOptions.plugins,
+                            legend: { display: false },
+                            annotation: {
+                                annotations: {
+                                    criticalLine: {
+                                        type: 'line',
+                                        xMin: 2, // Corresponds to '14 Days' label index (0, 1, 2)
+                                        xMax: 2,
+                                        borderColor: palette.blue,
+                                        borderWidth: 2,
+                                        borderDash: [6, 6],
+                                        display: false, // Hidden by default, controlled by toggle
+                                        label: {
+                                            content: 'CRITICAL THRESHOLD (14 DAYS)',
+                                            enabled: true,
+                                            position: 'end',
+                                            backgroundColor: 'rgba(102, 217, 239, 0.8)',
+                                            color: '#1E1E1E',
+                                            font: { weight: 'bold' }
+                                        }
+                                    }
+                                }
+                            }
+                        }, 
+                        scales: { 
+                            y: { 
+                                beginAtZero: true, 
+                                title: { 
+                                    display: true, 
+                                    text: 'Churn Risk Multiplier (x)',
+                                    color: '#A8A8A8',
+                                }, 
+                                ticks: { 
+                                    callback: function(value) { return value + 'x'; },
+                                    color: '#A8A8A8'
+                                },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            }, 
+                            x: { 
+                                title: { 
+                                    display: true, 
+                                    text: 'Days Since Last Exclusive Post',
+                                    color: '#A8A8A8'
+                                },
+                                ticks: { color: '#A8A8A8' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            } 
+                        } 
+                    }
+                });
+            }
+            
+            const annotationToggle = document.getElementById('annotation-toggle');
+            if (annotationToggle) {
+                annotationToggle.addEventListener('click', toggleChurnAnnotation);
+            }
+
+            // Retention Chart (Doughnut with Datalabels)
+            const retentionLabels = ['Exclusive Content', 'Community Access', 'Milestone Goals Met', 'Polls & Input', 'Early Access'].map(wrapLabels);
+            const retentionCtx = document.getElementById('retentionChart');
+            if (retentionCtx) {
+                new Chart(retentionCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: retentionLabels,
+                        datasets: [{
+                            label: 'Contribution to Pledge Retention',
+                            data: [40, 30, 10, 10, 10],
+                            backgroundColor: [palette.teal, palette.green, palette.lightYellow, palette.blue, palette.orange],
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: { 
+                        ...chartDefaultOptions, 
+                        cutout: '60%',
+                        plugins: {
+                            ...chartDefaultOptions.plugins,
+                            datalabels: {
+                                color: palette.white,
+                                font: { weight: 'bold', size: 14 },
+                                formatter: (value, context) => {
+                                    const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return percentage > 5 ? percentage + '%' : '';
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Promo Chart
+            const promoLabels = ['Special Offers (Annual Lock-In)', 'Native Shop Upsell', 'Milestone Goals', 'Tiered Polls'].map(wrapLabels);
+            const promoCtx = document.getElementById('promoChart');
+            if (promoCtx) {
+                new Chart(promoCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: promoLabels,
+                        datasets: [{
+                            label: 'LTV Maximization Effectiveness (out of 10)',
+                            data: [9, 7, 5, 4],
+                            fill: true,
+                            backgroundColor: palette.bgOrange,
+                            borderColor: palette.orange,
+                            pointBackgroundColor: palette.orange,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: palette.orange
+                        }]
+                    },
+                    options: { 
+                        ...chartDefaultOptions, 
+                        plugins: { 
+                            ...chartDefaultOptions.plugins, 
+                            legend: { display: false } 
+                        }, 
+                        scales: { 
+                            r: { 
+                                beginAtZero: true, 
+                                max: 10, 
+                                ticks: { backdropColor: 'transparent', color: '#A8A8A8' },
+                                pointLabels: { color: '#EAEAEA' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            } 
+                        } 
+                    }
+                });
+            }
+        };
+    </script>
+</body>
+
+</html>
