@@ -5,74 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>PROTOCOL: Amazon Semantic Override</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            bg: '#F5F3ED',
-            surface: '#FFFFFF',
-            primary: '#2E3A46',
-            accent: '#6AA6A0',
-            alert: '#E26D3E',
-            ink: '#1B1C1E'
-          },
-          fontFamily: {
-            display: ['Space Grotesk', 'sans-serif'],
-            body: ['Inter', 'sans-serif'],
-            mono: ['IBM Plex Mono', 'monospace'],
-          },
-          animation: {
-            'scan': 'scan 3s linear infinite',
-          },
-          keyframes: {
-            scan: {
-              '0%': { top: '0%', opacity: '0' },
-              '10%': { opacity: '1' },
-              '90%': { opacity: '1' },
-              '100%': { top: '100%', opacity: '0' },
-            }
-          }
-        }
-      }
-    }
-  </script>
-  
-  <style>
-    body { background-color: #F5F3ED; color: #1B1C1E; }
-    
-    /* Radar Background Grid */
-    .radar-grid {
-      background-image: linear-gradient(#2E3A46 1px, transparent 1px), linear-gradient(90deg, #2E3A46 1px, transparent 1px);
-      background-size: 20px 20px;
-      background-position: center center;
-      opacity: 0.03;
-    }
-    
-    /* Toy: View Switcher Logic */
-    .view-human { display: block; }
-    .view-ai { display: none; }
-    
-    /* When 'mode-ai' class is present on container: */
-    .mode-ai .view-human { display: none; }
-    .mode-ai .view-ai { display: block; }
-    
-    /* Scan Line Effect */
-    .scan-line {
-      position: absolute;
-      left: 0; right: 0; height: 2px;
-      background: #6AA6A0;
-      opacity: 0.5;
-      z-index: 10;
-      pointer-events: none;
-      display: none; /* Hidden by default */
-    }
-    .mode-ai .scan-line { display: block; animation: scan 3s linear infinite; }
-  </style>
   <meta name="title" content="PROTOCOL: Amazon Semantic Override">
   <meta name="description" content="Amazon doesn't rank keywords. It ranks Truth. The 2025 Semantic Checklist for Rufus & A10.">
 
@@ -82,168 +14,258 @@
   <meta property="og:description" content="Amazon doesn't rank keywords. It ranks Truth. The 2025 Semantic Checklist for Rufus & A10.">
   <meta property="og:image" content="https://stunspot.github.io/stunspot-infographics/amazon-semantics/assets/thumbnail.jpg">
 
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://stunspot.github.io/stunspot-infographics/amazon-semantics/">
-  <meta property="twitter:title" content="⚠️ Amazon doesn't rank keywords anymore.">
-  <meta property="twitter:description" content="It ranks Truth. See the 2025 Semantic Checklist for Rufus.">
-  <meta property="twitter:image" content="https://stunspot.github.io/stunspot-infographics/amazon-semantics/assets/thumbnail.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://stunspot.github.io/stunspot-infographics/amazon-semantics/">
+  <meta name="twitter:title" content="⚠️ Amazon doesn't rank keywords anymore.">
+  <meta name="twitter:description" content="It ranks Truth. See the 2025 Semantic Checklist for Rufus.">
+  <meta name="twitter:image" content="https://stunspot.github.io/stunspot-infographics/amazon-semantics/assets/thumbnail.jpg">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#F5F3ED',       // Studio Parchment Light
+            surface: '#FFFFFF',
+            primary: '#2E3A46',  // Graphite-Navy Control
+            accent: '#6AA6A0',   // Aqua-Sage Data Trace
+            alert: '#E26D3E',    // Alert-Amber
+            ink: '#1B1C1E',      // Ink Carbon
+            grid: 'rgba(46, 58, 70, 0.08)'
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['IBM Plex Mono', 'monospace'],
+          },
+          animation: {
+            'radar-sweep': 'sweep 4s linear infinite',
+            'blip': 'blip 2s ease-out infinite',
+          },
+          keyframes: {
+            sweep: {
+              '0%': { transform: 'rotate(0deg)' },
+              '100%': { transform: 'rotate(360deg)' },
+            },
+            blip: {
+              '0%': { opacity: 0, transform: 'scale(0.5)' },
+              '50%': { opacity: 1, transform: 'scale(1.2)' },
+              '100%': { opacity: 0, transform: 'scale(1.5)' },
+            }
+          },
+          backgroundImage: {
+            'grid-pattern': "linear-gradient(to right, rgba(46, 58, 70, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(46, 58, 70, 0.05) 1px, transparent 1px)"
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body { background-color: #F5F3ED; color: #1B1C1E; }
+    
+    /* Motif: Thin Grid Overlay */
+    .bg-radar-grid {
+      background-size: 40px 40px;
+    }
+    
+    /* Motif: Glowing Data Pips */
+    .pip {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background-color: #E26D3E;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #E26D3E;
+    }
+
+    /* Tool 6: Toy Classes */
+    .view-human { display: block; opacity: 1; transition: opacity 0.3s ease; }
+    .view-ai { display: none; opacity: 0; transition: opacity 0.3s ease; }
+    
+    .mode-ai .view-human { display: none; opacity: 0; }
+    .mode-ai .view-ai { display: block; opacity: 1; }
+    
+    /* Scan Line Effect for AI Mode */
+    .scan-line {
+      position: absolute;
+      left: 0; right: 0; height: 1px;
+      background: #6AA6A0;
+      box-shadow: 0 0 10px #6AA6A0;
+      opacity: 0;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .mode-ai .scan-line { opacity: 1; animation: scan 2s linear infinite; }
+    
+    @keyframes scan { 
+      0% { top: 0%; } 
+      100% { top: 100%; } 
+    }
+  </style>
 </head>
-<body class="antialiased min-h-screen relative overflow-x-hidden">
+<body class="antialiased min-h-screen relative overflow-x-hidden font-body bg-bg bg-radar-grid">
 
-  <div class="fixed inset-0 radar-grid pointer-events-none"></div>
-
-  <header class="relative px-6 pt-12 pb-8 border-b border-primary/10">
-    <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 border border-primary/20 rounded-full bg-white shadow-sm">
-      <div class="w-2 h-2 rounded-full bg-alert animate-pulse"></div>
-      <span class="text-xs font-mono font-bold text-primary tracking-widest uppercase">Signal: High Confidence</span>
+  <header class="relative px-6 pt-16 pb-10 border-b border-primary/10 max-w-xl mx-auto text-center md:text-left">
+    <div class="inline-flex items-center gap-2 px-3 py-1 mb-6 border border-primary/20 bg-white shadow-sm">
+      <div class="w-2 h-2 rounded-full bg-alert animate-blip"></div>
+      <span class="text-[10px] font-mono font-bold text-primary tracking-widest uppercase">SIGNAL_INTERCEPT // A10_OVERRIDE</span>
     </div>
-    <h1 class="text-4xl md:text-5xl font-display font-bold leading-tight mb-4 text-primary">
+    
+    <h1 class="text-4xl md:text-6xl font-display font-bold leading-tight mb-6 text-primary tracking-tight">
       Amazon doesn’t rank keywords.<br>
       <span class="text-alert">It ranks Truth.</span>
     </h1>
-    <p class="text-lg font-body text-primary/80 leading-relaxed max-w-xl">
-      The era of "keyword stuffing" ended when Rufus arrived. If your listing isn't a <strong>Knowledge Graph</strong>, you are invisible to the new AI consumer.
+    
+    <p class="text-base md:text-lg text-primary/80 leading-relaxed font-medium">
+      The "keyword stuffing" era ended when Rufus arrived. If your listing isn't a <strong class="text-ink decoration-accent underline decoration-2 underline-offset-2">Knowledge Graph</strong>, you are invisible to the machine.
     </p>
   </header>
 
-  <main class="max-w-3xl mx-auto pb-12">
+  <main class="max-w-xl mx-auto pb-20 px-4">
     
-    <section class="p-6 my-4">
-      <div id="scanner-card" class="bg-surface border border-primary/10 rounded-xl shadow-lg overflow-hidden relative group">
-        <div class="bg-primary px-4 py-3 flex justify-between items-center z-20 relative">
-          <span class="text-white font-mono text-xs tracking-widest flex items-center gap-2">
-            <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-            VISUAL_DECODER
-          </span>
-          <button id="toggle-btn" onclick="toggleView()" class="px-3 py-1 bg-accent/20 border border-accent/50 text-accent font-mono text-xs rounded hover:bg-accent/30 transition-colors uppercase tracking-wider font-bold">
-            Toggle: AI View
-          </button>
-        </div>
+    <section class="my-10 relative">
+      <div class="flex justify-between items-end mb-2 px-1">
+        <span class="font-mono text-[10px] text-primary/60 uppercase tracking-widest">VISUAL_DECODER v2.4</span>
+        <button id="toggle-btn" onclick="toggleView()" class="px-4 py-2 bg-primary text-bg font-mono text-xs font-bold tracking-wider hover:bg-primary/90 transition-all shadow-md active:scale-95 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-accent"></span>
+          <span>VIEW: HUMAN</span>
+        </button>
+      </div>
 
-        <div id="scanner-container" class="relative min-h-[320px] p-6 transition-colors duration-300">
+      <div id="scanner-card" class="bg-surface border-2 border-primary rounded-none shadow-[4px_4px_0px_0px_rgba(46,58,70,1)] overflow-hidden relative transition-all duration-300">
+        
+        <div id="scanner-container" class="relative min-h-[340px] p-6">
           <div class="scan-line"></div>
           
-          <div class="view-human space-y-4">
-            <div class="flex flex-col sm:flex-row gap-6">
-              <div class="w-full sm:w-32 h-32 bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200">
-                <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          <div class="view-human space-y-5">
+            <div class="flex gap-4">
+               <div class="w-24 h-24 bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0">
+                <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
               </div>
-              
-              <div class="flex-1">
-                <h3 class="font-bold text-2xl mb-2 text-primary">Ultra-Durable Coffee Press</h3>
-                <div class="flex items-center gap-1 text-yellow-500 text-sm mb-3">
-                  <span>★★★★★</span>
-                  <span class="text-gray-400 ml-2">(420 Reviews)</span>
-                </div>
-                <p class="text-sm text-gray-600 leading-relaxed">
-                  The best coffee maker for camping, travel, and home. Double-wall stainless steel keeps coffee hot for hours. Indestructible design.
-                </p>
+              <div>
+                <h3 class="font-display font-bold text-xl leading-tight text-primary mb-1">Ultra-Durable French Press</h3>
+                <div class="text-alert font-mono text-xs mb-2">★★★★★ (420)</div>
+                <div class="h-2 w-16 bg-accent/30 rounded-full"></div>
               </div>
             </div>
-            <div class="mt-4 p-3 bg-blue-50 border-l-4 border-blue-400 text-blue-800 text-sm rounded-r">
-              <strong class="block mb-1">Human Perception:</strong>
-              "Looks great! Nice photos, good reviews. I'll buy it."
+            
+            <p class="text-sm text-gray-600 leading-relaxed font-body border-l-2 border-accent pl-3">
+              "The best coffee maker for camping. Indestructible, double-wall steel keeps heat in..."
+            </p>
+
+            <div class="mt-4 p-3 bg-bg border border-primary/10 text-primary text-xs font-mono">
+              <strong class="block mb-1 text-accent">HUMAN OPTIC:</strong>
+              "Looks good. Nice photos. I'll buy."
             </div>
           </div>
 
-          <div class="view-ai space-y-3 font-mono text-xs md:text-sm text-primary leading-loose">
+          <div class="view-ai font-mono text-xs leading-loose text-primary">
             <div class="text-accent">{</div>
-            <div class="pl-4"><span class="text-alert">"entity_id"</span>: <span class="text-primary">"B08X..."</span>,</div>
+            <div class="pl-4"><span class="text-alert">"entity_id"</span>: "B08X...",</div>
             <div class="pl-4"><span class="text-alert">"intent_cluster"</span>: [</div>
-            <div class="pl-8"><span class="text-primary">"portable_brewing"</span>,</div>
-            <div class="pl-8"><span class="text-primary">"rugged_kitchen"</span></div>
+            <div class="pl-8 text-accent">"portable_brewing", "rugged_kitchen"</div>
             <div class="pl-4">],</div>
             <div class="pl-4"><span class="text-alert">"attributes"</span>: {</div>
-            <div class="pl-8"><span class="text-primary">"material"</span>: <span class="text-accent">"304_stainless_steel"</span>,</div>
-            <div class="pl-8"><span class="text-primary">"capacity_vol"</span>: <span class="text-accent">"34_oz"</span>,</div>
-            <div class="pl-8"><span class="text-primary">"durability_score"</span>: <span class="text-accent">0.98</span></div>
+            <div class="pl-8">"material": <span class="bg-primary text-white px-1">"304_stainless"</span>,</div>
+            <div class="pl-8">"capacity_vol": "34_oz",</div>
+            <div class="pl-8">"durability_score": <span class="text-alert">0.98</span></div>
             <div class="pl-4">}</div>
             <div class="text-accent">}</div>
             
-            <div class="mt-4 p-3 bg-primary text-white text-sm rounded border-l-4 border-alert shadow-lg">
-              <strong class="block mb-1 text-alert">AI Reality:</strong>
-              "Rufus indexes FACTS. If '304 Stainless' is missing from structured data, you don't exist for that query."
+            <div class="mt-6 p-3 bg-primary text-bg text-xs border-l-4 border-alert shadow-lg">
+              <strong class="block mb-1 text-alert">AI REALITY:</strong>
+              "Rufus indexes FACTS. If '304 Stainless' is missing from structured data, you do not exist."
             </div>
           </div>
 
         </div>
       </div>
+      <p class="text-center mt-3 text-[10px] font-mono text-primary/40 uppercase">Tap toggle to simulate AI vision</p>
     </section>
 
-    <section class="p-6">
-      <h2 class="font-display font-bold text-2xl mb-2 flex items-center gap-2">
-        <span class="text-accent">///</span> The Ranking Shift
+    <section class="my-16">
+      <h2 class="font-display font-bold text-2xl mb-2 flex items-center gap-3 text-primary">
+        <span class="w-3 h-3 bg-accent rounded-sm"></span> The Physics Shift
       </h2>
-      <p class="text-sm font-body mb-6 text-primary/70">
-        Keyword density is a vanity metric. <strong>Semantic Density</strong> is the new physics.
+      <p class="text-sm font-body mb-6 text-primary/70 max-w-sm">
+        Keyword density is a vanity metric. <strong>Semantic Density</strong> is the new ranking signal.
       </p>
       
-      <div class="bg-surface p-4 rounded-xl border border-primary/10 shadow-sm relative h-80">
+      <div class="bg-white p-4 border border-primary/10 shadow-sm relative h-72">
         <canvas id="rankingChart"></canvas>
       </div>
     </section>
 
-    <section class="px-6 py-8">
-      <div class="bg-primary text-bg rounded-xl p-8 relative overflow-hidden shadow-2xl">
-        <div class="absolute top-0 right-0 p-4 opacity-10 font-display text-6xl font-bold select-none">03</div>
-        <h2 class="font-display text-2xl font-bold mb-6 text-white">The Semantic Checklist</h2>
+    <section class="my-12">
+      <div class="bg-primary text-bg p-8 relative overflow-hidden shadow-2xl border-t-4 border-alert">
+        <div class="absolute top-0 right-0 p-4 opacity-10 font-display text-8xl font-bold select-none text-white pointer-events-none">03</div>
         
-        <ul id="checklist-content" class="space-y-6 font-mono text-sm">
-          <li class="flex items-start gap-3">
-            <span class="text-accent mt-1">NO.1</span>
+        <h2 class="font-display text-2xl font-bold mb-8 text-white tracking-wide">Semantic Checklist</h2>
+        
+        <ul class="space-y-6 font-mono text-xs md:text-sm relative z-10">
+          <li class="flex gap-4">
+            <span class="text-accent shrink-0 mt-1">01 //</span>
             <div>
-              <strong class="text-white block mb-1">Attribute Completeness > 95%</strong>
-              <span class="text-gray-400">Fill every field. Rufus uses these as hard filters.</span>
+              <strong class="text-white block mb-1 font-sans text-base">Attribute Completeness > 95%</strong>
+              <span class="text-gray-400">Fill every field. Rufus uses these as hard filters (e.g., "Voltage", "Fabric").</span>
             </div>
           </li>
-          <li class="flex items-start gap-3">
-            <span class="text-accent mt-1">NO.2</span>
+          <li class="flex gap-4">
+            <span class="text-accent shrink-0 mt-1">02 //</span>
             <div>
-              <strong class="text-white block mb-1">Facts > Fluff</strong>
-              <span class="text-gray-400">Replace "Built tough" with "Rated for 500lbs load."</span>
+              <strong class="text-white block mb-1 font-sans text-base">Facts > Fluff</strong>
+              <span class="text-gray-400">Delete "Built tough." Replace with "Rated for 500lbs load."</span>
             </div>
           </li>
-          <li class="flex items-start gap-3">
-            <span class="text-accent mt-1">NO.3</span>
+          <li class="flex gap-4">
+            <span class="text-accent shrink-0 mt-1">03 //</span>
             <div>
-              <strong class="text-white block mb-1">Q&A Mining</strong>
-              <span class="text-gray-400">Seed Q&A with questions Rufus can quote directly.</span>
+              <strong class="text-white block mb-1 font-sans text-base">Q&A Mining</strong>
+              <span class="text-gray-400">Seed Q&A with specific technical questions Rufus can quote directly.</span>
             </div>
           </li>
         </ul>
 
-        <button id="copy-btn" onclick="copyChecklist()" class="mt-8 w-full py-4 bg-alert text-white font-bold font-display uppercase tracking-widest rounded hover:bg-white hover:text-alert transition-all duration-200 border border-transparent hover:border-alert">
-          Copy System to Clipboard
+        <button id="copy-btn" onclick="copyChecklist()" class="mt-10 w-full py-4 bg-alert text-white font-bold font-display uppercase tracking-widest hover:bg-white hover:text-alert transition-all duration-200 border border-transparent hover:border-alert active:scale-[0.98]">
+          Copy System JSON
         </button>
       </div>
     </section>
 
   </main>
 
-  <footer class="text-center py-8 text-xs font-mono text-primary/40 border-t border-primary/5">
-    SIGNAL DECK // GENERATED BY STUNSPOT INFOGRAPHICS v2.1
+  <footer class="text-center py-8 text-[10px] font-mono text-primary/40 border-t border-primary/5 bg-white/50">
+    SIGNAL DECK // GENERATED BY STUNSPOT INFOGRAPHICS v2.4
   </footer>
 
   <script>
-    // --- LOGIC 1: VIEW TOGGLE ---
+    // --- TOYSMITH LOGIC ---
+
+    // 1. Scanner Toggle
     function toggleView() {
       const container = document.getElementById('scanner-container');
-      const btn = document.getElementById('toggle-btn');
+      const btnText = document.querySelector('#toggle-btn span:last-child');
+      const card = document.getElementById('scanner-card');
       
       const isAI = container.classList.toggle('mode-ai');
       
-      // Update Button Text
-      btn.innerText = isAI ? "Toggle: Human View" : "Toggle: AI View";
-      
-      // Optional: Flash background to indicate mode switch
       if(isAI) {
-        container.style.backgroundColor = "rgba(46, 58, 70, 0.05)";
+        btnText.innerText = "VIEW: AI DATA";
+        container.style.backgroundColor = "#2E3A46"; // Navy background for code
+        card.style.borderColor = "#6AA6A0"; // Accent border
       } else {
-        container.style.backgroundColor = "transparent";
+        btnText.innerText = "VIEW: HUMAN";
+        container.style.backgroundColor = "#FFFFFF";
+        card.style.borderColor = "#2E3A46";
       }
     }
 
-    // --- LOGIC 2: COPY TO CLIPBOARD (FIXED) ---
+    // 2. Clipboard Utility
     function copyChecklist() {
       const text = `AMAZON SEMANTIC CHECKLIST (2025):
 1. Attribute Completeness > 95%: Fill every field. Rufus uses these as hard filters.
@@ -254,41 +276,45 @@
         const btn = document.getElementById('copy-btn');
         const originalText = btn.innerText;
         
-        btn.innerText = "COPIED TO CLIPBOARD!";
-        btn.classList.add("bg-green-600", "border-green-600");
-        btn.classList.remove("bg-alert", "hover:text-alert");
+        btn.innerText = "SYSTEM COPIED // READY";
+        btn.style.backgroundColor = "#6AA6A0"; // Sage Green
         
         setTimeout(() => {
           btn.innerText = originalText;
-          btn.classList.remove("bg-green-600", "border-green-600");
-          btn.classList.add("bg-alert", "hover:text-alert");
+          btn.style.backgroundColor = ""; // Revert to CSS class (Amber)
         }, 2000);
       });
     }
 
-    // --- LOGIC 3: RESPONSIVE CHART ---
+    // --- CHART.JS CONFIG (THEMED) ---
     const ctx = document.getElementById('rankingChart').getContext('2d');
+    
+    // Gradient for Semantic Area
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(106, 166, 160, 0.4)'); // Accent
+    gradient.addColorStop(1, 'rgba(106, 166, 160, 0.0)');
+
     new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+        labels: ['\'20', '\'21', '\'22', '\'23', '\'24', '\'25'],
         datasets: [{
           label: 'Keyword Impact',
           data: [90, 80, 60, 40, 30, 15],
           borderColor: '#E26D3E', // Alert Amber
           borderDash: [5, 5],
           tension: 0.4,
-          pointRadius: 4,
-          pointBackgroundColor: '#E26D3E'
+          pointRadius: 0,
+          pointHoverRadius: 6
         }, {
           label: 'Semantic Impact',
           data: [10, 20, 40, 60, 85, 95],
           borderColor: '#6AA6A0', // Accent Sage
-          backgroundColor: 'rgba(106, 166, 160, 0.1)',
+          backgroundColor: gradient,
           fill: true,
           tension: 0.4,
           borderWidth: 3,
-          pointRadius: 6,
+          pointRadius: 4,
           pointBackgroundColor: '#2E3A46',
           pointBorderColor: '#6AA6A0',
           pointBorderWidth: 2
@@ -299,14 +325,21 @@
         maintainAspectRatio: false,
         plugins: { 
           legend: { 
-            position: 'bottom',
-            labels: { font: { family: 'IBM Plex Mono', size: 10 }, usePointStyle: true } 
-          } 
+            position: 'top',
+            align: 'end',
+            labels: { font: { family: 'IBM Plex Mono', size: 10 }, usePointStyle: true, boxWidth: 8 } 
+          },
+          tooltip: {
+            backgroundColor: '#2E3A46',
+            titleFont: { family: 'Space Grotesk' },
+            bodyFont: { family: 'IBM Plex Mono' },
+            displayColors: false
+          }
         },
         scales: {
           y: { display: false },
           x: { 
-            grid: { display: false }, 
+            grid: { display: true, color: 'rgba(46, 58, 70, 0.05)' }, 
             ticks: { font: { family: 'IBM Plex Mono', size: 10 }, color: '#2E3A46' } 
           }
         }
