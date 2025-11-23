@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Semantic Optimization for Amazon Listings in the Age of AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A decision-grade infographic on how to optimize Amazon product listings for semantic relevance, intent clusters, and generative AI surfaces like Rufus." />
+
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
+  <!-- Google Font (Inter) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .section-card {
+      @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8;
+    }
+    .section-label {
+      @apply text-xs font-semibold tracking-wide uppercase text-indigo-500;
+    }
+    .section-title {
+      @apply text-xl md:text-2xl font-semibold text-gray-900 mb-3;
+    }
+    .section-subtitle {
+      @apply text-sm md:text-base text-gray-600;
+    }
+    .badge-pill {
+      @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+    }
+    .grid-facts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .chart-container {
+      position: relative;
+      height: 260px;
+    }
+    @media (min-width: 768px) {
+      .chart-container {
+        height: 320px;
+      }
+    }
+  </style>
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Semantic Optimization for Amazon Listings in the Age of AI" />
+  <meta property="og:description" content="How to engineer Amazon product listings as machine-readable knowledge graphs for A10, attributes, and generative AI surfaces like Rufus." />
+  <meta property="og:type" content="article" />
+  <!-- TODO: Replace with the final live URL of this infographic -->
+  <meta property="og:url" content="[[SET_FINAL_URL_HERE]]" />
+  <!-- TODO: Replace with the full URL to your 1200x675 thumbnail -->
+  <meta property="og:image" content="[[SET_THUMBNAIL_URL_HERE]]" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- TODO: Replace with your handle if desired -->
+  <meta name="twitter:site" content="@stunspot" />
+  <meta name="twitter:title" content="Semantic Optimization for Amazon Listings in the Age of AI" />
+  <meta name="twitter:description" content="Engineer Amazon listings for intent clusters, structured attributes, and generative AI readiness." />
+  <meta name="twitter:image" content="[[SET_THUMBNAIL_URL_HERE]]" />
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+  <!-- Page Wrapper -->
+  <div class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="sticky top-0 z-30 backdrop-filter backdrop-blur bg-white/80 border-b border-gray-200">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="h-8 w-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white text-xl font-bold">A</div>
+          <div>
+            <div class="text-xs uppercase tracking-wide text-indigo-500 font-semibold">Decision-Grade Infographic</div>
+            <h1 class="text-sm md:text-base font-semibold text-gray-900">Semantic Optimization for Amazon Listings</h1>
+          </div>
+        </div>
+        <nav class="hidden md:flex items-center space-x-4 text-xs font-medium text-gray-600">
+          <a href="#hero" class="hover:text-indigo-600">Overview</a>
+          <a href="#new-search-physics" class="hover:text-indigo-600">Search Physics</a>
+          <a href="#semantic-relevance" class="hover:text-indigo-600">Semantic Layer</a>
+          <a href="#knowledge-graph" class="hover:text-indigo-600">Knowledge Graph</a>
+          <a href="#measurement-kpis" class="hover:text-indigo-600">KPIs</a>
+          <a href="#policy-watchpoints" class="hover:text-indigo-600">2024–2025</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-1">
+      <!-- Hero / Hook -->
+      <section id="hero" class="border-b border-gray-200 bg-gradient-to-b from-indigo-50 to-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 lg:py-16">
+          <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+              <span class="badge-pill bg-indigo-100 text-indigo-700 mb-4">
+                <span class="w-2 h-2 rounded-full bg-indigo-500 mr-2"></span>
+                A10 · Rufus · SXO–GEO
+              </span>
+              <h2 class="text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 leading-tight mb-4">
+                Amazon doesn’t rank keywords.<br />
+                It ranks <span class="text-indigo-600">semantic relevance.</span>
+              </h2>
+              <p class="text-sm md:text-base text-gray-700 mb-6">
+                A10, structured attributes, and generative surfaces like Rufus now reward listings that behave like
+                machine-readable knowledge graphs: they fully answer the shopper’s intent with clear, quotable facts.
+              </p>
+              <div class="grid grid-cols-2 gap-4 mb-6 text-xs md:text-sm">
+                <div class="section-card bg-white/70 border-0 shadow-none">
+                  <div class="text-[11px] font-semibold tracking-wide uppercase text-gray-500 mb-1">Old Playbook</div>
+                  <p class="text-gray-700">Keyword stuffing, vague bullets, incomplete attributes, and “pretty” A+ content with no structured proof.</p>
+                </div>
+                <div class="section-card bg-indigo-600 text-white border-0 shadow-md">
+                  <div class="text-[11px] font-semibold tracking-wide uppercase text-indigo-100 mb-1">New Playbook</div>
+                  <p class="text-indigo-50">Intent clusters, attribute completeness, declarative specs, experiment-led titles, and Q&A that AI can quote.</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-3 items-center">
+                <a href="#semantic-relevance" class="inline-flex items-center px-4 py-2.5 rounded-full bg-indigo-600 text-white text-xs md:text-sm font-medium shadow-sm hover:bg-indigo-700">
+                  See the semantic stack
+                  <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+                <button class="inline-flex items-center px-3 py-2 rounded-full bg-white text-gray-800 text-xs md:text-sm font-medium border border-gray-200 hover:border-gray-300">
+                  Download as playbook (coming soon)
+                </button>
+              </div>
+            </div>
+            <div class="section-card bg-white shadow-md border-indigo-50">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <div class="section-label">Key Idea</div>
+                  <h3 class="text-lg font-semibold text-gray-900">Your listing is a knowledge graph</h3>
+                </div>
+                <span class="badge-pill bg-emerald-100 text-emerald-700">Semantic-First</span>
+              </div>
+              <p class="text-sm text-gray-700 mb-4">
+                Every field—attributes, title, bullets, description, A+ content, reviews, Q&A—forms a lattice of
+                evidence. A10 and Rufus read that lattice to decide if you truly solve the shopper’s problem.
+              </p>
+
+              <div class="grid-facts mt-4">
+                <div class="bg-gray-50 rounded-lg p-3">
+                  <div class="text-[11px] font-semibold text-gray-500 uppercase mb-1">Ranking Triad</div>
+                  <p class="text-xs text-gray-800">Relevance · Engagement (CTR/CVR) · Retail Readiness.</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                  <div class="text-[11px] font-semibold text-gray-500 uppercase mb-1">Generative Surfaces</div>
+                  <p class="text-xs text-gray-800">Rufus pulls specs, claims, and Q&A as structured facts.</p>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-3">
+                  <div class="text-[11px] font-semibold text-gray-500 uppercase mb-1">Backend Space</div>
+                  <p class="text-xs text-gray-800">500 bytes to capture synonyms, misspellings, and intent bridges.</p>
+                </div>
+              </div>
+
+              <div class="mt-5 border-t border-gray-100 pt-4 text-[11px] text-gray-500">
+                <p><span class="font-semibold text-gray-700">Who it’s for:</span> Brand owners, marketplace operators, and agencies who want listings that survive algorithm changes and surface cleanly in AI shopping assistants.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: New Search Physics -->
+      <section id="new-search-physics" class="py-10 md:py-14">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          <div class="section-card">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+              <div class="md:w-1/2">
+                <div class="section-label">1 · The New Search Physics</div>
+                <h2 class="section-title">A10 optimizes for satisfaction, not tricks</h2>
+                <p class="section-subtitle mb-4">
+                  Amazon’s ranking lineage now fuses relevance, engagement, and retail readiness. The system isn’t
+                  asking “who has the most keywords?” but “which product consistently satisfies this intent cluster?”
+                </p>
+                <ul class="mt-3 space-y-2 text-sm text-gray-700">
+                  <li class="flex">
+                    <span class="mt-1 mr-2 h-1.5 w-1.5 rounded-full bg-indigo-500"></span>
+                    <span><span class="font-semibold">Relevance</span>: semantic match between search intent and listing content (front-end + attributes).</span>
+                  </li>
+                  <li class="flex">
+                    <span class="mt-1 mr-2 h-1.5 w-1.5 rounded-full bg-indigo-500"></span>
+                    <span><span class="font-semibold">Engagement</span>: CTR from search results and conversion once shoppers land on the detail page.</span>
+                  </li>
+                  <li class="flex">
+                    <span class="mt-1 mr-2 h-1.5 w-1.5 rounded-full bg-indigo-500"></span>
+                    <span><span class="font-semibold">Retail Readiness</span>: stock, buy-box eligibility, ratings, and rich media that de-risk purchase.</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="md:w-1/2">
+                <div class="bg-gray-50 rounded-xl p-4 md:p-5 h-full flex flex-col">
+                  <h3 class="text-sm font-semibold text-gray-900 mb-3">Ranking Engine Snapshot</h3>
+                  <div class="chart-container mb-3">
+                    <canvas id="rankingChart"></canvas>
+                  </div>
+                  <p class="text-[11px] text-gray-600">
+                    Illustrative model: modern ranking weighs customer outcomes and behavioral telemetry more heavily than raw text signals.
+                    Use it as a mental model, not an exact equation.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Key Facts Block -->
+          <div class="section-card bg-indigo-50 border-indigo-100">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <div class="section-label text-indigo-700">Key Facts · SXO–GEO Ready</div>
+                <h2 class="section-title text-gray-900">What the algorithm actually “sees”</h2>
+                <p class="section-subtitle">
+                  If you optimize only for humans, you underperform. If you optimize only for robots, you lose trust.
+                  The goal is dual-mode: language and structure that read well to both.
+                </p>
+              </div>
+              <div class="grid-facts md:max-w-xl">
+                <div class="bg-white rounded-lg p-3">
+                  <div class="text-[11px] font-semibold text-gray-500 uppercase mb-1">Intent Clusters</div>
+                  <p class="text-xs text-gray-800">Search phrases grouped by underlying need, not exact phrasing.</p>
+                </div>
+                <div class="bg-white rounded-lg p-3">
+                  <div class="text-[11px] font-semibold text-gray-500 uppercase mb-1">Attribute Graph</div>
+                  <p class="text-xs text-gray-800">Structured fields (size, material, voltage) used as filters and AI metadata.</p>
+                </div>
+                <div class="bg-white rounded-lg p-3">
+                  <div class="text-[11px] font-semibold text-gray-500 uppercase mb-1">Generative RAG</div>
+                  <p class="text-xs text-gray-800">Rufus pulls from catalogue, reviews, and Q&A to answer natural language queries.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Semantic Relevance -->
+      <section id="semantic-relevance" class="py-10 md:py-14 bg-white border-t border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          <div class="section-card">
+            <div class="section-label">2 · Semantic Relevance Stack</div>
+            <h2 class="section-title">From “keyword field” to semantic lattice</h2>
+            <p class="section-subtitle mb-5">
+              Semantic optimization means each part of the listing contributes a distinct, machine-readable facet of
+              the underlying intent: what it is, who it’s for, when it’s used, and why it works.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-5">
+              <!-- Column 1 -->
+              <div class="bg-gray-50 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">1 · Intent & Use-Case</h3>
+                <p class="text-xs text-gray-700 mb-3">
+                  Define the problem and scenario your product solves. This should echo across title, bullets, A+, and Q&A.
+                </p>
+                <ul class="text-xs text-gray-700 space-y-1.5">
+                  <li>• “What problem does this remove?”</li>
+                  <li>• “In which context is it used?”</li>
+                  <li>• “Who is the real buyer?”</li>
+                </ul>
+              </div>
+
+              <!-- Column 2 -->
+              <div class="bg-gray-50 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">2 · Attribute Completeness</h3>
+                <p class="text-xs text-gray-700 mb-3">
+                  Treat required and recommended attributes as non-negotiable. Missing fields shrink your filterable surface area.
+                </p>
+                <ul class="text-xs text-gray-700 space-y-1.5">
+                  <li>• Material, size, color, capacity, voltage.</li>
+                  <li>• Category-specific technical specs.</li>
+                  <li>• Compliance and safety fields.</li>
+                </ul>
+              </div>
+
+              <!-- Column 3 -->
+              <div class="bg-gray-50 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">3 · Quotable Facts & Claims</h3>
+                <p class="text-xs text-gray-700 mb-3">
+                  Use concrete, testable statements that AI can safely quote: capacities, ratings, standards, and outcomes.
+                </p>
+                <ul class="text-xs text-gray-700 space-y-1.5">
+                  <li>• “Holds 2.5 gallons.”</li>
+                  <li>• “Rated for 5,000 on/off cycles.”</li>
+                  <li>• “Meets ASTM F963 safety standard.”</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Old vs New Comparison -->
+          <div class="section-card bg-gray-900 text-gray-50">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+              <div class="md:w-1/2">
+                <div class="section-label text-indigo-300">3 · Old vs New Optimization</div>
+                <h2 class="section-title text-white">Why keyword stuffing quietly stopped working</h2>
+                <p class="text-sm text-gray-200 mb-4">
+                  The old game packed every surface with terms; the new game answers the intent cluster with structured clarity.
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                  <div class="bg-gray-800/80 rounded-lg p-3 border border-red-500/40">
+                    <div class="text-[11px] font-semibold text-red-300 uppercase mb-1">Old SEO</div>
+                    <ul class="space-y-1 text-gray-200">
+                      <li>• Title as keyword dump.</li>
+                      <li>• Bullets as feature laundry list.</li>
+                      <li>• Attributes half-empty.</li>
+                      <li>• Backend terms duplicating front-end.</li>
+                    </ul>
+                  </div>
+                  <div class="bg-gray-800/80 rounded-lg p-3 border border-emerald-400/40">
+                    <div class="text-[11px] font-semibold text-emerald-300 uppercase mb-1">Semantic-First</div>
+                    <ul class="space-y-1 text-gray-200">
+                      <li>• Title captures intent + key spec in first ~80 chars.</li>
+                      <li>• Bullets map to decision filters (use-case, durability, compatibility).</li>
+                      <li>• Attributes near 100% coverage for the category.</li>
+                      <li>• Backend reserved for synonyms, misspellings, intent bridges.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="md:w-1/2">
+                <div class="bg-gray-800 rounded-xl p-4 h-full flex flex-col">
+                  <h3 class="text-sm font-semibold text-gray-100 mb-3">Impact Profile (Illustrative)</h3>
+                  <div class="chart-container mb-3">
+                    <canvas id="oldNewChart"></canvas>
+                  </div>
+                  <p class="text-[11px] text-gray-400">
+                    Example comparison of how “Old SEO” vs “Semantic-First” typically performs on ranking stability,
+                    generative readiness, and click-through. Use this to frame experiments rather than as a fixed benchmark.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: AI Surfaces & Knowledge Graph -->
+      <section id="ai-surfaces" class="py-10 md:py-14 bg-gray-50 border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          <div class="section-card">
+            <div class="section-label">4 · Generative Surfaces</div>
+            <h2 class="section-title">How Rufus actually “reads” your listing</h2>
+            <p class="section-subtitle mb-5">
+              Rufus assembles answers by retrieving and stitching together facts from the catalogue, reviews, and Q&A.
+              Your job is to make those facts explicit, precise, and easy to extract.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-5 text-xs md:text-sm">
+              <div class="bg-gray-50 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Catalogue Fields</h3>
+                <ul class="space-y-1.5 text-gray-700">
+                  <li>• Title: core identifier + key spec.</li>
+                  <li>• Bullets: use-case, proof, objection handling.</li>
+                  <li>• Attributes: structured specs, dimensions, compatibility.</li>
+                </ul>
+              </div>
+              <div class="bg-gray-50 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">A+ & Brand Story</h3>
+                <ul class="space-y-1.5 text-gray-700">
+                  <li>• Comparison charts show alternatives and upgrade paths.</li>
+                  <li>• Diagrams remove doubt about fit, size, or install steps.</li>
+                  <li>• Brand Story explains values and manufacturing standards.</li>
+                </ul>
+              </div>
+              <div class="bg-gray-50 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Reviews & Q&A</h3>
+                <ul class="space-y-1.5 text-gray-700">
+                  <li>• Real-world phrasing of benefits and problems.</li>
+                  <li>• Early warnings about missing information.</li>
+                  <li>• Sources of phrases that shoppers and AI will repeat.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="knowledge-graph" class="section-card">
+            <div class="section-label">5 · Listing as Knowledge Graph</div>
+            <h2 class="section-title">Every field is a node; your job is to connect them</h2>
+            <p class="section-subtitle mb-4">
+              Think of your listing as a compact knowledge graph: the more intentionally you connect nodes, the easier it
+              is for both humans and machines to rely on you as the correct answer.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6 text-xs md:text-sm">
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Core Nodes</h3>
+                <ul class="space-y-1.5 text-gray-700">
+                  <li>• <span class="font-semibold">Title</span> → clear identity + critical spec.</li>
+                  <li>• <span class="font-semibold">Bullets</span> → decision filters + quantified outcomes.</li>
+                  <li>• <span class="font-semibold">Attributes</span> → structured technical truth.</li>
+                  <li>• <span class="font-semibold">A+</span> → comparison, diagrams, story.</li>
+                  <li>• <span class="font-semibold">Reviews & Q&A</span> → lived experience and clarifications.</li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Edges (Connections)</h3>
+                <ul class="space-y-1.5 text-gray-700">
+                  <li>• Bullet language that echoes crucial attributes (e.g., “304 stainless steel”).</li>
+                  <li>• A+ modules that visualize the same specs from attributes.</li>
+                  <li>• Answers in Q&A that resolve the most common review questions.</li>
+                  <li>• Backend terms that bridge related intents, not repeat existing text.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-5 grid md:grid-cols-3 gap-4 text-[11px] text-gray-600">
+              <div class="bg-emerald-50 rounded-lg p-3 border border-emerald-100">
+                <div class="font-semibold text-emerald-700 mb-1">Design Question</div>
+                <p>“If Rufus had to explain this product in 3 sentences, what facts have I given it?”</p>
+              </div>
+              <div class="bg-indigo-50 rounded-lg p-3 border border-indigo-100">
+                <div class="font-semibold text-indigo-700 mb-1">Experiment Question</div>
+                <p>“Which field should I A/B next to strengthen this knowledge graph?”</p>
+              </div>
+              <div class="bg-amber-50 rounded-lg p-3 border border-amber-100">
+                <div class="font-semibold text-amber-700 mb-1">Risk Question</div>
+                <p>“Where could ambiguity or missing specs lead to returns or policy issues?”</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Measurement & KPIs -->
+      <section id="measurement-kpis" class="py-10 md:py-14 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          <div class="section-card">
+            <div class="section-label">6 · Measurement & Experiments</div>
+            <h2 class="section-title">Map your funnel to experiments, not hunches</h2>
+            <p class="section-subtitle mb-5">
+              Every part of the listing affects a different part of the funnel. Tie each optimization to a metric, and
+              use Amazon’s own tools to test changes instead of guessing.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Funnel Stages & Primary KPIs</h3>
+                <div class="overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+                  <table class="min-w-full text-xs">
+                    <thead class="bg-gray-100 text-gray-700">
+                      <tr>
+                        <th class="px-3 py-2 text-left font-semibold">Stage</th>
+                        <th class="px-3 py-2 text-left font-semibold">Metric</th>
+                        <th class="px-3 py-2 text-left font-semibold">Primary Levers</th>
+                      </tr>
+                    </thead>
+                    <tbody class="text-gray-700 divide-y divide-gray-200">
+                      <tr>
+                        <td class="px-3 py-2 font-medium">Discovery</td>
+                        <td class="px-3 py-2">Impressions, organic rank</td>
+                        <td class="px-3 py-2">Attributes, browse node, backend terms, ad targeting.</td>
+                      </tr>
+                      <tr>
+                        <td class="px-3 py-2 font-medium">Engagement</td>
+                        <td class="px-3 py-2">CTR from search</td>
+                        <td class="px-3 py-2">Title first 80 chars, main image, price, badges.</td>
+                      </tr>
+                      <tr>
+                        <td class="px-3 py-2 font-medium">Conversion</td>
+                        <td class="px-3 py-2">CVR, units per visitor</td>
+                        <td class="px-3 py-2">Bullets, secondary images, A+ modules, shipping/promo.</td>
+                      </tr>
+                      <tr>
+                        <td class="px-3 py-2 font-medium">Long-Term Relevance</td>
+                        <td class="px-3 py-2">Review velocity, Q&A echo</td>
+                        <td class="px-3 py-2">Post-purchase experience, expectation match, customer support.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <p class="mt-3 text-[11px] text-gray-600">
+                  Use Search Query Performance (SQP), Brand Analytics, Manage Your Experiments, and advertising reports
+                  to verify that the metrics you care about actually move when you change specific elements.
+                </p>
+              </div>
+
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Example Experiment Profile (Illustrative)</h3>
+                <div class="chart-container mb-3">
+                  <canvas id="experimentChart"></canvas>
+                </div>
+                <p class="text-[11px] text-gray-600">
+                  Sample result from a 10-week title + main image test: semantic-first variant improves CTR and CVR
+                  while stabilizing rank. Use this as a pattern for reading your own MYE and ad reports.
+                </p>
+
+                <div class="mt-4 grid grid-cols-2 gap-3 text-[11px] text-gray-700">
+                  <div class="bg-emerald-50 rounded-lg p-3 border border-emerald-100">
+                    <div class="font-semibold text-emerald-800 mb-1">Experiment Guardrails</div>
+                    <ul class="space-y-1">
+                      <li>• Run full 10 weeks when possible.</li>
+                      <li>• Change one high-leverage element at a time.</li>
+                      <li>• Keep seasonality in mind.</li>
+                    </ul>
+                  </div>
+                  <div class="bg-indigo-50 rounded-lg p-3 border border-indigo-100">
+                    <div class="font-semibold text-indigo-800 mb-1">Semantic Checks</div>
+                    <ul class="space-y-1">
+                      <li>• Does the winning variant better express the intent?</li>
+                      <li>• Are key specs clearer in the first 80 chars?</li>
+                      <li>• Did reviews/Q&A quality change?</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Field-by-Field Cheatsheet -->
+          <div class="section-card">
+            <div class="section-label">7 · Field-by-Field Cheatsheet</div>
+            <h2 class="section-title">What “good” looks like in each listing field</h2>
+            <p class="section-subtitle mb-4">
+              Use this as a quick authoring guide. For each field, aim for clarity, specificity, and semantic coverage—not just character count.
+            </p>
+
+            <div class="grid md:grid-cols-3 gap-5 text-xs md:text-sm">
+              <div class="bg-gray-50 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Title</h3>
+                <ul class="space-y-1.5 text-gray-700">
+                  <li>• Lead with product type + key use-case.</li>
+                  <li>• Include 1–2 critical specs up front.</li>
+                  <li>• Keep the first ~80 characters mobile-strong.</li>
+                  <li>• Avoid stuffing; prioritize coherence.</li>
+                </ul>
+              </div>
+              <div class="bg-gray-50 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Bullet Points</h3>
+                <ul class="space-y-1.5 text-gray-700">
+                  <li>• One decision filter per bullet (durability, fit, ease, safety, outcome).</li>
+                  <li>• Use quantified claims where possible.</li>
+                  <li>• Answer recurring review/Q&A questions proactively.</li>
+                </ul>
+              </div>
+              <div class="bg-gray-50 rounded-xl p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Backend Search Terms</h3>
+                <ul class="space-y-1.5 text-gray-700">
+                  <li>• Stay within 500-byte limit.</li>
+                  <li>• No duplication of front-end text.</li>
+                  <li>• Prioritize misspellings, synonyms, and adjacent intents.</li>
+                  <li>• Avoid subjective or prohibited claims.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Policy & Watchpoints -->
+      <section id="policy-watchpoints" class="py-10 md:py-14 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+          <div class="section-card">
+            <div class="section-label">8 · 2024–2025 Watchpoints</div>
+            <h2 class="section-title">Policy changes that can quietly break your strategy</h2>
+            <p class="section-subtitle mb-5">
+              Semantic excellence is fragile if you lose compliance or account health. Track policy updates alongside optimization work.
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6 text-xs md:text-sm">
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Key Policy Shifts</h3>
+                <ul class="space-y-1.5 text-gray-700">
+                  <li>• Stricter compliance documentation for certain categories before listing approval.</li>
+                  <li>• Backend search terms byte expansion—use the extra space intelligently.</li>
+                  <li>• Account Health Rating (AHR) now more sensitive to repeated policy violations.</li>
+                  <li>• Increased scrutiny on misleading or unverified claims (e.g., origin, health, safety).</li>
+                </ul>
+              </div>
+              <div>
+                <h3 class="text-sm font-semibold text-gray-900 mb-2">Practical Guardrails</h3>
+                <ul class="space-y-1.5 text-gray-700">
+                  <li>• Maintain a compliance checklist per category and review before major listing edits.</li>
+                  <li>• Avoid “creative” claims that go beyond documentation you can prove.</li>
+                  <li>• Keep a simple log of experiments and outcomes to justify changes.</li>
+                  <li>• Monitor AHR and address issues before they escalate.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="mt-6 bg-amber-50 rounded-lg border border-amber-200 p-4 text-[11px] text-amber-900">
+              <div class="font-semibold mb-1">Risk & Integrity Note</div>
+              <p>
+                The same semantic clarity that helps AI quote you also makes it easier to detect inconsistencies or misleading claims.
+                Treat every fact as something you might need to defend—because you are explicitly training machines to repeat it.
+              </p>
+            </div>
+          </div>
+
+          <!-- Closing -->
+          <div class="section-card bg-indigo-900 text-indigo-50">
+            <div class="section-label text-indigo-200">9 · Closing Frame</div>
+            <h2 class="section-title text-white">Think like a systems designer, not a copywriter</h2>
+            <p class="text-sm text-indigo-50 mb-4">
+              The winning listings over the next few years will be authored as small, self-consistent systems:
+              semantically complete, structurally sound, policy-safe, and continuously iterated through experiments.
+            </p>
+            <div class="grid md:grid-cols-3 gap-4 text-[11px]">
+              <div class="bg-indigo-800/70 rounded-lg p-3 border border-indigo-600/60">
+                <div class="font-semibold mb-1">Design Principle</div>
+                <p>“Every field must earn its place by clarifying intent or proof—not by repeating phrases.”</p>
+              </div>
+              <div class="bg-indigo-800/70 rounded-lg p-3 border border-indigo-600/60">
+                <div class="font-semibold mb-1">Experiment Principle</div>
+                <p>“If you can’t tie a change to a metric and report, it’s not an experiment—it’s decoration.”</p>
+              </div>
+              <div class="bg-indigo-800/70 rounded-lg p-3 border border-indigo-600/60">
+                <div class="font-semibold mb-1">AI Principle</div>
+                <p>“Write as if an assistant will quote you in front of the shopper. Because it will.”</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-3">
+        <p class="text-[11px] text-gray-500">
+          Built as a semantic optimization infographic — ready to be themed, toyed, and platformized.
+        </p>
+        <div class="flex items-center gap-3 text-[11px] text-gray-500">
+          <span>Next steps:</span>
+          <a href="#semantic-relevance" class="text-indigo-600 hover:text-indigo-700 font-medium">Run Theme & Palette</a>
+          <span class="text-gray-300">•</span>
+          <a href="#measurement-kpis" class="text-indigo-600 hover:text-indigo-700 font-medium">Plan Experiments</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Charts Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Ranking Engine Chart
+      const rankingCtx = document.getElementById('rankingChart');
+      if (rankingCtx) {
+        new Chart(rankingCtx.getContext('2d'), {
+          type: 'radar',
+          data: {
+            labels: ['Relevance', 'CTR', 'CVR', 'Retail Readiness', 'External Traffic'],
+            datasets: [
+              {
+                label: 'Legacy Keyword-Focus (Illustrative)',
+                data: [60, 45, 40, 35, 20],
+                fill: true,
+                backgroundColor: 'rgba(148, 163, 184, 0.25)',
+                borderColor: 'rgba(148, 163, 184, 1)',
+                pointBackgroundColor: 'rgba(148, 163, 184, 1)',
+                borderWidth: 1
+              },
+              {
+                label: 'Modern Semantic-Focus (Illustrative)',
+                data: [90, 75, 80, 70, 60],
+                fill: true,
+                backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                borderColor: 'rgba(79, 70, 229, 1)',
+                pointBackgroundColor: 'rgba(79, 70, 229, 1)',
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: true,
+                labels: {
+                  font: { size: 11 }
+                }
+              }
+            },
+            scales: {
+              r: {
+                angleLines: { color: 'rgba(148, 163, 184, 0.3)' },
+                grid: { color: 'rgba(209, 213, 219, 0.4)' },
+                suggestedMin: 0,
+                suggestedMax: 100,
+                ticks: {
+                  display: false
+                },
+                pointLabels: {
+                  font: { size: 11 },
+                  color: '#4b5563'
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Old vs New SEO Chart
+      const oldNewCtx = document.getElementById('oldNewChart');
+      if (oldNewCtx) {
+        new Chart(oldNewCtx.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: ['Ranking Stability', 'Generative Readiness', 'CTR', 'CVR'],
+            datasets: [
+              {
+                label: 'Old SEO (Illustrative)',
+                data: [40, 25, 45, 35],
+                backgroundColor: 'rgba(248, 113, 113, 0.7)'
+              },
+              {
+                label: 'Semantic-First (Illustrative)',
+                data: [80, 85, 70, 75],
+                backgroundColor: 'rgba(52, 211, 153, 0.8)'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                labels: {
+                  font: { size: 11 }
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: {
+                  font: { size: 11 },
+                  color: '#e5e7eb'
+                },
+                grid: {
+                  display: false
+                }
+              },
+              y: {
+                beginAtZero: true,
+                suggestedMax: 100,
+                ticks: {
+                  font: { size: 10 },
+                  color: '#e5e7eb',
+                  callback: function (value) {
+                    return value + '%';
+                  }
+                },
+                grid: {
+                  color: 'rgba(55, 65, 81, 0.4)'
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Experiment Funnel Chart
+      const experimentCtx = document.getElementById('experimentChart');
+      if (experimentCtx) {
+        new Chart(experimentCtx.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: ['Baseline', 'Week 2', 'Week 4', 'Week 6', 'Week 8', 'Week 10'],
+            datasets: [
+              {
+                label: 'CTR – Legacy Variant',
+                data: [5.0, 5.1, 5.0, 5.2, 5.1, 5.0],
+                borderColor: 'rgba(148, 163, 184, 1)',
+                backgroundColor: 'rgba(148, 163, 184, 0.15)',
+                tension: 0.25,
+                borderWidth: 1.5,
+                pointRadius: 2
+              },
+              {
+                label: 'CTR – Semantic Variant',
+                data: [5.0, 5.8, 6.2, 6.8, 7.0, 7.2],
+                borderColor: 'rgba(79, 70, 229, 1)',
+                backgroundColor: 'rgba(79, 70, 229, 0.15)',
+                tension: 0.25,
+                borderWidth: 1.8,
+                pointRadius: 2.5
+              },
+              {
+                label: 'CVR – Semantic Variant',
+                data: [12, 12.5, 13, 13.4, 13.8, 14],
+                borderColor: 'rgba(16, 185, 129, 1)',
+                backgroundColor: 'rgba(16, 185, 129, 0.12)',
+                tension: 0.25,
+                borderWidth: 1.8,
+                pointRadius: 2.5,
+                yAxisID: 'y1'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                labels: {
+                  font: { size: 11 }
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const label = context.dataset.label || '';
+                    if (context.parsed.y != null) {
+                      return label + ': ' + context.parsed.y + (context.dataset.yAxisID === 'y1' ? '%' : '%');
+                    }
+                    return label;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { color: 'rgba(209, 213, 219, 0.5)' },
+                ticks: { font: { size: 11 }, color: '#4b5563' }
+              },
+              y: {
+                type: 'linear',
+                position: 'left',
+                beginAtZero: true,
+                suggestedMax: 10,
+                ticks: {
+                  font: { size: 10 },
+                  color: '#4b5563',
+                  callback: function (value) {
+                    return value + '% CTR';
+                  }
+                },
+                grid: { color: 'rgba(209, 213, 219, 0.4)' }
+              },
+              y1: {
+                type: 'linear',
+                position: 'right',
+                beginAtZero: true,
+                suggestedMax: 16,
+                ticks: {
+                  font: { size: 10 },
+                  color: '#047857',
+                  callback: function (value) {
+                    return value + '% CVR';
+                  }
+                },
+                grid: { drawOnChartArea: false }
+              }
+            }
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
