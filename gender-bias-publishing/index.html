@@ -193,6 +193,17 @@
       border: 1px solid rgba(248, 113, 113, 0.7);
     }
 
+    /* Chart containers: fixed height to prevent runaway growth */
+    .chart-fixed {
+      height: 220px;
+    }
+
+    @media (min-width: 768px) {
+      .chart-fixed {
+        height: 260px;
+      }
+    }
+
     /* Toys: chart explainers, glossary, nav, perspective toggle */
 
     .sift-explain-toggle {
@@ -327,18 +338,14 @@
   <meta property="og:title" content="From Male Default to Structural Squeeze" />
   <meta property="og:description" content="Women now drive most fiction spending and staff most of publishing. This infographic shows how that creates a structural squeeze on male authors in Big Five debuts." />
   <meta property="og:type" content="article" />
-<meta property="og:url" content="https://stunspot.github.io/stunspot-infographics/gender-bias-publishing/index.html" />
-  <meta property="og:image" content="https://stunspot.github.io/stunspot-infographics/gender-bias-publishing/assets/thumbnail.jpg" />
-
-
+  <meta property="og:url" content="[[SET_FINAL_URL_HERE]]" />
+  <meta property="og:image" content="[[SET_THUMBNAIL_URL_HERE]]" />
 
   <!-- Twitter / X Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <!-- <meta name="twitter:site" content="@stunspot" /> -->
   <meta name="twitter:title" content="Publishing Flipped: Who’s Actually Squeezed Now?" />
   <meta name="twitter:description" content="Women doubled their book revenue. Men lost ~25%. Not a cabal—a hot-running market correction driven by readers, gatekeepers, and DEI. This infographic maps the squeeze." />
-  <meta name="twitter:site" content="@samwalker100" />
-  <meta name="twitter:image" content="https://stunspot.github.io/stunspot-infographics/gender-bias-publishing/assets/thumbnail.jpg" />
+  <meta name="twitter:image" content="[[SET_THUMBNAIL_URL_HERE]]" />
   <meta name="theme-color" content="#0f172a" />
 </head>
 
@@ -474,7 +481,9 @@
             </ul>
           </div>
           <div>
-            <canvas id="marketChart" aria-label="Female reader share and male review coverage over time" role="img"></canvas>
+            <div class="chart-fixed">
+              <canvas id="marketChart" aria-label="Female reader share and male review coverage over time" role="img"></canvas>
+            </div>
             <div class="mt-2 flex items-center justify-between gap-2">
               <p class="text-[0.7rem] text-slate-500 font-mono">
                 Illustrative trend: female reader share rises as male-dominated review coverage backs off.
@@ -603,13 +612,17 @@
         <div class="grid gap-6 md:grid-cols-2 items-center">
           <div class="space-y-5">
             <div>
-              <canvas id="debutShareChart" aria-label="Male vs female share of literary debuts" role="img"></canvas>
+              <div class="chart-fixed">
+                <canvas id="debutShareChart" aria-label="Male vs female share of literary debuts" role="img"></canvas>
+              </div>
               <p class="mt-1.5 text-[0.7rem] text-slate-500 font-mono">
                 Approximate share of Big Five literary debuts: men vs women.
               </p>
             </div>
             <div>
-              <canvas id="revenueChangeChart" aria-label="Male vs female revenue change" role="img"></canvas>
+              <div class="chart-fixed">
+                <canvas id="revenueChangeChart" aria-label="Male vs female revenue change" role="img"></canvas>
+              </div>
               <p class="mt-1.5 text-[0.7rem] text-slate-500 font-mono">
                 Approximate change in aggregate revenue vs baseline (2018–2021).
               </p>
@@ -906,18 +919,6 @@
       </article>
     </section>
 
-    <!-- Optional: X thread script (comment-only, for copy/paste)
-    Thread hook: Publishing flipped. The shelves look fair. The pipeline doesn’t.
-
-    1/ Women now buy most fiction and staff most of publishing.
-    2/ In one Big Five debut sample, 69.1% of novelists were women; men took about a third of slots.
-    3/ Post-2018, female author revenue roughly doubled while male author revenue fell ~25%.
-    4/ That’s not “an estrogen cabal.” It’s a hot-running market correction powered by readers, gatekeepers, and DEI.
-    5/ The squeeze on men is real—but localized: especially in prestige literary debuts and some awards logic.
-    6/ Fixes aren’t “ban DEI.” They’re: diversify gatekeepers, pilot blind submissions, and publish submission vs acquisition stats.
-    7/ Authors need to play the board that exists. Publishers need to own the dials they’re actually turning.
-    -->
-
   </main>
 
   <script>
@@ -927,144 +928,150 @@
     };
 
     // Market & reviews chart
-    const marketCtx = document.getElementById('marketChart').getContext('2d');
-    new Chart(marketCtx, {
-      type: 'line',
-      data: {
-        labels: ['2010', '2015', '2020', '2025'],
-        datasets: [
-          {
-            label: 'Female Fiction Buyer Share (%)',
-            data: [60, 66, 72, 78],
-            borderColor: '#ff9f1c',
-            backgroundColor: 'rgba(255, 159, 28, 0.12)',
-            tension: 0.3
-          },
-          {
-            label: 'Male-Authored Review Coverage (%)',
-            data: [80, 70, 60, 55],
-            borderColor: '#37474f',
-            backgroundColor: 'rgba(55, 71, 79, 0.12)',
-            tension: 0.3
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        aspectRatio: 2,
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 100,
-            ticks: { font: textFont },
-            grid: { color: 'rgba(148, 163, 184, 0.2)' }
-          },
-          x: {
-            ticks: { font: textFont },
-            grid: { color: 'rgba(148, 163, 184, 0.18)' }
-          }
+    const marketEl = document.getElementById('marketChart');
+    if (marketEl) {
+      const marketCtx = marketEl.getContext('2d');
+      new Chart(marketCtx, {
+        type: 'line',
+        data: {
+          labels: ['2010', '2015', '2020', '2025'],
+          datasets: [
+            {
+              label: 'Female Fiction Buyer Share (%)',
+              data: [60, 66, 72, 78],
+              borderColor: '#ff9f1c',
+              backgroundColor: 'rgba(255, 159, 28, 0.12)',
+              tension: 0.3
+            },
+            {
+              label: 'Male-Authored Review Coverage (%)',
+              data: [80, 70, 60, 55],
+              borderColor: '#37474f',
+              backgroundColor: 'rgba(55, 71, 79, 0.12)',
+              tension: 0.3
+            }
+          ]
         },
-        plugins: {
-          legend: {
-            labels: { font: textFont }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: { font: textFont },
+              grid: { color: 'rgba(148, 163, 184, 0.2)' }
+            },
+            x: {
+              ticks: { font: textFont },
+              grid: { color: 'rgba(148, 163, 184, 0.18)' }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: { font: textFont }
+            }
           }
         }
-      }
-    });
+      });
+    }
 
     // Debut share chart
-    const debutShareCtx = document.getElementById('debutShareChart').getContext('2d');
-    new Chart(debutShareCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Men', 'Women'],
-        datasets: [
-          {
-            label: 'Share of literary debuts (%)',
-            data: [35, 65],
-            backgroundColor: [
-              'rgba(55, 71, 79, 0.8)',
-              'rgba(255, 159, 28, 0.85)'
-            ]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        aspectRatio: 1.4,
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 100,
-            ticks: { font: textFont },
-            grid: { color: 'rgba(148, 163, 184, 0.24)' },
-            title: {
-              display: true,
-              text: 'Share of debuts (%)',
-              font: textFont
+    const debutEl = document.getElementById('debutShareChart');
+    if (debutEl) {
+      const debutShareCtx = debutEl.getContext('2d');
+      new Chart(debutShareCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Men', 'Women'],
+          datasets: [
+            {
+              label: 'Share of literary debuts (%)',
+              data: [35, 65],
+              backgroundColor: [
+                'rgba(55, 71, 79, 0.8)',
+                'rgba(255, 159, 28, 0.85)'
+              ]
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              ticks: { font: textFont },
+              grid: { color: 'rgba(148, 163, 184, 0.24)' },
+              title: {
+                display: true,
+                text: 'Share of debuts (%)',
+                font: textFont
+              }
+            },
+            x: {
+              ticks: { font: textFont },
+              grid: { display: false }
             }
           },
-          x: {
-            ticks: { font: textFont },
-            grid: { display: false }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: { font: textFont }
+          plugins: {
+            legend: {
+              labels: { font: textFont }
+            }
           }
         }
-      }
-    });
+      });
+    }
 
     // Revenue change chart
-    const revenueChangeCtx = document.getElementById('revenueChangeChart').getContext('2d');
-    new Chart(revenueChangeCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Men', 'Women'],
-        datasets: [
-          {
-            label: 'Revenue change vs baseline (%)',
-            data: [-25, 100],
-            backgroundColor: [
-              'rgba(55, 71, 79, 0.8)',
-              'rgba(255, 159, 28, 0.85)'
-            ]
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        aspectRatio: 1.4,
-        scales: {
-          y: {
-            beginAtZero: false,
-            suggestedMin: -30,
-            suggestedMax: 110,
-            ticks: { font: textFont },
-            grid: { color: 'rgba(148, 163, 184, 0.24)' },
-            title: {
-              display: true,
-              text: 'Revenue change vs baseline (%)',
-              font: textFont
+    const revenueEl = document.getElementById('revenueChangeChart');
+    if (revenueEl) {
+      const revenueChangeCtx = revenueEl.getContext('2d');
+      new Chart(revenueChangeCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Men', 'Women'],
+          datasets: [
+            {
+              label: 'Revenue change vs baseline (%)',
+              data: [-25, 100],
+              backgroundColor: [
+                'rgba(55, 71, 79, 0.8)',
+                'rgba(255, 159, 28, 0.85)'
+              ]
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: false,
+              suggestedMin: -30,
+              suggestedMax: 110,
+              ticks: { font: textFont },
+              grid: { color: 'rgba(148, 163, 184, 0.24)' },
+              title: {
+                display: true,
+                text: 'Revenue change vs baseline (%)',
+                font: textFont
+              }
+            },
+            x: {
+              ticks: { font: textFont },
+              grid: { display: false }
             }
           },
-          x: {
-            ticks: { font: textFont },
-            grid: { display: false }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: { font: textFont }
+          plugins: {
+            legend: {
+              labels: { font: textFont }
+            }
           }
         }
-      }
-    });
+      });
+    }
 
     // Toy 1: Chart explainers
     document.querySelectorAll('[data-explain-target]').forEach(btn => {
@@ -1079,7 +1086,9 @@
 
     // Toy 2: Glossary taps on mobile
     document.querySelectorAll('.sift-glossary-term').forEach(term => {
-      term.addEventListener('click', () => {
+      term.addEventListener('click', (e) => {
+        // Only toggle on click, not when clicking inside bubble
+        if (e.target.closest('.sift-glossary-bubble')) return;
         const current = term.getAttribute('data-open') === 'true';
         term.setAttribute('data-open', current ? 'false' : 'true');
       });
