@@ -5,13 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>From Male Default to Structural Squeeze</title>
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <style>
@@ -193,8 +190,10 @@
       border: 1px solid rgba(248, 113, 113, 0.7);
     }
 
-    /* Chart containers: fixed height to prevent runaway growth */
+    /* FIX: Added position relative and width to contain Chart.js */
     .chart-fixed {
+      position: relative;
+      width: 100%;
       height: 220px;
     }
 
@@ -331,17 +330,14 @@
     }
   </style>
 
-  <!-- Meta description (for search + X previews) -->
   <meta name="description" content="Modern fiction publishing flipped: this infographic breaks down how readers, gatekeepers, and DEI create a structural squeeze on male authors in Big Five debuts, and what to do about it." />
 
-  <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="From Male Default to Structural Squeeze" />
   <meta property="og:description" content="Women now drive most fiction spending and staff most of publishing. This infographic shows how that creates a structural squeeze on male authors in Big Five debuts." />
   <meta property="og:type" content="article" />
 <meta property="og:url" content="https://stunspot.github.io/stunspot-infographics/gender-bias-publishing/index.html" />
 <meta property="og:image" content="https://stunspot.github.io/stunspot-infographics/gender-bias-publishing/assets/thumbnail.jpg" />
 
-  <!-- Twitter / X Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Publishing Flipped: Who’s Actually Squeezed Now?" />
   <meta name="twitter:description" content="Women doubled their book revenue. Men lost ~25%. Not a cabal—a hot-running market correction driven by readers, gatekeepers, and DEI. This infographic maps the squeeze." />
@@ -372,7 +368,6 @@
 
   <main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
 
-    <!-- Story spine nav -->
     <div class="sift-spine-nav border-b border-slate-200/80 mb-6 sm:mb-8">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 py-2.5 flex gap-2 overflow-x-auto no-scrollbar">
         <button class="sift-spine-chip active" data-target="#hook">Hook</button>
@@ -387,7 +382,6 @@
       </div>
     </div>
 
-    <!-- Beat 1: Hook -->
     <section id="hook" class="sift-section">
       <div class="sift-card fallacy-grid sift-subtle-shimmer px-5 sm:px-8 py-8 sm:py-10">
         <div class="mb-5 flex flex-wrap items-center gap-3 justify-between">
@@ -443,7 +437,6 @@
       </div>
     </section>
 
-    <!-- Beat 2: Setup -->
     <section id="setup" class="sift-section">
       <article class="sift-card px-5 sm:px-7 py-7">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -463,24 +456,24 @@
               <li class="flex gap-2">
                 <span class="mt-[6px] h-1.5 w-1.5 rounded-full bg-[var(--sift-amber)] flex-shrink-0"></span>
                 <span>
-                  <span class="font-semibold">Reader base:</span> women read fiction at roughly twice the rate of men and dominate purchase volume in most markets.
+                  <span class="font-semibold">Reader base:</span> women read fiction at roughly twice the rate of men.
                 </span>
               </li>
               <li class="flex gap-2">
                 <span class="mt-[6px] h-1.5 w-1.5 rounded-full bg-slate-700 flex-shrink-0"></span>
                 <span>
-                  <span class="font-semibold">Critical legacy:</span> pre-2010, many review sections were 70–80% male-authored, setting a high male baseline for “serious” work.
+                  <span class="font-semibold">Critical legacy:</span> pre-2010, many review sections were 70–80% male.
                 </span>
               </li>
               <li class="flex gap-2">
                 <span class="mt-[6px] h-1.5 w-1.5 rounded-full bg-slate-400 flex-shrink-0"></span>
                 <span>
-                  <span class="font-semibold">Correction wave:</span> VIDA counts and public pressure pulled reviews toward parity—but the market had already started reorganizing around female readers.
+                  <span class="font-semibold">Correction wave:</span> pressure pulled reviews toward parity, but the market was already shifting.
                 </span>
               </li>
             </ul>
           </div>
-          <div>
+          <div class="min-w-0">
             <div class="chart-fixed">
               <canvas id="marketChart" aria-label="Female reader share and male review coverage over time" role="img"></canvas>
             </div>
@@ -509,7 +502,6 @@
       </article>
     </section>
 
-    <!-- Beat 3: Mechanism -->
     <section id="mechanism" class="sift-section">
       <article class="sift-card px-5 sm:px-7 py-7">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -534,7 +526,6 @@
               <line class="logic-line" x1="210" y1="70" x2="360" y2="70" />
               <line class="logic-line" x1="360" y1="70" x2="430" y2="70" />
 
-              <!-- Readers -->
               <circle cx="60" cy="70" r="16" fill="#ff9f1c" />
               <text x="60" y="110" font-family="DM Mono, monospace" font-size="9" text-anchor="middle" fill="#202124">
                 66–80% F
@@ -543,7 +534,6 @@
                 Fiction buyers
               </text>
 
-              <!-- Gatekeepers -->
               <circle cx="210" cy="70" r="18" fill="#37474f" class="sift-pulse" />
               <text x="210" y="110" font-family="DM Mono, monospace" font-size="9" text-anchor="middle" fill="#202124">
                 78% F
@@ -552,7 +542,6 @@
                 Agents &amp; editors
               </text>
 
-              <!-- Debuts -->
               <circle cx="360" cy="70" r="16" fill="#ff9f1c" />
               <text x="360" y="110" font-family="DM Mono, monospace" font-size="9" text-anchor="middle" fill="#202124">
                 69.1% F
@@ -561,7 +550,6 @@
                 Big Five debuts
               </text>
 
-              <!-- Revenue -->
               <rect x="425" y="40" width="7" height="40" fill="#37474f" />
               <rect x="435" y="30" width="7" height="60" fill="#ff9f1c" />
             </svg>
@@ -595,7 +583,6 @@
       </article>
     </section>
 
-    <!-- Beat 4: Tension -->
     <section id="tension" class="sift-section">
       <article class="sift-card px-5 sm:px-7 py-7">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -663,7 +650,6 @@
       </article>
     </section>
 
-    <!-- Beat 5: Turn -->
     <section id="turn" class="sift-section">
       <article class="sift-card px-5 sm:px-7 py-7">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -717,7 +703,6 @@
       </article>
     </section>
 
-    <!-- Beat 6: Scorecard -->
     <section id="scorecard" class="sift-section">
       <article class="sift-card px-5 sm:px-7 py-7">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -782,7 +767,6 @@
       </article>
     </section>
 
-    <!-- Beat 7: Strategy -->
     <section id="strategy" class="sift-section">
       <article class="sift-card px-5 sm:px-7 py-7">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -828,7 +812,6 @@
       </article>
     </section>
 
-    <!-- Beat 8: Watchpoints -->
     <section id="watchpoints" class="sift-section">
       <article class="sift-card px-5 sm:px-7 py-7">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -865,7 +848,6 @@
       </article>
     </section>
 
-    <!-- Beat 9: Closure -->
     <section id="closure" class="sift-section">
       <article class="sift-card px-5 sm:px-7 py-7 sift-subtle-shimmer">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
@@ -879,6 +861,7 @@
           <span class="text-[0.7rem] font-mono uppercase tracking-wide text-slate-500">
             Focus:
           </span>
+
           <button type="button" class="sift-perspective-chip active" data-perspective="authors">
             Author view
           </button>
