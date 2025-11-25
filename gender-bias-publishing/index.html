@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>From Male Default to Structural Squeeze</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --sift-bg: #f4f5f7;
+      --sift-ink: #202124;
+      --sift-iron: #37474f;
+      --sift-amber: #ff9f1c;
+      --sift-card: #ffffff;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--sift-bg);
+      color: var(--sift-ink);
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+    }
+
+    .sift-card {
+      background: var(--sift-card);
+      border-radius: 0.75rem;
+      border: 1px solid rgba(55, 71, 79, 0.18);
+      box-shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+    }
+
+    .sift-section {
+      margin-bottom: 3.5rem;
+    }
+
+    .fallacy-grid {
+      background-image:
+        linear-gradient(rgba(55, 71, 79, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(55, 71, 79, 0.04) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .sift-hero-highlight {
+      position: relative;
+      display: inline-block;
+      background-image: linear-gradient(90deg, transparent, rgba(255, 159, 28, 0.21), transparent);
+      background-repeat: no-repeat;
+      background-size: 0 100%;
+      transition: background-size 0.45s ease;
+    }
+
+    .sift-hero-highlight:hover {
+      background-size: 100% 100%;
+    }
+
+    .sift-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(55, 71, 79, 0.25);
+      padding: 0.25rem 0.85rem;
+      font-size: 0.75rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .sift-pulse {
+      position: relative;
+      box-shadow: 0 0 0 0 rgba(255, 159, 28, 0.24);
+      animation: siftPulse 2s infinite;
+    }
+
+    @keyframes siftPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 159, 28, 0.24);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(255, 159, 28, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 159, 28, 0);
+      }
+    }
+
+    .sift-subtle-shimmer {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .sift-subtle-shimmer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        110deg,
+        transparent 0%,
+        rgba(255, 159, 28, 0.16) 45%,
+        transparent 90%
+      );
+      opacity: 0.3;
+      transform: translate3d(0, 0, 0);
+      pointer-events: none;
+      animation: shimmerSweep 4s ease-in-out infinite;
+    }
+
+    @keyframes shimmerSweep {
+      0% {
+        left: -120%;
+      }
+      100% {
+        left: 140%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sift-subtle-shimmer::before,
+      .sift-pulse {
+        animation: none !important;
+        box-shadow: none !important;
+      }
+    }
+
+    .logic-line {
+      stroke: #37474f;
+      stroke-width: 1;
+      opacity: 0.4;
+      stroke-dasharray: 5, 5;
+    }
+
+    .scorecard-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+    }
+
+    .scorecard-table th,
+    .scorecard-table td {
+      padding: 0.4rem 0.55rem;
+      border: 1px solid rgba(55, 71, 79, 0.35);
+      text-align: left;
+    }
+
+    .scorecard-table th {
+      background-color: rgba(255, 159, 28, 0.08);
+      font-weight: 500;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 0.1rem 0.55rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .badge-low {
+      background: rgba(16, 185, 129, 0.08);
+      color: #065f46;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .badge-medium {
+      background: rgba(251, 191, 36, 0.12);
+      color: #92400e;
+      border: 1px solid rgba(251, 191, 36, 0.6);
+    }
+
+    .badge-high {
+      background: rgba(248, 113, 113, 0.12);
+      color: #991b1b;
+      border: 1px solid rgba(248, 113, 113, 0.7);
+    }
+
+    /* Toys: chart explainers, glossary, nav, perspective toggle */
+
+    .sift-explain-toggle {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .sift-explain-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease, opacity 0.2s ease;
+      opacity: 0;
+    }
+
+    .sift-explain-panel.open {
+      max-height: 240px;
+      opacity: 1;
+    }
+
+    .sift-glossary-term {
+      position: relative;
+      cursor: help;
+      border-bottom: 1px dotted rgba(55, 71, 79, 0.5);
+    }
+
+    .sift-glossary-bubble {
+      position: absolute;
+      left: 0;
+      bottom: 120%;
+      z-index: 20;
+      min-width: 220px;
+      max-width: 260px;
+      padding: 0.5rem 0.6rem;
+      border-radius: 0.5rem;
+      background: #0f172a;
+      color: #e5e7eb;
+      font-size: 0.7rem;
+      line-height: 1.4;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.6);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .sift-glossary-term:focus .sift-glossary-bubble,
+    .sift-glossary-term:hover .sift-glossary-bubble,
+    .sift-glossary-term[data-open="true"] .sift-glossary-bubble {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .sift-spine-nav {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(10px);
+      background: rgba(248, 250, 252, 0.94);
+    }
+
+    .sift-spine-chip {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: #475569;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .sift-spine-chip.active {
+      background: #0f172a;
+      color: #f9fafb;
+      border-color: #0f172a;
+    }
+
+    .sift-perspective-chip {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      cursor: pointer;
+    }
+
+    .sift-perspective-chip.active {
+      background: #0f172a;
+      color: #f9fafb;
+      border-color: #0f172a;
+    }
+
+    .sift-perspective-target {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .sift-perspective-dim {
+      opacity: 0.45;
+      transform: scale(0.98);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sift-explain-panel {
+        transition: none;
+      }
+      .sift-glossary-bubble,
+      .sift-perspective-target {
+        transition: none;
+      }
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+
+  <!-- Meta description (for search + X previews) -->
+  <meta name="description" content="Modern fiction publishing flipped: this infographic breaks down how readers, gatekeepers, and DEI create a structural squeeze on male authors in Big Five debuts, and what to do about it." />
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="From Male Default to Structural Squeeze" />
+  <meta property="og:description" content="Women now drive most fiction spending and staff most of publishing. This infographic shows how that creates a structural squeeze on male authors in Big Five debuts." />
+  <meta property="og:type" content="article" />
+<meta property="og:url" content="https://stunspot.github.io/stunspot-infographics/gender-bias-publishing/index.html" />
+  <meta property="og:image" content="https://stunspot.github.io/stunspot-infographics/gender-bias-publishing/assets/thumbnail.jpg" />
+
+
+
+  <!-- Twitter / X Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- <meta name="twitter:site" content="@stunspot" /> -->
+  <meta name="twitter:title" content="Publishing Flipped: Who’s Actually Squeezed Now?" />
+  <meta name="twitter:description" content="Women doubled their book revenue. Men lost ~25%. Not a cabal—a hot-running market correction driven by readers, gatekeepers, and DEI. This infographic maps the squeeze." />
+  <meta name="twitter:site" content="@samwalker100" />
+  <meta name="twitter:image" content="https://stunspot.github.io/stunspot-infographics/gender-bias-publishing/assets/thumbnail.jpg" />
+  <meta name="theme-color" content="#0f172a" />
+</head>
+
+<body class="min-h-screen bg-[var(--sift-bg)] text-[var(--sift-ink)]">
+  <header class="border-b border-slate-300/60 bg-white/80 backdrop-blur-sm">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-[var(--sift-amber)] font-semibold text-sm tracking-wide">
+          BI
+        </span>
+        <div>
+          <div class="sift-pill">
+            <span class="w-1.5 h-1.5 rounded-full bg-[var(--sift-amber)]"></span>
+            Publishing Bias Brief
+          </div>
+        </div>
+      </div>
+      <div class="hidden sm:flex items-center gap-3 text-xs text-slate-600">
+        <span class="font-mono tracking-wide uppercase">2010–2025</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-[var(--sift-amber)]"></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+
+    <!-- Story spine nav -->
+    <div class="sift-spine-nav border-b border-slate-200/80 mb-6 sm:mb-8">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-2.5 flex gap-2 overflow-x-auto no-scrollbar">
+        <button class="sift-spine-chip active" data-target="#hook">Hook</button>
+        <button class="sift-spine-chip" data-target="#setup">Market</button>
+        <button class="sift-spine-chip" data-target="#mechanism">Engine</button>
+        <button class="sift-spine-chip" data-target="#tension">Squeeze</button>
+        <button class="sift-spine-chip" data-target="#turn">Turn</button>
+        <button class="sift-spine-chip" data-target="#scorecard">Scorecard</button>
+        <button class="sift-spine-chip" data-target="#strategy">Strategy</button>
+        <button class="sift-spine-chip" data-target="#watchpoints">Watch</button>
+        <button class="sift-spine-chip" data-target="#closure">Action</button>
+      </div>
+    </div>
+
+    <!-- Beat 1: Hook -->
+    <section id="hook" class="sift-section">
+      <div class="sift-card fallacy-grid sift-subtle-shimmer px-5 sm:px-8 py-8 sm:py-10">
+        <div class="mb-5 flex flex-wrap items-center gap-3 justify-between">
+          <span class="sift-pill">
+            Bias Index · Fiction Publishing
+          </span>
+          <span class="text-xs text-slate-600 font-mono">Source window: 2010–2025</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-semibold text-[var(--sift-iron)] leading-tight mb-4">
+          <span class="sift-hero-highlight">From Male Default</span><br />
+          to <span class="text-[var(--sift-amber)]">Structural Squeeze</span> on Men
+        </h1>
+        <p class="text-base sm:text-lg text-slate-800/90 max-w-2xl mb-6">
+          Modern fiction publishing didn’t just “add more women.” It flipped the pipeline. Female readers and
+          <span class="font-semibold">heavily female gatekeepers</span> now drive a structural tilt where male authors hold roughly
+          <span class="font-semibold">30–40% of Big Five literary debuts</span> and have lost about a quarter of their revenue share.
+        </p>
+        <div class="grid gap-6 sm:grid-cols-3 mt-4">
+          <div class="rounded-xl border border-slate-300/70 bg-white/90 px-4 py-3">
+            <div class="text-[0.7rem] font-mono uppercase tracking-wide text-slate-500 mb-1">
+              Historical Bias (Pre-2010)
+            </div>
+            <div class="text-xl font-semibold text-slate-900 mb-1">
+              80%+ male coverage
+            </div>
+            <p class="text-xs text-slate-600">
+              “Serious literature” reviews and awards clustered overwhelmingly around male authors and male-centric narratives.
+            </p>
+          </div>
+          <div class="rounded-xl border border-slate-300/70 bg-white/90 px-4 py-3">
+            <div class="text-[0.7rem] font-mono uppercase tracking-wide text-slate-500 mb-1">
+              Big Five Debuts (2010–2014)
+            </div>
+            <div class="text-xl font-semibold text-slate-900 mb-1">
+              69.1% women
+            </div>
+            <p class="text-xs text-slate-600">
+              In a 392-title sample of reported Big Five debuts, women held roughly a 2:1 advantage over men.
+            </p>
+          </div>
+          <div class="rounded-xl border border-slate-300/70 bg-white/90 px-4 py-3">
+            <div class="text-[0.7rem] font-mono uppercase tracking-wide text-slate-500 mb-1">
+              Revenue Shift (2018–2021)
+            </div>
+            <div class="text-xl font-semibold text-slate-900 mb-1">
+              ↓ 25% men · ≈2× women
+            </div>
+            <p class="text-xs text-slate-600">
+              Aggregate revenue for female authors roughly doubled as male author revenue fell by about a quarter.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Beat 2: Setup -->
+    <section id="setup" class="sift-section">
+      <article class="sift-card px-5 sm:px-7 py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="text-2xl sm:text-3xl font-semibold text-[var(--sift-iron)]">
+            Market Flip: Who Buys the Books, Who Gets the Credit
+          </h2>
+          <span class="badge badge-low">Context</span>
+        </div>
+        <p class="text-sm sm:text-base text-slate-800 mb-4 max-w-3xl">
+          The modern fiction market runs on a simple asymmetry: women buy and read far more fiction than men. By 2022, women held roughly
+          <span class="font-semibold">66–80% of fiction buyer share</span>, even as the old review and awards ecosystem was still built for—and around—male authors.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-[minmax(0,_2fr)_minmax(0,_3fr)] items-center">
+          <div>
+            <ul class="space-y-2 text-xs sm:text-sm text-slate-700">
+              <li class="flex gap-2">
+                <span class="mt-[6px] h-1.5 w-1.5 rounded-full bg-[var(--sift-amber)] flex-shrink-0"></span>
+                <span>
+                  <span class="font-semibold">Reader base:</span> women read fiction at roughly twice the rate of men and dominate purchase volume in most markets.
+                </span>
+              </li>
+              <li class="flex gap-2">
+                <span class="mt-[6px] h-1.5 w-1.5 rounded-full bg-slate-700 flex-shrink-0"></span>
+                <span>
+                  <span class="font-semibold">Critical legacy:</span> pre-2010, many review sections were 70–80% male-authored, setting a high male baseline for “serious” work.
+                </span>
+              </li>
+              <li class="flex gap-2">
+                <span class="mt-[6px] h-1.5 w-1.5 rounded-full bg-slate-400 flex-shrink-0"></span>
+                <span>
+                  <span class="font-semibold">Correction wave:</span> VIDA counts and public pressure pulled reviews toward parity—but the market had already started reorganizing around female readers.
+                </span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <canvas id="marketChart" aria-label="Female reader share and male review coverage over time" role="img"></canvas>
+            <div class="mt-2 flex items-center justify-between gap-2">
+              <p class="text-[0.7rem] text-slate-500 font-mono">
+                Illustrative trend: female reader share rises as male-dominated review coverage backs off.
+              </p>
+              <button
+                type="button"
+                class="sift-explain-toggle text-slate-700 flex items-center gap-1"
+                data-explain-target="#explain-market"
+              >
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-[var(--sift-amber)]"></span>
+                Explain
+              </button>
+            </div>
+            <div id="explain-market" class="sift-explain-panel mt-2 rounded-lg bg-slate-900 text-slate-100 px-3 py-2.5">
+              <ul class="text-[0.72rem] space-y-1.5">
+                <li>• The amber line tracks how dominant women become in fiction buying over time.</li>
+                <li>• The iron line shows male-heavy review coverage slowly retreating toward parity.</li>
+                <li>• The gap between the lines is where “market math” and cultural prestige stopped lining up.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Beat 3: Mechanism -->
+    <section id="mechanism" class="sift-section">
+      <article class="sift-card px-5 sm:px-7 py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="text-2xl sm:text-3xl font-semibold text-[var(--sift-iron)]">
+            The Disparity Engine: Demand → Gatekeepers → Debuts
+          </h2>
+          <span class="badge badge-medium">Mechanism</span>
+        </div>
+        <p class="text-sm sm:text-base text-slate-800 mb-5 max-w-3xl">
+          A structural alignment drives most of the modern tilt: a <span class="font-semibold">female-majority audience</span> flows through a
+          <span class="font-semibold">female-majority workforce</span>, which in turn prioritizes female-authored debuts in prestige pipelines.
+        </p>
+
+        <div class="grid gap-6 lg:grid-cols-[minmax(0,_5fr)_minmax(0,_4fr)] items-center">
+          <div class="overflow-x-auto">
+            <svg
+              viewBox="0 0 480 140"
+              class="w-full h-auto"
+              aria-hidden="true"
+            >
+              <line class="logic-line" x1="60" y1="70" x2="210" y2="70" />
+              <line class="logic-line" x1="210" y1="70" x2="360" y2="70" />
+              <line class="logic-line" x1="360" y1="70" x2="430" y2="70" />
+
+              <!-- Readers -->
+              <circle cx="60" cy="70" r="16" fill="#ff9f1c" />
+              <text x="60" y="110" font-family="DM Mono, monospace" font-size="9" text-anchor="middle" fill="#202124">
+                66–80% F
+              </text>
+              <text x="60" y="123" font-family="DM Mono, monospace" font-size="9" text-anchor="middle" fill="#64748b">
+                Fiction buyers
+              </text>
+
+              <!-- Gatekeepers -->
+              <circle cx="210" cy="70" r="18" fill="#37474f" class="sift-pulse" />
+              <text x="210" y="110" font-family="DM Mono, monospace" font-size="9" text-anchor="middle" fill="#202124">
+                78% F
+              </text>
+              <text x="210" y="123" font-family="DM Mono, monospace" font-size="9" text-anchor="middle" fill="#64748b">
+                Agents &amp; editors
+              </text>
+
+              <!-- Debuts -->
+              <circle cx="360" cy="70" r="16" fill="#ff9f1c" />
+              <text x="360" y="110" font-family="DM Mono, monospace" font-size="9" text-anchor="middle" fill="#202124">
+                69.1% F
+              </text>
+              <text x="360" y="123" font-family="DM Mono, monospace" font-size="9" text-anchor="middle" fill="#64748b">
+                Big Five debuts
+              </text>
+
+              <!-- Revenue -->
+              <rect x="425" y="40" width="7" height="40" fill="#37474f" />
+              <rect x="435" y="30" width="7" height="60" fill="#ff9f1c" />
+            </svg>
+          </div>
+
+          <div class="space-y-3 text-xs sm:text-sm text-slate-800">
+            <p>
+              <span class="sift-glossary-term" tabindex="0">
+                Disparity Index (DI)
+                <span class="sift-glossary-bubble">
+                  Compares the observed author gender split to the split you’d expect given who actually buys the books.
+                </span>
+              </span>
+              compares the author split to what you’d see if publishers simply mirrored buyer demographics. A positive DI for women signals structural preference, not just noise.
+            </p>
+            <p>
+              With roughly <span class="font-semibold">78% of staff</span> in publishing identifying as women, decisions naturally track their tastes and the genres where female readers are surging.
+            </p>
+            <p class="text-slate-600">
+              The outcome: in one Big Five debut sample, about <span class="font-semibold">7 in 10 coveted debut slots</span> went to women—even before the post-2020
+              <span class="sift-glossary-term" tabindex="0">
+                DEI wave
+                <span class="sift-glossary-bubble">
+                  Diversity, Equity, and Inclusion initiatives that explicitly prioritize historically underrepresented voices.
+                </span>
+              </span>
+              peaked.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Beat 4: Tension -->
+    <section id="tension" class="sift-section">
+      <article class="sift-card px-5 sm:px-7 py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="text-2xl sm:text-3xl font-semibold text-[var(--sift-iron)]">
+            Where the Numbers Actually Hurt Men
+          </h2>
+          <span class="badge badge-high">Localized Squeeze</span>
+        </div>
+        <p class="text-sm sm:text-base text-slate-800 mb-4 max-w-3xl">
+          The squeeze on male authors shows up most clearly where prestige, symbolism, and money collide:
+          <span class="font-semibold">literary debuts and aggregate revenue.</span>
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-2 items-center">
+          <div class="space-y-5">
+            <div>
+              <canvas id="debutShareChart" aria-label="Male vs female share of literary debuts" role="img"></canvas>
+              <p class="mt-1.5 text-[0.7rem] text-slate-500 font-mono">
+                Approximate share of Big Five literary debuts: men vs women.
+              </p>
+            </div>
+            <div>
+              <canvas id="revenueChangeChart" aria-label="Male vs female revenue change" role="img"></canvas>
+              <p class="mt-1.5 text-[0.7rem] text-slate-500 font-mono">
+                Approximate change in aggregate revenue vs baseline (2018–2021).
+              </p>
+            </div>
+            <div class="flex items-center justify-between gap-2">
+              <p class="text-[0.7rem] text-slate-500 font-mono">
+                Values are illustrative ranges, based on reported patterns in the 2010–2025 window.
+              </p>
+              <button
+                type="button"
+                class="sift-explain-toggle text-slate-700 flex items-center gap-1"
+                data-explain-target="#explain-debut"
+              >
+                <span class="inline-block w-1.5 h-1.5 rounded-full bg-[var(--sift-amber)]"></span>
+                Explain
+              </button>
+            </div>
+            <div id="explain-debut" class="sift-explain-panel mt-2 rounded-lg bg-slate-900 text-slate-100 px-3 py-2.5">
+              <ul class="text-[0.72rem] space-y-1.5">
+                <li>• The debut share chart shows men getting only a minority of prestige literary slots.</li>
+                <li>• The revenue chart shows female authors capturing a much larger share of total spend over time.</li>
+                <li>• Together, they explain why the squeeze feels sharpest at the symbolic and financial top of the funnel.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="space-y-3 text-xs sm:text-sm text-slate-800">
+            <p>
+              <span class="font-semibold">Debut bottleneck:</span> in prestige literary fiction, male authors’ share of Big Five debuts settles in the ~30–40% range—well below both historical baselines and current readership splits.
+            </p>
+            <p>
+              <span class="font-semibold">Revenue impact:</span> across the 2018–2021 window, aggregate revenue for male authors declines by about a quarter while female author revenue roughly doubles.
+            </p>
+            <p class="text-slate-600">
+              That isn’t just vibes. It’s a measurable tightening of economic opportunity, concentrated in one of the most symbolically important parts of the pipeline.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Beat 5: Turn -->
+    <section id="turn" class="sift-section">
+      <article class="sift-card px-5 sm:px-7 py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="text-2xl sm:text-3xl font-semibold text-[var(--sift-iron)]">
+            Myth vs Math: How We Explain the Tilt
+          </h2>
+          <span class="badge badge-medium">Frame Flip</span>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2">
+          <div class="border border-rose-200/70 rounded-xl px-4 py-4 bg-rose-50/80">
+            <div class="text-xs font-mono uppercase tracking-wide text-rose-700/80 mb-2">
+              Myth framing
+            </div>
+            <p class="text-sm text-rose-900 font-semibold mb-2">
+              “Publishing is an estrogen cabal that bans men.”
+            </p>
+            <ul class="text-xs text-rose-900/90 space-y-1.5">
+              <li>• Treats every skew as malicious intent.</li>
+              <li>• Ignores reader demand and genre dynamics.</li>
+              <li>• Collapses
+                <span class="sift-glossary-term" tabindex="0">
+                  DEI
+                  <span class="sift-glossary-bubble">
+                    Diversity, Equity, and Inclusion efforts that aim to correct historical underrepresentation.
+                  </span>
+                </span>,
+                market shifts, and history into a single villain.
+              </li>
+            </ul>
+          </div>
+
+          <div class="border border-emerald-200/80 rounded-xl px-4 py-4 bg-emerald-50/80 sift-subtle-shimmer">
+            <div class="text-xs font-mono uppercase tracking-wide text-emerald-700/90 mb-2">
+              Structural framing
+            </div>
+            <p class="text-sm text-emerald-900 font-semibold mb-2">
+              “A hot-running market correction with real collateral damage.”
+            </p>
+            <ul class="text-xs text-emerald-900/90 space-y-1.5">
+              <li>• Female readers and staff align, amplifying female-authored supply.</li>
+              <li>• DEI initiatives intentionally reduce historical overrepresentation of white men.</li>
+              <li>• The squeeze on male authors is real, but mostly a side-effect of correction, not a secret ban list.</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="mt-4 text-xs sm:text-sm text-slate-700">
+          Seeing the pattern as <span class="font-semibold">structure</span> doesn’t make the pain less real—it just points at the levers you can actually pull: incentives, workflows, and how “fairness” is operationalized.
+        </p>
+      </article>
+    </section>
+
+    <!-- Beat 6: Scorecard -->
+    <section id="scorecard" class="sift-section">
+      <article class="sift-card px-5 sm:px-7 py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="text-2xl sm:text-3xl font-semibold text-[var(--sift-iron)]">
+            Stage-by-Stage: Where the Disparity Lives
+          </h2>
+          <span class="badge badge-medium">Diagnostic Index</span>
+        </div>
+        <p class="text-sm sm:text-base text-slate-800 mb-4 max-w-3xl">
+          Once you stop averaging everything together, the “bias against male authors” resolves into a mixed picture: a few hot spots and a lot of mild background pressure.
+        </p>
+
+        <div class="overflow-x-auto">
+          <table class="scorecard-table">
+            <thead>
+              <tr>
+                <th>Pipeline Stage</th>
+                <th>M:F Ratio</th>
+                <th>Primary Driver</th>
+                <th>Disparity Magnitude</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Acquisition (Literary Debuts)</td>
+                <td>30–40% M / 60–70% F</td>
+                <td>
+                  <span class="sift-glossary-term" tabindex="0">
+                    Gatekeeper preference
+                    <span class="sift-glossary-bubble">
+                      The tastes and priorities of agents, editors, and other decision-makers in the pipeline.
+                    </span>
+                  </span> + DEI
+                </td>
+                <td><span class="badge badge-medium">Medium–High</span></td>
+              </tr>
+              <tr>
+                <td>Sales &amp; Revenue</td>
+                <td>~25% male drop / ≈2× female gain</td>
+                <td>Market demand &amp; genre mix</td>
+                <td><span class="badge badge-low">Low (structural)</span></td>
+              </tr>
+              <tr>
+                <td>Critical Visibility</td>
+                <td>Near parity by mid-2010s</td>
+                <td>VIDA-driven correction</td>
+                <td><span class="badge badge-low">Low</span></td>
+              </tr>
+              <tr>
+                <td>Awards &amp; Advancement</td>
+                <td>Author parity, male-protagonist skew</td>
+                <td>Legacy narrative norms</td>
+                <td><span class="badge badge-medium">Medium</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="mt-3 text-[0.78rem] text-slate-600">
+          Based on synthesized patterns across Big Five debut samples, trade reporting, and industry surveys (2010–2025).
+        </p>
+      </article>
+    </section>
+
+    <!-- Beat 7: Strategy -->
+    <section id="strategy" class="sift-section">
+      <article class="sift-card px-5 sm:px-7 py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="text-2xl sm:text-3xl font-semibold text-[var(--sift-iron)]">
+            Playing the Board Instead of Fighting the Board
+          </h2>
+          <span class="badge badge-low">Implications</span>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="space-y-2 text-xs sm:text-sm text-slate-800">
+            <h3 class="text-sm font-semibold text-[var(--sift-iron)] mb-1">Strengths &amp; Strongholds</h3>
+            <ul class="space-y-1.5">
+              <li>• Crime, thriller, and hard SFF remain relatively male-strong and economically solid.</li>
+              <li>• Male authors still command competitive advances in certain niche and category spaces.</li>
+            </ul>
+
+            <h3 class="text-sm font-semibold text-[var(--sift-iron)] mt-4 mb-1">Weak Spots</h3>
+            <ul class="space-y-1.5">
+              <li>• Big Five literary debuts are structurally de-prioritizing non-marginalized men.</li>
+              <li>• Symbolic prestige has become less tightly linked to male-centered narratives.</li>
+            </ul>
+          </div>
+
+          <div class="space-y-2 text-xs sm:text-sm text-slate-800">
+            <h3 class="text-sm font-semibold text-[var(--sift-iron)] mb-1">Opportunities</h3>
+            <ul class="space-y-1.5">
+              <li>• Hybridize into growth genres (e.g., speculative romantasy, cross-genre thrillers).</li>
+              <li>• Lean into indie and small-press ecosystems that care more about niche fit than corporate optics.</li>
+            </ul>
+
+            <h3 class="text-sm font-semibold text-[var(--sift-iron)] mt-4 mb-1">Threats</h3>
+            <ul class="space-y-1.5">
+              <li>• Continued revenue erosion if the growth frontier remains dominated by female-coded categories.</li>
+              <li>• Slot compression in lit awards and DEI-focused programs, where “historically overrepresented” becomes a hard constraint.</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="mt-4 text-[0.78rem] text-slate-600">
+          You don’t fix this by demanding a reset to 1980. You fix it by choosing lanes strategically and pushing for structural fairness at the same time.
+        </p>
+      </article>
+    </section>
+
+    <!-- Beat 8: Watchpoints -->
+    <section id="watchpoints" class="sift-section">
+      <article class="sift-card px-5 sm:px-7 py-7">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="text-2xl sm:text-3xl font-semibold text-[var(--sift-iron)]">
+            Three Dials That Show If the Correction Goes Too Far
+          </h2>
+          <span class="badge badge-low">Watchpoints</span>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-800 mb-4 max-w-3xl">
+          If these metrics keep drifting in one direction, you’re not in a correction anymore—you’re in a new imbalance.
+        </p>
+
+        <ul class="space-y-2 text-xs sm:text-sm text-slate-800 max-w-2xl">
+          <li class="flex gap-2">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-[var(--sift-amber)] flex-shrink-0"></span>
+            <span>
+              <span class="font-semibold">Review &amp; coverage parity:</span> do major outlets stabilize near parity, or flip into majority female coverage that significantly outpaces reader share?
+            </span>
+          </li>
+          <li class="flex gap-2">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-[var(--sift-amber)] flex-shrink-0"></span>
+            <span>
+              <span class="font-semibold">Award longlists and protagonist gender:</span> are we still privileging male-centered narratives, or does scope diversify while author parity holds?
+            </span>
+          </li>
+          <li class="flex gap-2">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-[var(--sift-amber)] flex-shrink-0"></span>
+            <span>
+              <span class="font-semibold">Gatekeeper mix &amp; submissions data:</span> does the staff composition rebalance, and do we ever see transparent stats on who submits vs who gets in?
+            </span>
+          </li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- Beat 9: Closure -->
+    <section id="closure" class="sift-section">
+      <article class="sift-card px-5 sm:px-7 py-7 sift-subtle-shimmer">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="text-2xl sm:text-3xl font-semibold text-[var(--sift-iron)]">
+            Sift, Don’t Flail: How to Respond
+          </h2>
+          <span class="badge badge-medium">What Now</span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 mb-2">
+          <span class="text-[0.7rem] font-mono uppercase tracking-wide text-slate-500">
+            Focus:
+          </span>
+          <button type="button" class="sift-perspective-chip active" data-perspective="authors">
+            Author view
+          </button>
+          <button type="button" class="sift-perspective-chip" data-perspective="publishers">
+            Publisher view
+          </button>
+        </div>
+        <p class="text-[0.72rem] text-slate-500 mb-4">
+          Tap to focus one side; the other will fade but stay visible for context.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="sift-perspective-target" data-perspective-target="authors">
+            <h3 class="text-sm font-semibold text-[var(--sift-iron)] mb-2">
+              For Authors (especially men)
+            </h3>
+            <ul class="space-y-2 text-xs sm:text-sm text-slate-800">
+              <li>• Stop arguing with the weather and start navigating the climate you’re actually in.</li>
+              <li>• Choose genres and hybrids where your work is legible to current demand, not just to nostalgia.</li>
+              <li>• Treat indie and small presses as strategic paths, not consolation prizes.</li>
+            </ul>
+          </div>
+          <div class="sift-perspective-target sift-perspective-dim" data-perspective-target="publishers">
+            <h3 class="text-sm font-semibold text-[var(--sift-iron)] mb-2">
+              For Publishers &amp; Gatekeepers
+            </h3>
+            <ul class="space-y-2 text-xs sm:text-sm text-slate-800">
+              <li>• Balance a roughly 78% female workforce with deliberate gender diversity in decision-making roles.</li>
+              <li>• Pilot blind-submission windows in literary imprints to test how much gender cues sway choices.</li>
+              <li>• Publish anonymized submission vs acquisition stats so “bias” is something you can measure, not just shout about.</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="mt-5 text-xs sm:text-sm text-slate-700 italic max-w-2xl">
+          The goal isn’t to rewind to the era when women were sidelined. It’s to land on a steady state where structural fairness isn’t just another pendulum swing.
+        </p>
+      </article>
+    </section>
+
+    <!-- Optional: X thread script (comment-only, for copy/paste)
+    Thread hook: Publishing flipped. The shelves look fair. The pipeline doesn’t.
+
+    1/ Women now buy most fiction and staff most of publishing.
+    2/ In one Big Five debut sample, 69.1% of novelists were women; men took about a third of slots.
+    3/ Post-2018, female author revenue roughly doubled while male author revenue fell ~25%.
+    4/ That’s not “an estrogen cabal.” It’s a hot-running market correction powered by readers, gatekeepers, and DEI.
+    5/ The squeeze on men is real—but localized: especially in prestige literary debuts and some awards logic.
+    6/ Fixes aren’t “ban DEI.” They’re: diversify gatekeepers, pilot blind submissions, and publish submission vs acquisition stats.
+    7/ Authors need to play the board that exists. Publishers need to own the dials they’re actually turning.
+    -->
+
+  </main>
+
+  <script>
+    const textFont = {
+      family: 'DM Mono, monospace',
+      size: 10
+    };
+
+    // Market & reviews chart
+    const marketCtx = document.getElementById('marketChart').getContext('2d');
+    new Chart(marketCtx, {
+      type: 'line',
+      data: {
+        labels: ['2010', '2015', '2020', '2025'],
+        datasets: [
+          {
+            label: 'Female Fiction Buyer Share (%)',
+            data: [60, 66, 72, 78],
+            borderColor: '#ff9f1c',
+            backgroundColor: 'rgba(255, 159, 28, 0.12)',
+            tension: 0.3
+          },
+          {
+            label: 'Male-Authored Review Coverage (%)',
+            data: [80, 70, 60, 55],
+            borderColor: '#37474f',
+            backgroundColor: 'rgba(55, 71, 79, 0.12)',
+            tension: 0.3
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        aspectRatio: 2,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: { font: textFont },
+            grid: { color: 'rgba(148, 163, 184, 0.2)' }
+          },
+          x: {
+            ticks: { font: textFont },
+            grid: { color: 'rgba(148, 163, 184, 0.18)' }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: { font: textFont }
+          }
+        }
+      }
+    });
+
+    // Debut share chart
+    const debutShareCtx = document.getElementById('debutShareChart').getContext('2d');
+    new Chart(debutShareCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Men', 'Women'],
+        datasets: [
+          {
+            label: 'Share of literary debuts (%)',
+            data: [35, 65],
+            backgroundColor: [
+              'rgba(55, 71, 79, 0.8)',
+              'rgba(255, 159, 28, 0.85)'
+            ]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        aspectRatio: 1.4,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            ticks: { font: textFont },
+            grid: { color: 'rgba(148, 163, 184, 0.24)' },
+            title: {
+              display: true,
+              text: 'Share of debuts (%)',
+              font: textFont
+            }
+          },
+          x: {
+            ticks: { font: textFont },
+            grid: { display: false }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: { font: textFont }
+          }
+        }
+      }
+    });
+
+    // Revenue change chart
+    const revenueChangeCtx = document.getElementById('revenueChangeChart').getContext('2d');
+    new Chart(revenueChangeCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Men', 'Women'],
+        datasets: [
+          {
+            label: 'Revenue change vs baseline (%)',
+            data: [-25, 100],
+            backgroundColor: [
+              'rgba(55, 71, 79, 0.8)',
+              'rgba(255, 159, 28, 0.85)'
+            ]
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        aspectRatio: 1.4,
+        scales: {
+          y: {
+            beginAtZero: false,
+            suggestedMin: -30,
+            suggestedMax: 110,
+            ticks: { font: textFont },
+            grid: { color: 'rgba(148, 163, 184, 0.24)' },
+            title: {
+              display: true,
+              text: 'Revenue change vs baseline (%)',
+              font: textFont
+            }
+          },
+          x: {
+            ticks: { font: textFont },
+            grid: { display: false }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: { font: textFont }
+          }
+        }
+      }
+    });
+
+    // Toy 1: Chart explainers
+    document.querySelectorAll('[data-explain-target]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-explain-target');
+        const panel = document.querySelector(id);
+        if (!panel) return;
+        const isOpen = panel.classList.contains('open');
+        panel.classList.toggle('open', !isOpen);
+      });
+    });
+
+    // Toy 2: Glossary taps on mobile
+    document.querySelectorAll('.sift-glossary-term').forEach(term => {
+      term.addEventListener('click', () => {
+        const current = term.getAttribute('data-open') === 'true';
+        term.setAttribute('data-open', current ? 'false' : 'true');
+      });
+    });
+
+    // Close glossary bubbles when clicking elsewhere
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.sift-glossary-term')) {
+        document.querySelectorAll('.sift-glossary-term[data-open="true"]').forEach(term => {
+          term.setAttribute('data-open', 'false');
+        });
+      }
+    });
+
+    // Toy 3: Story spine nav (smooth scroll + active state)
+    const chips = document.querySelectorAll('.sift-spine-chip');
+    const sections = Array.from(document.querySelectorAll('main section')).filter(sec => sec.id);
+
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const targetSelector = chip.getAttribute('data-target');
+        const target = document.querySelector(targetSelector);
+        if (!target) return;
+        const rect = target.getBoundingClientRect();
+        const offset = window.scrollY + rect.top - 80; // account for sticky nav
+        window.scrollTo({ top: offset, behavior: 'smooth' });
+      });
+    });
+
+    function updateActiveChip() {
+      const scrollY = window.scrollY;
+      let currentId = sections[0]?.id;
+      sections.forEach(sec => {
+        const offsetTop = sec.offsetTop;
+        if (scrollY + 120 >= offsetTop) {
+          currentId = sec.id;
+        }
+      });
+      chips.forEach(chip => {
+        const target = chip.getAttribute('data-target');
+        chip.classList.toggle('active', target === '#' + currentId);
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveChip);
+    window.addEventListener('load', updateActiveChip);
+
+    // Toy 4: Perspective toggle
+    const perspectiveChips = document.querySelectorAll('.sift-perspective-chip');
+    const perspectiveTargets = document.querySelectorAll('.sift-perspective-target');
+
+    perspectiveChips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        const mode = chip.getAttribute('data-perspective');
+        perspectiveChips.forEach(c => c.classList.toggle('active', c === chip));
+
+        perspectiveTargets.forEach(target => {
+          const tMode = target.getAttribute('data-perspective-target');
+          if (tMode === mode) {
+            target.classList.remove('sift-perspective-dim');
+          } else {
+            target.classList.add('sift-perspective-dim');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
