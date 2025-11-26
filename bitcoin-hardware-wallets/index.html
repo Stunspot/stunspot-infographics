@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signal Deck – Hardware Wallets 2025 Custody Briefing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-base: #05070B;         /* deep studio charcoal */
+            --color-primary: #111821;      /* graphite-navy control */
+            --color-surface: #151E29;      /* main panel surface */
+            --color-surface-soft: #1B2432; /* softer panel */
+            --color-highlight: #E26D3E;    /* alert-amber */
+            --color-accent: #6AA6A0;       /* aqua-sage data trace */
+            --color-text: #F5F3ED;         /* studio parchment light */
+
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+
+            --shadow-soft: 0 22px 60px rgba(0, 0, 0, 0.7);
+            --shadow-subtle: 0 14px 30px rgba(0, 0, 0, 0.5);
+
+            --panel-max-width: 980px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(106, 166, 160, 0.22), transparent 55%),
+                radial-gradient(circle at bottom right, rgba(226, 109, 62, 0.22), transparent 60%),
+                var(--color-base);
+            color: var(--color-text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page {
+            max-width: var(--panel-max-width);
+            margin: 0 auto;
+            padding: 1.75rem 1.4rem 3.5rem;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .page {
+                padding: 2.5rem 2rem 4rem;
+            }
+        }
+
+        /* HERO / RADAR HEADER */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            padding: 1.75rem 1.5rem 1.5rem;
+            background:
+                radial-gradient(circle at 10% 0%, rgba(106, 166, 160, 0.35), transparent 55%),
+                radial-gradient(circle at 85% 40%, rgba(226, 109, 62, 0.45), transparent 60%),
+                var(--color-primary);
+            color: #FDFCF9;
+            box-shadow: var(--shadow-soft);
+            isolation: isolate;
+        }
+
+        @media (min-width: 900px) {
+            .hero {
+                padding: 2.25rem 2.25rem 1.75rem;
+            }
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: -20%;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(245, 243, 237, 0.14), transparent 65%),
+                conic-gradient(from 0deg,
+                    rgba(226, 109, 62, 0.0) 0deg,
+                    rgba(226, 109, 62, 0.7) 40deg,
+                    rgba(106, 166, 160, 0.0) 80deg,
+                    rgba(106, 166, 160, 0.0) 360deg
+                );
+            mix-blend-mode: screen;
+            opacity: 0.5;
+            transform-origin: 50% 50%;
+            animation: radarSweep 30s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes radarSweep {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        @media (min-width: 800px) {
+            .hero-inner {
+                grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.6fr);
+                align-items: center;
+                gap: 1.75rem;
+            }
+        }
+
+        .hero-kicker {
+            font-size: 0.78rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: rgba(245, 243, 237, 0.85);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hero-kicker-pill {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: var(--color-highlight);
+            box-shadow: 0 0 0 0 rgba(226, 109, 62, 0.7);
+            animation: heroPulse 2.4s ease-out infinite;
+        }
+
+        @keyframes heroPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(226, 109, 62, 0.8); }
+            80%  { box-shadow: 0 0 0 14px rgba(226, 109, 62, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(226, 109, 62, 0); }
+        }
+
+        .hero-title {
+            font-family: "Space Grotesk", system-ui, sans-serif;
+            font-size: 1.9rem;
+            line-height: 1.15;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin: 0.6rem 0 0.4rem;
+        }
+
+        @media (min-width: 768px) {
+            .hero-title {
+                font-size: 2.25rem;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 0.98rem;
+            max-width: 34rem;
+            color: rgba(245, 243, 237, 0.90);
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.25rem;
+            margin-top: 0.85rem;
+            font-size: 0.8rem;
+            color: rgba(245, 243, 237, 0.78);
+        }
+
+        .hero-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.15rem 0.65rem;
+            border-radius: 999px;
+            background: rgba(7, 10, 15, 0.7);
+            border: 1px solid rgba(245, 243, 237, 0.12);
+        }
+
+        .hero-meta-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(106, 166, 160, 0.9);
+        }
+
+        .hero-right {
+            border-radius: 18px;
+            border: 1px solid rgba(245, 243, 237, 0.22);
+            background: linear-gradient(145deg, rgba(8, 14, 20, 0.8), rgba(27, 31, 40, 1));
+            padding: 1.1rem 1rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 800px) {
+            .hero-right {
+                padding: 1.25rem 1.3rem 1.1rem;
+            }
+        }
+
+        .hero-grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(to right, rgba(245, 243, 237, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(245, 243, 237, 0.06) 1px, transparent 1px);
+            background-size: 26px 26px;
+            opacity: 0.35;
+            mix-blend-mode: soft-light;
+            pointer-events: none;
+        }
+
+        .hero-radar {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            gap: 0.6rem;
+        }
+
+        .hero-radar-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: rgba(245, 243, 237, 0.7);
+        }
+
+        .hero-radar-diagram {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            max-height: 190px;
+            border-radius: 999px;
+            border: 1px solid rgba(245, 243, 237, 0.24);
+            background:
+                radial-gradient(circle at 50% 50%, rgba(245, 243, 237, 0.14), transparent 65%);
+        }
+
+        .hero-radar-diagram::before,
+        .hero-radar-diagram::after {
+            content: "";
+            position: absolute;
+            inset: 14%;
+            border-radius: 999px;
+            border: 1px dashed rgba(245, 243, 237, 0.3);
+        }
+
+        .hero-radar-diagram::after {
+            inset: 30%;
+            opacity: 0.65;
+        }
+
+        .hero-radar-scan {
+            position: absolute;
+            inset: 0;
+            border-radius: 999px;
+            background: conic-gradient(
+                from 220deg,
+                rgba(106, 166, 160, 0.0) 0deg,
+                rgba(106, 166, 160, 0.85) 32deg,
+                rgba(226, 109, 62, 0.0) 55deg,
+                rgba(226, 109, 62, 0.0) 360deg
+            );
+            mix-blend-mode: screen;
+            opacity: 0.9;
+            animation: miniRadar 18s linear infinite;
+        }
+
+        @keyframes miniRadar {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        .hero-radar-pip {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--color-highlight);
+            box-shadow: 0 0 0 0 rgba(226, 109, 62, 0.8);
+            animation: pipBlink 3s ease-out infinite;
+        }
+
+        .hero-radar-pip:nth-child(1) {
+            top: 24%;
+            left: 58%;
+            animation-delay: 0.2s;
+        }
+
+        .hero-radar-pip:nth-child(2) {
+            top: 58%;
+            left: 30%;
+            animation-delay: 0.8s;
+            background: var(--color-accent);
+        }
+
+        .hero-radar-pip:nth-child(3) {
+            top: 70%;
+            left: 72%;
+            animation-delay: 1.4s;
+        }
+
+        @keyframes pipBlink {
+            0%   { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(226, 109, 62, 0.8); opacity: 0.9; }
+            80%  { transform: scale(1);   box-shadow: 0 0 0 14px rgba(226, 109, 62, 0); opacity: 0.4; }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(226, 109, 62, 0);   opacity: 0.9; }
+        }
+
+        .hero-radar-caption {
+            font-size: 0.8rem;
+            color: rgba(245, 243, 237, 0.78);
+            margin-top: 0.45rem;
+        }
+
+        .hero-scroll-hint {
+            margin-top: 0.7rem;
+            font-size: 0.78rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: rgba(245, 243, 237, 0.78);
+        }
+
+        .hero-scroll-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(245, 243, 237, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.68rem;
+        }
+
+        /* TICKER */
+
+        .ticker {
+            margin-top: 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(250, 247, 240, 0.16);
+            background: rgba(6, 9, 14, 0.96);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        .ticker-label {
+            position: absolute;
+            inset-block: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            padding: 0 0.75rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(245, 243, 237, 0.8);
+            background: linear-gradient(to right, rgba(5, 7, 11, 0.98), rgba(5, 7, 11, 0.0));
+            z-index: 2;
+        }
+
+        .ticker-label-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: var(--color-accent);
+            margin-right: 0.45rem;
+        }
+
+        .ticker-track {
+            overflow: hidden;
+            padding-left: 6.5rem;
+        }
+
+        .ticker-inner {
+            display: inline-block;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            padding-block: 0.4rem;
+            animation: tickerMarquee 30s linear infinite;
+            color: rgba(245, 243, 237, 0.9);
+        }
+
+        @keyframes tickerMarquee {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-right: 1.9rem;
+            opacity: 0.9;
+        }
+
+        .ticker-pill {
+            font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.55rem;
+            border-radius: 999px;
+            border: 1px solid rgba(245, 243, 237, 0.26);
+            background: rgba(11, 17, 25, 0.96);
+        }
+
+        /* PANELS – DARK SIGNAL DECK */
+
+        main {
+            margin-top: 1.9rem;
+        }
+
+        section.panel {
+            position: relative;
+            margin-top: 1.4rem;
+            padding: 1.4rem 1.35rem 1.35rem;
+            border-radius: var(--radius-lg);
+            background:
+                radial-gradient(circle at top left, rgba(106, 166, 160, 0.16), transparent 60%),
+                radial-gradient(circle at bottom right, rgba(226, 109, 62, 0.14), transparent 60%),
+                var(--color-surface);
+            box-shadow: var(--shadow-subtle);
+            overflow: visible; /* allow tooltips to extend outside panel */
+        }
+
+        section.panel:first-of-type {
+            margin-top: 1.1rem;
+        }
+
+        @media (min-width: 768px) {
+            section.panel {
+                padding: 1.75rem 1.8rem 1.6rem;
+            }
+        }
+
+        .panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(to right, rgba(220, 215, 200, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(220, 215, 200, 0.06) 1px, transparent 1px);
+            background-size: 34px 34px;
+            opacity: 0.22;
+            pointer-events: none;
+            mix-blend-mode: soft-light;
+        }
+
+        .panel-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .panel-kicker {
+            font-size: 0.78rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: rgba(245, 243, 237, 0.7);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .panel-kicker-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: var(--color-accent);
+        }
+
+        .panel-title {
+            font-family: "Space Grotesk", system-ui, sans-serif;
+            font-weight: 600;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+            margin: 0.15rem 0 0.35rem;
+            color: var(--color-text);
+        }
+
+        @media (min-width: 768px) {
+            .panel-title {
+                font-size: 1.35rem;
+            }
+        }
+
+        .panel-subtitle {
+            font-size: 0.93rem;
+            color: rgba(245, 243, 237, 0.82);
+            max-width: 38rem;
+        }
+
+        .panel-body {
+            margin-top: 0.95rem;
+            font-size: 0.9rem;
+            color: rgba(245, 243, 237, 0.92);
+        }
+
+        .panel-body p {
+            margin: 0.35rem 0;
+        }
+
+        .panel-body strong {
+            font-weight: 600;
+        }
+
+        .panel-meta-row {
+            margin-top: 0.85rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem 0.9rem;
+        }
+
+        .meta-pill {
+            font-size: 0.78rem;
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+            border: 1px solid rgba(245, 243, 237, 0.24);
+            background: rgba(7, 11, 18, 0.9);
+        }
+
+        .tag-new {
+            border-color: rgba(226, 109, 62, 0.65);
+            color: var(--color-highlight);
+            background: rgba(226, 109, 62, 0.1);
+            animation: newPulse 3.6s ease-in-out infinite;
+        }
+
+        @keyframes newPulse {
+            0%, 70%, 100% {
+                box-shadow: 0 0 0 0 rgba(226, 109, 62, 0);
+            }
+            40% {
+                box-shadow: 0 0 0 7px rgba(226, 109, 62, 0.3);
+            }
+        }
+
+        /* Layout helpers */
+
+        .two-column {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .two-column--balanced {
+            align-items: flex-start;
+        }
+
+        @media (min-width: 800px) {
+            .two-column--balanced {
+                grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.4fr);
+                gap: 1.75rem;
+            }
+        }
+
+        .quad-grid {
+            display: grid;
+            gap: 0.85rem;
+            margin-top: 0.75rem;
+        }
+
+        @media (min-width: 720px) {
+            .quad-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .quad-card {
+            background: radial-gradient(circle at top left, rgba(106,166,160,0.16), transparent 70%), rgba(10, 15, 24, 0.98);
+            border-radius: var(--radius-md);
+            padding: 0.8rem 0.85rem;
+            border: 1px solid rgba(245, 243, 237, 0.16);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+        }
+
+        .quad-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-bottom: 0.25rem;
+            color: rgba(245,243,237,0.96);
+        }
+
+        .quad-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            background: rgba(46, 58, 70, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        .quad-body {
+            font-size: 0.84rem;
+            color: rgba(245, 243, 237, 0.86);
+        }
+
+        /* Timeline */
+
+        .timeline {
+            margin-top: 0.75rem;
+            border-left: 1px solid rgba(245, 243, 237, 0.24);
+            padding-left: 0.9rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 0.7rem;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-node {
+            position: absolute;
+            left: -1.1rem;
+            top: 0.15rem;
+            width: 9px;
+            height: 9px;
+            border-radius: 999px;
+            background: var(--color-accent);
+            border: 2px solid #05070B;
+            box-shadow: 0 0 0 3px rgba(106, 166, 160, 0.35);
+        }
+
+        .timeline-year {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: rgba(245, 243, 237, 0.7);
+            margin-bottom: 0.16rem;
+        }
+
+        .timeline-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.1rem;
+            color: rgba(245,243,237,0.94);
+        }
+
+        .timeline-copy {
+            font-size: 0.86rem;
+            color: rgba(245, 243, 237, 0.9);
+        }
+
+        .split-pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.4rem;
+        }
+
+        .split-pill {
+            font-size: 0.78rem;
+            padding: 0.1rem 0.5rem;
+            border-radius: 999px;
+            border: 1px solid rgba(245, 243, 237, 0.24);
+            background: rgba(10, 14, 22, 0.96);
+        }
+
+        /* Myths vs Reality */
+
+        .myths-grid {
+            display: grid;
+            gap: 0.7rem;
+            margin-top: 0.7rem;
+        }
+
+        @media (min-width: 720px) {
+            .myths-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        .myth-card {
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(245, 243, 237, 0.2);
+            background: radial-gradient(circle at top left, rgba(226,109,62,0.12), transparent 70%), rgba(8, 12, 20, 0.98);
+            padding: 0.75rem 0.8rem;
+            font-size: 0.84rem;
+            color: rgba(245,243,237,0.88);
+            cursor: pointer;
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease,
+                border-color 0.22s ease,
+                background 0.22s ease,
+                opacity 0.22s ease;
+        }
+
+        .myth-card:focus-visible {
+            outline: 2px solid var(--color-highlight);
+            outline-offset: 3px;
+        }
+
+        .myth-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .myth-label--myth {
+            color: rgba(255, 120, 120, 0.95);
+        }
+
+        .myth-label--real {
+            color: rgba(143, 230, 203, 0.96);
+        }
+
+        .myth-text {
+            color: rgba(245, 243, 237, 0.86);
+        }
+
+        .myth-divider {
+            margin: 0.35rem 0;
+            border-top: 1px dashed rgba(245, 243, 237, 0.3);
+        }
+
+        .myths-grid.toy-focused .myth-card {
+            opacity: 0.4;
+            transform: scale(0.98);
+        }
+
+        /* higher-specificity spotlight so it wins over dimming */
+        .myths-grid.toy-focused .myth-card.is-focused {
+            opacity: 1;
+            transform: scale(1.02);
+            box-shadow: 0 0 0 1px rgba(226,109,62,0.8), 0 16px 32px rgba(0,0,0,0.7);
+            border-color: rgba(226,109,62,0.9);
+            background: radial-gradient(circle at top left, rgba(226,109,62,0.22), transparent 70%), rgba(8, 12, 20, 0.98);
+        }
+
+        /* Architectures */
+
+        .arch-grid {
+            display: grid;
+            gap: 0.7rem;
+            margin-top: 0.75rem;
+        }
+
+        @media (min-width: 720px) {
+            .arch-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        .arch-card {
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(245, 243, 237, 0.22);
+            background: radial-gradient(circle at top left, rgba(106,166,160,0.18), transparent 70%), rgba(10, 16, 25, 0.98);
+            padding: 0.75rem 0.8rem;
+            font-size: 0.84rem;
+            color: rgba(245,243,237,0.9);
+        }
+
+        .arch-heading {
+            font-size: 0.86rem;
+            font-weight: 600;
+            margin-bottom: 0.18rem;
+            color: rgba(245,243,237,0.95);
+        }
+
+        .arch-chip-tag {
+            font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.75rem;
+            padding: 0.08rem 0.45rem;
+            border-radius: 999px;
+            border: 1px solid rgba(245, 243, 237, 0.26);
+            background: rgba(7, 11, 18, 0.98);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-bottom: 0.22rem;
+        }
+
+        .arch-chip-tag-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: var(--color-accent);
+        }
+
+        /* Role Map / Tier Table */
+
+        .tier-table-wrapper {
+            margin-top: 0.85rem;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(245, 243, 237, 0.22);
+            background: radial-gradient(circle at top left, rgba(106,166,160,0.15), transparent 70%), rgba(8, 12, 20, 0.98);
+            overflow: hidden;
+        }
+
+        .tier-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            color: rgba(245,243,237,0.92);
+        }
+
+        .tier-table thead {
+            background: rgba(7, 11, 18, 0.98);
+        }
+
+        .tier-table th,
+        .tier-table td {
+            padding: 0.45rem 0.55rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(245, 243, 237, 0.14);
+            vertical-align: top;
+        }
+
+        .tier-table th {
+            font-weight: 600;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: rgba(245, 243, 237, 0.78);
+        }
+
+        .tier-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tier-role {
+            font-weight: 600;
+            color: rgba(245, 243, 237, 0.96);
+        }
+
+        .tier-device-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.2rem 0.45rem;
+        }
+
+        .device-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.09rem 0.5rem;
+            border-radius: 999px;
+            background: rgba(7, 11, 18, 0.98);
+            border: 1px solid rgba(245, 243, 237, 0.22);
+            white-space: nowrap;
+        }
+
+        .badge-tier {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            padding: 0.05rem 0.35rem;
+            border-radius: 999px;
+            border: 1px solid rgba(245, 243, 237, 0.4);
+        }
+
+        .badge-tier--winner {
+            border-color: rgba(226, 109, 62, 0.9);
+            color: var(--color-highlight);
+            background: rgba(226, 109, 62, 0.12);
+            position: relative;
+            box-shadow: 0 0 0 0 rgba(226, 109, 62, 0.7);
+            animation: winnerBlip 2.8s ease-out infinite;
+        }
+
+        @keyframes winnerBlip {
+            0%   { box-shadow: 0 0 0 0 rgba(226, 109, 62, 0.75); }
+            70%  { box-shadow: 0 0 0 8px rgba(226, 109, 62, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(226, 109, 62, 0); }
+        }
+
+        .badge-tier--value {
+            border-color: rgba(106, 166, 160, 0.9);
+            color: rgba(144, 235, 215, 0.96);
+            background: rgba(106, 166, 160, 0.1);
+        }
+
+        .badge-tier--special {
+            border-color: rgba(160, 170, 190, 0.9);
+            color: rgba(200, 210, 230, 0.96);
+            background: rgba(40, 52, 70, 0.7);
+        }
+
+        .tier-notes {
+            font-size: 0.78rem;
+            color: rgba(245, 243, 237, 0.8);
+            margin-top: 0.6rem;
+        }
+
+        .tier-filter-row {
+            margin-top: 0.7rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            align-items: center;
+        }
+
+        .tier-filter-label {
+            opacity: 0.78;
+        }
+
+        .tier-filter-button {
+            border-radius: 999px;
+            border: 1px solid rgba(245, 243, 237, 0.3);
+            background: rgba(7, 11, 18, 0.9);
+            padding: 0.15rem 0.6rem;
+            font-size: 0.78rem;
+            color: rgba(245,243,237,0.9);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+        }
+
+        .tier-filter-button span {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .tier-filter-button.is-active {
+            background: rgba(226, 109, 62, 0.16);
+            border-color: rgba(226, 109, 62, 0.9);
+            color: var(--color-highlight);
+        }
+
+        .tier-filter-button:focus-visible {
+            outline: 2px solid var(--color-highlight);
+            outline-offset: 3px;
+        }
+
+        .tier-table tr.is-dimmed td {
+            opacity: 0.32;
+        }
+
+        /* Lifecycle / Failure Modes */
+
+        .risk-grid {
+            display: grid;
+            gap: 0.7rem;
+            margin-top: 0.75rem;
+        }
+
+        @media (min-width: 720px) {
+            .risk-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .risk-card {
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(245, 243, 237, 0.22);
+            background: rgba(8, 12, 20, 0.98);
+            padding: 0.8rem 0.85rem;
+            font-size: 0.84rem;
+            color: rgba(245,243,237,0.9);
+        }
+
+        .risk-title {
+            font-weight: 600;
+            margin-bottom: 0.18rem;
+            color: rgba(245,243,237,0.95);
+        }
+
+        .risk-meta {
+            font-size: 0.78rem;
+            color: rgba(245, 243, 237, 0.78);
+            margin-bottom: 0.16rem;
+        }
+
+        .risk-meta span {
+            display: inline-block;
+            margin-right: 0.45rem;
+        }
+
+        /* Action Checklist */
+
+        .checklist {
+            margin-top: 0.75rem;
+            display: grid;
+            gap: 0.45rem;
+            font-size: 0.88rem;
+        }
+
+        .check-item {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 0.5rem;
+            align-items: start;
+            cursor: pointer;
+            padding: 0.35rem 0.55rem;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .check-item:hover {
+            background: rgba(7, 11, 18, 0.9);
+            border-color: rgba(245, 243, 237, 0.24);
+        }
+
+        .check-item.is-pinned {
+            border-color: rgba(226, 109, 62, 0.85);
+            background: rgba(226, 109, 62, 0.14);
+            box-shadow: 0 0 0 1px rgba(226,109,62,0.55);
+        }
+
+        .check-item:focus-visible {
+            outline: 2px solid var(--color-highlight);
+            outline-offset: 3px;
+        }
+
+        .check-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(245, 243, 237, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: rgba(245, 243, 237, 0.9);
+            background: rgba(5, 7, 11, 0.96);
+        }
+
+        .check-label {
+            font-weight: 600;
+        }
+
+        .check-copy {
+            font-size: 0.84rem;
+            color: rgba(245, 243, 237, 0.9);
+        }
+
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.78rem;
+            color: rgba(245, 243, 237, 0.78);
+        }
+
+        /* JARGON TOY – inline decode tooltips */
+
+        .jargon {
+            border-bottom: 1px dashed rgba(245, 243, 237, 0.6);
+            cursor: help;
+            position: relative;
+        }
+
+        .jargon::after {
+            content: attr(data-def);
+            position: absolute;
+            left: 0;
+            top: 115%;
+            max-width: 340px; /* wider so defs don’t feel cramped */
+            padding: 0.5rem 0.7rem;
+            border-radius: 8px;
+            background: rgba(5, 7, 11, 0.98);
+            color: rgba(245, 243, 237, 0.96);
+            font-size: 0.75rem;
+            line-height: 1.45;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transform: translateY(6px);
+            pointer-events: none;
+            transition: opacity 0.16s ease, transform 0.16s ease;
+            z-index: 5;
+            white-space: normal;
+        }
+
+        .jargon:focus-visible::after,
+        .jargon:hover::after {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Toy hint text */
+
+        .toy-hint {
+            margin-top: 0.45rem;
+            font-size: 0.78rem;
+            color: rgba(245,243,237,0.7);
+            opacity: 0.9;
+        }
+
+        .toy-hint span {
+            opacity: 0.9;
+        }
+
+        /* Reduced motion preference */
+
+/*        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            } */
+        }
+    </style>
+    <!-- OG Meta Tags for Facebook/LinkedIn/General -->
+    <meta property="og:title" content="[infographic-title]" />
+    <meta property="og:description" content="[engaging-tagline]" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://stunspot.github.io/stunspot-infographics/bitcoin-hardware-wallets/index.html" />
+    <meta property="og:image" content="https://stunspot.github.io/stunspot-infographics/bitcoin-hardware-wallets/assets/thumbnail.jpg" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@samwalker100" />
+    <meta name="twitter:title" content="[infographic-title]" />
+    <meta name="twitter:description" content="[engaging-tagline]" />
+    <meta name="twitter:image" content="https://stunspot.github.io/stunspot-infographics/bitcoin-hardware-wallets/assets/thumbnail.jpg" />
+</head>
+<body>
+<div class="page"> 
+
+    <!-- HERO / RADAR HEADER -->
+
+    <header class="hero">
+        <div class="hero-inner">
+            <div class="hero-left">
+                <div class="hero-kicker">
+                    <span class="hero-kicker-pill"></span>
+                    SIGNAL DECK · CUSTODY BRIEFING
+                </div>
+                <h1 class="hero-title">
+                    Your “Cold Storage” Is on a Clock
+                </h1>
+                <p class="hero-subtitle">
+                    Hardware wallets have quietly turned into security infrastructure.
+                    This brief shows what changed between 2020 and 2025, which designs
+                    actually grow up, and how to treat signers like smoke detectors:
+                    cheap, replaceable, and checked on a schedule.
+                </p>
+                <div class="hero-meta">
+                    <span><span class="hero-meta-dot"></span>Hardware Wallets · 2025</span>
+                    <span>4-Lens Stress Test Framework</span>
+                    <span>Audience: Individual &amp; Institutional Custody</span>
+                </div>
+                <div class="hero-scroll-hint">
+                    <span class="hero-scroll-dot">▼</span>
+                    Scroll the panels like a radar sweep.
+                </div>
+            </div>
+
+            <aside class="hero-right" aria-label="Signal overview diagram">
+                <div class="hero-grid-overlay" aria-hidden="true"></div>
+                <div class="hero-radar">
+                    <div class="hero-radar-label">Story radar</div>
+                    <div class="hero-radar-diagram">
+                        <div class="hero-radar-scan" aria-hidden="true"></div>
+                        <div class="hero-radar-pip" aria-hidden="true"></div>
+                        <div class="hero-radar-pip" aria-hidden="true"></div>
+                        <div class="hero-radar-pip" aria-hidden="true"></div>
+                    </div>
+                    <div class="hero-radar-caption">
+                        Each ring tracks one arc: evolution, risk, architectures,
+                        and how to assemble an actual custody fleet.
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </header>
+
+    <!-- TICKER -->
+
+    <div class="ticker" aria-label="Key topics ticker">
+        <div class="ticker-label">
+            <span class="ticker-label-dot"></span>TOPICS
+        </div>
+        <div class="ticker-track">
+            <div class="ticker-inner">
+                <span class="ticker-item">
+                    <span class="ticker-pill">Shelf-life risk</span>
+                    hardware wallets as expiring security supplies
+                </span>
+                <span class="ticker-item">
+                    <span class="ticker-pill">TROPIC01</span>
+                    auditable secure elements for extraction resistance
+                </span>
+                <span class="ticker-item">
+                    <span class="ticker-pill">Air-gap theater</span>
+                    when “no USB” is more ritual than safety
+                </span>
+                <span class="ticker-item">
+                    <span class="ticker-pill">Coldcard Q1</span>
+                    AAA-powered signing computer for vault roles
+                </span>
+                <span class="ticker-item">
+                    <span class="ticker-pill">Jade virtual SE</span>
+                    blind-oracle model at value pricing
+                </span>
+                <span class="ticker-item">
+                    <span class="ticker-pill">Safe 7</span>
+                    new generalist baseline wallet
+                </span>
+                <!-- repeat once to keep marquee seamless -->
+                <span class="ticker-item">
+                    <span class="ticker-pill">Shelf-life risk</span>
+                    hardware wallets as expiring security supplies
+                </span>
+                <span class="ticker-item">
+                    <span class="ticker-pill">TROPIC01</span>
+                    auditable secure elements for extraction resistance
+                </span>
+                <span class="ticker-item">
+                    <span class="ticker-pill">Air-gap theater</span>
+                    when “no USB” is more ritual than safety
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <main>
+
+        <!-- PANEL 1 – MARKET EVOLUTION -->
+
+        <section class="panel panel--evolution" id="panel-evolution">
+            <div class="panel-inner">
+                <div class="panel-kicker">
+                    <span class="panel-kicker-dot"></span>
+                    CONTEXT · 2020 → 2025
+                </div>
+                <h2 class="panel-title">The Gadget Era Is Over</h2>
+                <p class="panel-subtitle">
+                    Hardware wallets aren’t trinkets hanging off USB ports anymore.
+                    They’re sovereign computers in a hostile supply chain — and
+                    that shift decides how you should actually use them.
+                </p>
+
+                <div class="panel-body two-column two-column--balanced">
+                    <div>
+                        <div class="timeline" aria-label="Hardware wallet evolution timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-node"></div>
+                                <div class="timeline-year">2020–2021</div>
+                                <div class="timeline-title">Gadget Phase</div>
+                                <div class="timeline-copy">
+                                    Simple USB sticks dominate. Open firmware is common,
+                                    secure elements are rare, and most people assume
+                                    “buy one, forget it, keys live there forever.”
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-node"></div>
+                                <div class="timeline-year">2022–2023</div>
+                                <div class="timeline-title">Attack-Surface Wake-Up</div>
+                                <div class="timeline-copy">
+                                    Supply-chain anxiety, firmware exploits, and UX horror stories
+                                    (ghost touches, dead batteries) start to bite. The market
+                                    splits into:
+                                </div>
+                                <div class="split-pill-row" aria-hidden="true">
+                                    <span class="split-pill">Connected ecosystems (Ledger, DeFi-heavy)</span>
+                                    <span class="split-pill">Sovereign “bricks” (Coldcard, Passport, Jade)</span>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-node"></div>
+                                <div class="timeline-year">2024–2025</div>
+                                <div class="timeline-title">Sovereign Infrastructure</div>
+                                <div class="timeline-copy">
+                                    New silicon, AAA-powered signers, and QR-first workflows
+                                    turn wallets into <strong>purpose-built signing terminals</strong>.
+                                    They now look more like expiring security gear than
+                                    permanent family heirlooms.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>
+                            The question is no longer <strong>“Which brand is best?”</strong>
+                            but:
+                        </p>
+                        <ul style="margin: 0.35rem 0 0.1rem; padding-left: 1.1rem; font-size: 0.86rem;">
+                            <li>What job is this device doing in your stack?</li>
+                            <li>How much connected surface are you willing to tolerate?</li>
+                            <li>How long do you trust it to keep working as built?</li>
+                        </ul>
+                        <div class="panel-meta-row">
+                            <span class="meta-pill">Lens: infrastructure, not merch</span>
+                            <span class="meta-pill tag-new">2025 pattern shift</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 2 – FOUR-LENS STRESS TEST -->
+
+        <section class="panel panel--method" id="panel-method">
+            <div class="panel-inner">
+                <div class="panel-kicker">
+                    <span class="panel-kicker-dot"></span>
+                    METHOD · 4-LENS STRESS TEST
+                </div>
+                <h2 class="panel-title">How to Read a Wallet Like an Engineer</h2>
+                <p class="panel-subtitle">
+                    Forget star ratings. A hardware wallet is a failure-intolerant
+                    signing tool. This framework pulls it apart the way a cautious
+                    reviewer or red team would.
+                </p>
+
+                <div class="panel-body">
+                    <div class="quad-grid">
+                        <article class="quad-card">
+                            <div class="quad-title">
+                                <span class="quad-icon">🛡️</span>
+                                A. Security Architecture &amp; Attack Surface
+                            </div>
+                            <div class="quad-body">
+                                <strong>What can realistically go wrong?</strong><br>
+                                SE vs MCU vs hybrid, true vs theatrical
+                                <span class="jargon" data-def="“Air-gapped” designs avoid direct cabled connections to online machines; the question is whether the rest of the workflow is actually safer.">air-gaps</span>,
+                                QR / USB / NFC surfaces, PIN &amp; passphrase design,
+                                update channels, and how the device reacts when poked
+                                by a real attacker instead of a marketing team.
+                            </div>
+                        </article>
+
+                        <article class="quad-card">
+                            <div class="quad-title">
+                                <span class="quad-icon">🧱</span>
+                                B. Physical Resilience &amp; Lifecycle
+                            </div>
+                            <div class="quad-body">
+                                <strong>How does the body age?</strong><br>
+                                Li-ion swelling, dead or dim screens, ghost touches,
+                                connector fatigue, shock and water tolerance.
+                                We care less about “feels premium,” more about
+                                <em>“still trustworthy in year four.”</em>
+                            </div>
+                        </article>
+
+                        <article class="quad-card">
+                            <div class="quad-title">
+                                <span class="quad-icon">👁️</span>
+                                C. Verifiability &amp; Openness
+                            </div>
+                            <div class="quad-body">
+                                <strong>Can you prove what it’s running?</strong><br>
+                                Open or auditable firmware, reproducible builds,
+                                how SE opacity is handled, and whether independent
+                                researchers can confirm the claimed model instead
+                                of just trusting a PDF.
+                            </div>
+                        </article>
+
+                        <article class="quad-card">
+                            <div class="quad-title">
+                                <span class="quad-icon">🧬</span>
+                                D. Operational Usability &amp; Ecosystem
+                            </div>
+                            <div class="quad-body">
+                                <strong>Will people actually use it correctly?</strong><br>
+                                Signing flows, address verification, multi-sig ergonomics,
+                                protocol coverage, and how much vendor lock-in you silently
+                                accept every time you click <span class="jargon" data-def="Wallets tightly coupled to one company’s software stack reduce your ability to move away later without friction.">“Connect wallet.”</span>
+                            </div>
+                        </article>
+                    </div>
+                    <p class="toy-hint">
+                        <span>Hover or focus on underlined jargon to see what the security people actually mean.</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 3 – MYTHS vs REALITY -->
+
+        <section class="panel panel--myths" id="panel-myths">
+            <div class="panel-inner">
+                <div class="panel-kicker">
+                    <span class="panel-kicker-dot"></span>
+                    TENSION · OLD STORIES, NEW REALITY
+                </div>
+                <h2 class="panel-title">The Three Comforting Stories You Need to Drop</h2>
+                <p class="panel-subtitle">
+                    A lot of wallet discourse is still trapped in 2020-era talking points.
+                    They sound reassuring. They do not describe the world you’re actually in.
+                </p>
+
+                <div class="panel-body">
+                    <div class="myths-grid" aria-label="Tap a myth to spotlight it">
+                        <article class="myth-card" tabindex="0">
+                            <div class="myth-label myth-label--myth">Myth</div>
+                            <div class="myth-text">
+                                “Air-gapped” devices are automatically safer than USB-connected ones.
+                            </div>
+                            <div class="myth-divider"></div>
+                            <div class="myth-label myth-label--real">Reality</div>
+                            <div class="myth-text">
+                                Air-gaps remove <em>some</em> classes of attack, but
+                                <strong>bad UX + QR rituals + firmware bugs</strong>
+                                can still wreck you. Safety comes from the
+                                <em>whole design</em>, not from banning one cable.
+                            </div>
+                        </article>
+
+                        <article class="myth-card" tabindex="0">
+                            <div class="myth-label myth-label--myth">Myth</div>
+                            <div class="myth-text">
+                                Open firmware and secure elements are mutually exclusive.
+                            </div>
+                            <div class="myth-divider"></div>
+                            <div class="myth-label myth-label--real">Reality</div>
+                            <div class="myth-text">
+                                Modern designs (<strong>TROPIC01 + MCU</strong>, dual chips,
+                                virtual SEs) pair <strong>auditable code with real
+                                extraction resistance</strong>. The axis is no longer
+                                “open vs safe,” it’s “well-architected vs sloppy.”
+                            </div>
+                        </article>
+
+                        <article class="myth-card" tabindex="0">
+                            <div class="myth-label myth-label--myth">Myth</div>
+                            <div class="myth-text">
+                                Hardware wallets are forever; buy once, hold for life.
+                            </div>
+                            <div class="myth-divider"></div>
+                            <div class="myth-label myth-label--real">Reality</div>
+                            <div class="myth-text">
+                                They are <strong>consumables</strong>. Chemistry and plastics
+                                age. Screens die. Product lines go end-of-life.
+                                The sane move is to budget for rotation and
+                                design your custody so no single device is sacred.
+                            </div>
+                        </article>
+                    </div>
+                    <p class="toy-hint">
+                        <span>Click a myth card to spotlight it and ask: “Where is this still shaping how I actually use my wallets?”</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 4 – NEW ARCHITECTURES -->
+
+        <section class="panel panel--architectures" id="panel-architectures">
+            <div class="panel-inner">
+                <div class="panel-kicker">
+                    <span class="panel-kicker-dot"></span>
+                    TURN · WHAT “GROWN-UP” LOOKS LIKE
+                </div>
+                <h2 class="panel-title">Silicon Patterns That Actually Deserve Your Trust</h2>
+                <p class="panel-subtitle">
+                    Once you stop arguing “open vs SE,” the real question becomes:
+                    who combined these pieces into something you’d still trust
+                    after a bad year in the real world?
+                </p>
+
+                <div class="panel-body arch-grid">
+                    <article class="arch-card">
+                        <div class="arch-heading">Trezor Safe 7: Dual-Chip, Auditable&nbsp;SE</div>
+                        <div class="arch-chip-tag">
+                            <span class="arch-chip-tag-dot"></span>
+                            MCU + TROPIC01 (EAL6+)
+                        </div>
+                        <p style="margin: 0;">
+                            Pairs an open microcontroller with an <strong>auditable secure element</strong>
+                            hardened against physical key extraction. Resolves Trezor’s old
+                            “no SE” trade-off and sets a new baseline for
+                            “one good wallet” generalist deployments.
+                        </p>
+                    </article>
+
+                    <article class="arch-card">
+                        <div class="arch-heading">Coldcard Q1: AAA-Powered Signing Computer</div>
+                        <div class="arch-chip-tag">
+                            <span class="arch-chip-tag-dot"></span>
+                            Dual secure elements
+                        </div>
+                        <p style="margin: 0;">
+                            A <strong>purpose-built offline terminal</strong> with dual SEs,
+                            QR and microSD flows, and AAA batteries instead of Li-ion.
+                            It’s engineered for multi-sig vault roles where you care
+                            more about boring reliability than about pocketability.
+                        </p>
+                    </article>
+
+                    <article class="arch-card">
+                        <div class="arch-heading">Blockstream Jade (Plus): Virtual&nbsp;SE</div>
+                        <div class="arch-chip-tag">
+                            <span class="arch-chip-tag-dot"></span>
+                            Blind-oracle SE model
+                        </div>
+                        <p style="margin: 0;">
+                            A virtual secure element splits trust between device and server,
+                            while camera-based QR signing keeps private keys off hot edges.
+                            The result: <strong>value-tier hardware</strong> that still
+                            plays well in real custody architectures, especially in fleets.
+                        </p>
+                    </article>
+                </div>
+
+                <div class="panel-meta-row">
+                    <span class="meta-pill">Pattern: dual-chip &amp; virtual-SE designs</span>
+                    <span class="meta-pill">Real constraints: power, lifecycle, threat model</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 5 – ROLE MAP / TIER TABLE -->
+
+        <section class="panel panel--tiers" id="panel-tiers">
+            <div class="panel-inner">
+                <div class="panel-kicker">
+                    <span class="panel-kicker-dot"></span>
+                    INSIGHT · ROLE MAP
+                </div>
+                <h2 class="panel-title">Stop Asking “Best Wallet.” Start Asking “Best for What?”</h2>
+                <p class="panel-subtitle">
+                    A few devices clearly rise above the noise — but only when you
+                    pin them to a job. This table maps wallets to roles, not fandom.
+                </p>
+
+                <div class="panel-body">
+                    <div class="tier-table-wrapper" role="region" aria-label="Hardware wallet role and tier map">
+                        <table class="tier-table">
+                            <thead>
+                            <tr>
+                                <th style="width: 26%;">Custody Role</th>
+                                <th style="width: 37%;">Preferred Devices</th>
+                                <th>Notes</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr data-role="daily">
+                                <td class="tier-role">Daily Driver / On-Desk Signer</td>
+                                <td>
+                                    <div class="tier-device-list">
+                                        <span class="device-pill">
+                                            Safe&nbsp;7
+                                            <span class="badge-tier badge-tier--winner">Tier&nbsp;1 · Winner</span>
+                                        </span>
+                                        <span class="device-pill">
+                                            Safe&nbsp;3
+                                            <span class="badge-tier badge-tier--value">Tier&nbsp;2 · Value</span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    Generalist support, modern UX, and strong architecture.
+                                    Safe 7 becomes the default “if you only buy one” device;
+                                    Safe 3 carries the value slot in the same design family.
+                                </td>
+                            </tr>
+                            <tr data-role="vault">
+                                <td class="tier-role">Sovereign Vault / Deep Cold Multi-Sig</td>
+                                <td>
+                                    <div class="tier-device-list">
+                                        <span class="device-pill">
+                                            Coldcard&nbsp;Q1
+                                            <span class="badge-tier badge-tier--winner">Tier&nbsp;1</span>
+                                        </span>
+                                        <span class="device-pill">
+                                            Passport
+                                            <span class="badge-tier badge-tier--special">Tier&nbsp;3</span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    Designed for <strong>long-horizon, low-frequency signing</strong>.
+                                    AAA / no-battery and QR workflows dramatically lower
+                                    “dead battery in the safe” risk for serious multi-sig vaults.
+                                </td>
+                            </tr>
+                            <tr data-role="value">
+                                <td class="tier-role">Value Multi-Sig Node / Backup Signer</td>
+                                <td>
+                                    <div class="tier-device-list">
+                                        <span class="device-pill">
+                                            Jade (Plus)
+                                            <span class="badge-tier badge-tier--value">Tier&nbsp;2 · Value</span>
+                                        </span>
+                                        <span class="device-pill">
+                                            Safe&nbsp;3
+                                            <span class="badge-tier badge-tier--value">Tier&nbsp;2</span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    Good-enough security at <strong>repeatable price points</strong>.
+                                    Ideal for multi-sig fleets, mirrored test setups,
+                                    and “break-glass” backup signers that don’t break the budget.
+                                </td>
+                            </tr>
+                            <tr data-role="defi">
+                                <td class="tier-role">DeFi / Alt-Asset Console</td>
+                                <td>
+                                    <div class="tier-device-list">
+                                        <span class="device-pill">
+                                            Ledger&nbsp;Flex / Stax
+                                            <span class="badge-tier badge-tier--special">Tier&nbsp;3</span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    Rich asset and app coverage. Higher reliance on vendor
+                                    software and update pipelines. Treat as a <strong>connected console</strong>,
+                                    not as your sovereign long-term vault.
+                                </td>
+                            </tr>
+                            <tr data-role="onramp">
+                                <td class="tier-role">UX-First Beginner On-Ramp</td>
+                                <td>
+                                    <div class="tier-device-list">
+                                        <span class="device-pill">
+                                            Passport / Safe&nbsp;7
+                                            <span class="badge-tier badge-tier--special">Tier&nbsp;3 / 1</span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    For onboarding new users where <strong>clear mental models</strong>
+                                    matter as much as knobs. Clarity reduces self-inflicted risk
+                                    more than another obscure safety toggle ever will.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tier-filter-row" aria-label="Highlight rows by role">
+                        <span class="tier-filter-label">Highlight a role:</span>
+                        <button class="tier-filter-button is-active" type="button" data-tier-filter="all" aria-pressed="true">
+                            <span>●</span>All
+                        </button>
+                        <button class="tier-filter-button" type="button" data-tier-filter="daily" aria-pressed="false">
+                            <span>●</span>Daily
+                        </button>
+                        <button class="tier-filter-button" type="button" data-tier-filter="vault" aria-pressed="false">
+                            <span>●</span>Vault
+                        </button>
+                        <button class="tier-filter-button" type="button" data-tier-filter="value" aria-pressed="false">
+                            <span>●</span>Value
+                        </button>
+                        <button class="tier-filter-button" type="button" data-tier-filter="defi" aria-pressed="false">
+                            <span>●</span>DeFi
+                        </button>
+                        <button class="tier-filter-button" type="button" data-tier-filter="onramp" aria-pressed="false">
+                            <span>●</span>On-Ramp
+                        </button>
+                    </div>
+
+                    <p class="tier-notes">
+                        <strong>Tier 1:</strong> exceptional in their lane.
+                        <strong>Tier 2:</strong> value workhorses, especially in fleets.
+                        <strong>Tier 3:</strong> specialized tools — great when used intentionally,
+                        risky when used as one-size-fits-all.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 6 – LIFECYCLE & FAILURE MODES -->
+
+        <section class="panel panel--lifecycle" id="panel-lifecycle">
+            <div class="panel-inner">
+                <div class="panel-kicker">
+                    <span class="panel-kicker-dot"></span>
+                    RISK · LIFECYCLE &amp; FAILURE
+                </div>
+                <h2 class="panel-title">Math Lasts. Electronics Don’t.</h2>
+                <p class="panel-subtitle">
+                    The cryptography inside these devices ages gracefully.
+                    The chemistry and mechanics around it do not. Custody planning
+                    means designing <em>around</em> the parts that rot.
+                </p>
+
+                <div class="panel-body risk-grid">
+                    <article class="risk-card">
+                        <div class="risk-title">Li-Ion Batteries</div>
+                        <div class="risk-meta">
+                            <span>Risk: swelling, capacity loss, storage sensitivity</span>
+                            <span>Window: ~3–5 years under typical use</span>
+                        </div>
+                        <p style="margin: 0;">
+                            Internal Li-ion is the stealth attack surface for “cold storage”
+                            if the device lives in a drawer or safe. Plan refresh cycles,
+                            or use AAA / no-battery designs for anything you expect
+                            to just sit and wait for years.
+                        </p>
+                    </article>
+
+                    <article class="risk-card">
+                        <div class="risk-title">Screens &amp; Touch Panels</div>
+                        <div class="risk-meta">
+                            <span>Risk: dead pixels, ghost touches, total failure</span>
+                        </div>
+                        <p style="margin: 0;">
+                            Beautiful screens make for better onboarding, but they add
+                            new ways to die. <strong>Ghost touches + signing</strong> is
+                            a nightmare scenario. Keep at least one “dumb input”
+                            signer in any serious multi-sig setup.
+                        </p>
+                    </article>
+
+                    <article class="risk-card">
+                        <div class="risk-title">Firmware &amp; Protocol Drift</div>
+                        <div class="risk-meta">
+                            <span>Risk: obsolete formats, stagnation, quiet deprecations</span>
+                        </div>
+                        <p style="margin: 0;">
+                            Wallets that stop getting active engineering become harder
+                            to operate safely over time. Favor devices with <strong>clear
+                            update cadence and release notes</strong>, and do an annual
+                            “still fits our stack?” review.
+                        </p>
+                    </article>
+
+                    <article class="risk-card">
+                        <div class="risk-title">Production &amp; Supply Shocks</div>
+                        <div class="risk-meta">
+                            <span>Risk: early-batch quirks, surprise EOL</span>
+                        </div>
+                        <p style="margin: 0;">
+                            First runs surface weirdness (screens, plastics, assembly).
+                            Later, SKUs vanish. The sweet spot: <strong>slightly after launch</strong>,
+                            once issues are known, and before sunset — with a small
+                            buffer of spares you trust.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- PANEL 7 – ACTION CHECKLIST -->
+
+        <section class="panel panel--actions" id="panel-actions">
+            <div class="panel-inner">
+                <div class="panel-kicker">
+                    <span class="panel-kicker-dot"></span>
+                    PAYOFF · WHAT TO DO NEXT
+                </div>
+                <h2 class="panel-title">Design the Fleet Before You Need It</h2>
+                <p class="panel-subtitle">
+                    The whole point of this briefing is to get you out of
+                    “one totem wallet” thinking. You want a fleet that can
+                    survive bad luck, bad updates, and bad years.
+                </p>
+
+                <div class="panel-body">
+                    <div class="checklist" aria-label="Pin key actions for your own plan">
+                        <div class="check-item" tabindex="0">
+                            <div class="check-icon">1</div>
+                            <div>
+                                <div class="check-label">Map your actual money buckets.</div>
+                                <div class="check-copy">
+                                    Separate <strong>daily spend</strong>, <strong>cold reserves</strong>,
+                                    and <strong>experimental / DeFi capital</strong>.
+                                    Each bucket can tolerate different UX, risk, and complexity.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="check-item" tabindex="0">
+                            <div class="check-icon">2</div>
+                            <div>
+                                <div class="check-label">Assign devices by job, not vibes.</div>
+                                <div class="check-copy">
+                                    Think: <strong>Safe 7</strong> for daily general use,
+                                    <strong>Coldcard Q1 / Passport</strong> for vault roles,
+                                    <strong>Jade / Safe 3</strong> for value multi-sig nodes
+                                    and backups. One role per device, on purpose.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="check-item" tabindex="0">
+                            <div class="check-icon">3</div>
+                            <div>
+                                <div class="check-label">Set a refresh schedule in writing.</div>
+                                <div class="check-copy">
+                                    Decide now: how many years do you give Li-ion devices?
+                                    When do you retire first-generation hardware?
+                                    Put dates in a calendar so “we meant to” becomes “we did.”
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="check-item" tabindex="0">
+                            <div class="check-icon">4</div>
+                            <div>
+                                <div class="check-label">Document how each wallet can fail.</div>
+                                <div class="check-copy">
+                                    For every device: write down its likely failure modes
+                                    and what “healthy” looks like. That doc is what future-you
+                                    will use when deciding whether to keep trusting it.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="check-item" tabindex="0">
+                            <div class="check-icon">5</div>
+                            <div>
+                                <div class="check-label">Watch signal, not hype spikes.</div>
+                                <div class="check-copy">
+                                    Track: new chip generations, serious audits, early-batch
+                                    quality reports, and sane discount windows
+                                    (Black Friday, Genesis Day) to rotate hardware on your terms,
+                                    not the market’s.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="toy-hint">
+                        <span>Click or tap checklist items to “pin” the ones you’ll actually act on.</span>
+                    </p>
+
+                    <div class="footer-note">
+                        The goal isn’t to find a perfect, eternal wallet.
+                        It’s to build a custody system where no single device failure
+                        can plausibly take you out.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Myth spotlight toy
+    const mythsGrid = document.querySelector('.myths-grid');
+    if (mythsGrid) {
+        const mythCards = mythsGrid.querySelectorAll('.myth-card');
+        mythCards.forEach(function (card) {
+            card.addEventListener('click', function () {
+                const isActive = card.classList.contains('is-focused');
+                mythCards.forEach(c => c.classList.remove('is-focused'));
+                mythsGrid.classList.remove('toy-focused');
+                if (!isActive) {
+                    card.classList.add('is-focused');
+                    mythsGrid.classList.add('toy-focused');
+                }
+            });
+
+            card.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    card.click();
+                }
+            });
+        });
+    }
+
+    // Tier role filter toy
+    const filterButtons = document.querySelectorAll('[data-tier-filter]');
+    const tierRows = document.querySelectorAll('.tier-table tbody tr');
+
+    function setFilter(role) {
+        tierRows.forEach(function (row) {
+            row.classList.remove('is-dimmed');
+            if (role !== 'all' && row.getAttribute('data-role') !== role) {
+                row.classList.add('is-dimmed');
+            }
+        });
+    }
+
+    filterButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const role = btn.getAttribute('data-tier-filter');
+            filterButtons.forEach(b => {
+                b.classList.remove('is-active');
+                b.setAttribute('aria-pressed', 'false');
+            });
+            btn.classList.add('is-active');
+            btn.setAttribute('aria-pressed', 'true');
+            setFilter(role);
+        });
+    });
+
+    // Checklist pin toy
+    const checkItems = document.querySelectorAll('.check-item');
+    checkItems.forEach(function (item) {
+        item.addEventListener('click', function () {
+            item.classList.toggle('is-pinned');
+        });
+        item.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                item.click();
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>
