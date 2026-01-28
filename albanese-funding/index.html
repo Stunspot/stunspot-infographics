@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who Fuels the Machine? | Interactive Topology</title>
+    <meta name="description" content="Interactive OSINT breakdown of ALP funding sources.">
+
+    <!-- Dependencies -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config Override (Blisterroot Theme) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        base: '#1F1F1F',
+                        burn: '#121212',
+                        rust: '#B85C38',
+                        slate: '#3A4F63',
+                        bone: '#F5E5DC',
+                        ash: '#F9F9F9',
+                    },
+                    fontFamily: {
+                        sans: ['"IBM Plex Sans"', 'sans-serif'],
+                        mono: ['"IBM Plex Mono"', 'monospace'], // Added for tech feel
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #1F1F1F;
+            color: #F9F9F9;
+            /* Blisterroot Mesh Pattern */
+            background-image: 
+                linear-gradient(rgba(58, 79, 99, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(58, 79, 99, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* HARD EDGES - NO ROUNDING */
+        .rounded-xl, .rounded-lg, .rounded-full, .rounded, button {
+            border-radius: 0px !important;
+        }
+
+        /* Interactive Elements */
+        .blister-btn {
+            background-color: #1F1F1F;
+            border: 1px solid #B85C38;
+            color: #B85C38;
+            padding: 0.5rem 1rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .blister-btn:hover {
+            background-color: rgba(184, 92, 56, 0.1);
+            box-shadow: 0 0 8px rgba(184, 92, 56, 0.4);
+        }
+
+        .blister-btn.active {
+            background-color: #B85C38;
+            color: #121212;
+            box-shadow: 0 0 12px rgba(184, 92, 56, 0.6);
+        }
+
+        /* Card Styling */
+        .blister-card {
+            background-color: #121212;
+            border: 1px solid #3A4F63;
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        /* Toy: Focus State (Dimming siblings) */
+        .dimmed {
+            opacity: 0.3;
+            filter: grayscale(100%);
+        }
+
+        /* Flow Diagram Animation */
+        @keyframes pulseflow {
+            0% { border-color: #3A4F63; box-shadow: none; }
+            50% { border-color: #B85C38; box-shadow: 0 0 10px #B85C38; }
+            100% { border-color: #3A4F63; box-shadow: none; }
+        }
+        
+        @keyframes lineflow {
+            0% { background-color: #3A4F63; height: 1px; }
+            50% { background-color: #B85C38; height: 2px; }
+            100% { background-color: #3A4F63; height: 1px; }
+        }
+
+        .trace-active .flow-node { animation: pulseflow 0.5s forwards; }
+        .trace-active .connector-line { animation: lineflow 0.5s forwards; }
+        
+        /* Staggered animation delays for the trace */
+        .trace-step-1 { animation-delay: 0s; }
+        .trace-step-2 { animation-delay: 0.5s; }
+        .trace-step-3 { animation-delay: 1.0s; }
+
+        /* Chart Containers */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            height: 350px;
+        }
+
+        /* Arrows */
+        .arrow-down {
+            width: 0; 
+            height: 0; 
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #B85C38;
+            margin: 0 auto;
+            transition: all 0.3s;
+        }
+        
+        .connector-line {
+            width: 1px;
+            background-color: #3A4F63;
+            margin: 0 auto;
+            transition: all 0.3s;
+        }
+
+        /* Typography */
+        h1, h2, h3 { letter-spacing: -0.03em; }
+        .text-glow { text-shadow: 0 0 10px rgba(184, 92, 56, 0.4); }
+    </style>
+</head>
+<body class="antialiased font-sans pb-20">
+
+    <!-- HEADER -->
+    <header class="bg-burn border-b-2 border-rust pt-20 pb-16 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-7xl font-bold text-ash mb-4 uppercase leading-none">
+                Who Fuels <br><span class="text-rust text-glow">The Machine?</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate font-light mb-8 max-w-2xl mx-auto">
+                Stop looking for a bagman. Follow the topology of power.
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 py-16 space-y-24">
+
+        <!-- TOY 1: THE GLITCH (Dark Money Toggle) -->
+        <section id="visibility-gap" class="space-y-6">
+            <div class="flex items-center justify-between mb-4 border-b border-rust pb-2">
+                <h2 class="text-xl md:text-2xl text-ash font-bold uppercase">01 // The Blind Spot</h2>
+                <!-- Toy Control -->
+                <div class="flex space-x-2">
+                    <button onclick="toggleDarkMoney('def')" id="btn-def" class="blister-btn active">Definition</button>
+                    <button onclick="toggleDarkMoney('mech')" id="btn-mech" class="blister-btn">Mechanism</button>
+                </div>
+            </div>
+            
+            <div class="blister-card p-8 text-center relative overflow-hidden min-h-[300px] flex flex-col justify-center">
+                <!-- Glitch Accent -->
+                <div class="absolute top-0 left-0 w-2 h-full bg-rust opacity-50"></div>
+                
+                <!-- State 1: Definition -->
+                <div id="dm-def" class="transition-opacity duration-300">
+                    <p class="text-sm font-mono text-slate uppercase tracking-wider mb-2">The Transparency Limit</p>
+                    <div class="text-6xl md:text-8xl font-bold text-ash mb-4 tracking-tighter">$16,300</div>
+                    <p class="text-bone opacity-80 max-w-md mx-auto text-lg">
+                        Money below this line is invisible. We call it "Dark Money." The AEC calls it "compliant."
+                    </p>
+                </div>
+
+                <!-- State 2: Mechanism -->
+                <div id="dm-mech" class="hidden transition-opacity duration-300">
+                    <p class="text-sm font-mono text-rust uppercase tracking-wider mb-2">The Loophole Protocol</p>
+                    <div class="text-3xl md:text-4xl font-bold text-ash mb-4">Split Donations</div>
+                    <p class="text-bone opacity-80 max-w-md mx-auto text-sm leading-relaxed text-left border-l-2 border-slate pl-4">
+                        <span class="text-rust font-bold">How it works:</span> A donor gives $16,000 to Federal Labor, $16,000 to NSW Labor, and $16,000 to VIC Labor. Total: $48,000. <br><br>
+                        <span class="text-ash font-bold">Disclosed Amount: $0.</span>
+                    </p>
+                </div>
+                
+                <div class="mt-8 pt-4 border-t border-slate/30 text-xs text-slate font-mono">
+                    * NOTE: Also includes genuine small donors (raffles, dinners).
+                </div>
+            </div>
+        </section>
+
+        <!-- TOY 2: THE TRIAD (Chart Filter) -->
+        <section id="three-engines" class="space-y-6">
+            <div class="flex items-center justify-between mb-4 border-b border-slate pb-2">
+                <h2 class="text-xl md:text-2xl text-ash font-bold uppercase">02 // The Triad</h2>
+                <div class="text-xs text-rust font-mono animate-pulse">LIVE DATA VIEW</div>
+            </div>
+
+            <div class="blister-card p-6">
+                <!-- Tactical Control Bar -->
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <button onclick="filterChart('all')" class="blister-btn filter-btn active" data-filter="all">All Sources</button>
+                    <button onclick="filterChart('public')" class="blister-btn filter-btn" data-filter="public">Public (You)</button>
+                    <button onclick="filterChart('union')" class="blister-btn filter-btn" data-filter="union">Unions</button>
+                    <button onclick="filterChart('corp')" class="blister-btn filter-btn" data-filter="corp">Corp Access</button>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="mixChart"></canvas>
+                </div>
+                
+                <p id="chart-caption" class="text-center text-xs text-slate font-mono mt-4 min-h-[1.5em]">
+                    Displaying total aggregate revenue mix.
+                </p>
+            </div>
+        </section>
+
+        <!-- BEAT 3: PUBLIC FUNDING (Static Impact) -->
+        <section id="silent-titan" class="bg-base border-y border-rust py-12 px-6 relative">
+            <div class="max-w-2xl mx-auto text-center">
+                <h3 class="text-3xl md:text-4xl text-rust mb-4 font-bold uppercase">The Leviathan Is... You.</h3>
+                <p class="text-ash text-lg leading-relaxed mb-6">
+                    The biggest donor isn't a union. It isn't a bank. <br>
+                    <strong class="text-bone bg-slate/20 px-2">It's the Taxpayer.</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- TOY 3: ACCESS ECONOMY (Trace Injection) -->
+        <section id="access-economy" class="space-y-6">
+            <div class="flex items-center justify-between mb-4 border-b border-slate pb-2">
+                <h2 class="text-xl md:text-2xl text-ash font-bold uppercase">03 // The Subscription</h2>
+                <button onclick="runTrace()" id="trace-btn" class="blister-btn text-xs">Execute Trace >></button>
+            </div>
+
+            <div class="blister-card p-8 flex flex-col items-center" id="trace-container">
+                <!-- Node 1 -->
+                <div id="node-1" class="flow-node p-4 w-full md:w-80 text-center trace-step-1 border border-slate bg-burn">
+                    <span class="block font-bold text-rust text-lg">Corporate Entity</span>
+                    <span class="text-xs text-slate">Big 4 Banks / Retail / Energy</span>
+                </div>
+                
+                <div class="connector-line h-8 w-px my-1 trace-step-1"></div>
+                <div class="arrow-down trace-step-1"></div>
+
+                <!-- Node 2 -->
+                <div id="node-2" class="flow-node p-4 w-full md:w-80 text-center mt-2 border-double border-4 border-slate bg-burn trace-step-2">
+                    <span class="block font-bold text-ash text-xl">Business Forum</span>
+                    <span class="text-xs text-bone font-mono">"Membership Fee: $110,000"</span>
+                </div>
+                
+                <div class="connector-line h-8 w-px my-1 trace-step-2"></div>
+                <div class="arrow-down trace-step-2"></div>
+
+                <!-- Node 3 -->
+                <div id="node-3" class="flow-node bg-rust text-black p-4 w-full md:w-80 text-center mt-2 font-bold tracking-widest trace-step-3 border-none">
+                    ACCESS GRANTED
+                </div>
+                
+                <div class="mt-6 text-xs text-slate font-mono text-center max-w-md">
+                    STATUS: Access does not guarantee a policy win, but it guarantees the pitch is heard.
+                </div>
+            </div>
+        </section>
+
+        <!-- TOY 4: ATTRIBUTION (Scope Switch) -->
+        <section id="attribution" class="space-y-6">
+            <div class="flex items-center justify-between mb-4 border-b border-rust pb-2">
+                <h2 class="text-xl md:text-2xl text-ash font-bold uppercase">04 // Attribution Scope</h2>
+                <div class="flex bg-base border border-slate">
+                    <button onclick="setScope('local')" id="scope-local" class="px-3 py-1 text-xs font-bold text-slate hover:text-rust transition-colors">LOCAL</button>
+                    <div class="w-px bg-slate"></div>
+                    <button onclick="setScope('federal')" id="scope-federal" class="px-3 py-1 text-xs font-bold text-slate hover:text-rust transition-colors active-scope text-rust">FEDERAL</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card 1: Local -->
+                <div id="card-local" class="blister-card p-6 border-t-4 border-t-slate transition-all duration-300 dimmed">
+                    <h3 class="text-xl text-bone mb-2">Albanese (The MP)</h3>
+                    <p class="text-sm text-rust mb-4 font-mono">Scope: Grayndler</p>
+                    <ul class="text-sm space-y-2 text-ash opacity-80 list-disc list-inside">
+                        <li>NSW Branch Filing</li>
+                        <li>Local BBQs & Raffles</li>
+                        <li>Goal: Win 1 Seat</li>
+                    </ul>
+                </div>
+                
+                <!-- Card 2: Federal -->
+                <div id="card-federal" class="blister-card p-6 border-t-4 border-t-rust transition-all duration-300">
+                    <h3 class="text-xl text-bone mb-2">The Institution</h3>
+                    <p class="text-sm text-rust mb-4 font-mono">Scope: National</p>
+                    <ul class="text-sm space-y-2 text-ash opacity-80 list-disc list-inside">
+                        <li>Federal Secretariat</li>
+                        <li>Business Millions</li>
+                        <li>Goal: Win 76+ Seats</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FOOTER -->
+        <footer class="bg-burn border-t border-slate py-12 text-center mt-12">
+            <p class="text-slate text-xs font-mono">SOURCE: AEC TRANSPARENCY REGISTER (2022-2024)</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- 1. TOY LOGIC ---
+
+        // Toy 1: Dark Money Toggle
+        function toggleDarkMoney(state) {
+            const defDiv = document.getElementById('dm-def');
+            const mechDiv = document.getElementById('dm-mech');
+            const btnDef = document.getElementById('btn-def');
+            const btnMech = document.getElementById('btn-mech');
+
+            if (state === 'def') {
+                defDiv.classList.remove('hidden');
+                mechDiv.classList.add('hidden');
+                btnDef.classList.add('active');
+                btnMech.classList.remove('active');
+            } else {
+                defDiv.classList.add('hidden');
+                mechDiv.classList.remove('hidden');
+                btnDef.classList.remove('active');
+                btnMech.classList.add('active');
+            }
+        }
+
+        // Toy 3: Trace Injection
+        function runTrace() {
+            const container = document.getElementById('trace-container');
+            const btn = document.getElementById('trace-btn');
+            
+            // Remove class to reset if clicked again quickly
+            container.classList.remove('trace-active');
+            void container.offsetWidth; // Trigger reflow
+            
+            // Add class to start animation
+            container.classList.add('trace-active');
+            btn.innerText = "TRACING...";
+            
+            setTimeout(() => {
+                btn.innerText = "TRACE COMPLETE";
+                setTimeout(() => { btn.innerText = "EXECUTE TRACE >>"; }, 2000);
+            }, 1500);
+        }
+
+        // Toy 4: Scope Switch
+        function setScope(scope) {
+            const localCard = document.getElementById('card-local');
+            const fedCard = document.getElementById('card-federal');
+            const btnLocal = document.getElementById('scope-local');
+            const btnFed = document.getElementById('scope-federal');
+
+            if (scope === 'local') {
+                localCard.classList.remove('dimmed');
+                fedCard.classList.add('dimmed');
+                btnLocal.classList.add('text-rust');
+                btnFed.classList.remove('text-rust');
+            } else {
+                localCard.classList.add('dimmed');
+                fedCard.classList.remove('dimmed');
+                btnLocal.classList.remove('text-rust');
+                btnFed.classList.add('text-rust');
+            }
+        }
+
+        // --- 2. DATA VISUALIZATION ---
+
+        function formatLabels(labels) {
+            return labels.map(label => {
+                if (label.length > 16) {
+                    const words = label.split(' ');
+                    const lines = [];
+                    let currentLine = words[0];
+                    for (let i = 1; i < words.length; i++) {
+                        if ((currentLine + " " + words[i]).length <= 16) currentLine += " " + words[i];
+                        else { lines.push(currentLine); currentLine = words[i]; }
+                    }
+                    lines.push(currentLine);
+                    return lines;
+                }
+                return label;
+            });
+        }
+
+        // Toy 2: Chart Filter Logic
+        let mixChartInstance = null;
+        const mixData = [40, 25, 20, 10, 5];
+        const mixColors = ['#3A4F63', '#B85C38', '#F5E5DC', '#5c5c5c', '#292929'];
+        const dimmedColor = '#1a1a1a';
+
+        function filterChart(filter) {
+            // Update Buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+
+            // Update Caption
+            const captions = {
+                'all': "Displaying total aggregate revenue mix.",
+                'public': "Public funding provides stability and dilutes private influence.",
+                'union': "Affiliation fees provide structural, predictable income.",
+                'corp': "Corporate forums (20%) buy access, not direct outcomes."
+            };
+            document.getElementById('chart-caption').innerText = captions[filter];
+
+            // Update Chart Colors
+            const newColors = mixColors.map((color, index) => {
+                if (filter === 'all') return color;
+                // Index map: 0=Public, 1=Union, 2=Corp
+                if (filter === 'public' && index === 0) return color;
+                if (filter === 'union' && index === 1) return color;
+                if (filter === 'corp' && index === 2) return color;
+                return dimmedColor;
+            });
+
+            mixChartInstance.data.datasets[0].backgroundColor = newColors;
+            mixChartInstance.update();
+        }
+
+        // Initial Chart Load
+        document.addEventListener("DOMContentLoaded", function() {
+            // MIX CHART
+            const ctxMix = document.getElementById('mixChart').getContext('2d');
+            mixChartInstance = new Chart(ctxMix, {
+                type: 'doughnut',
+                data: {
+                    labels: formatLabels(['Public Funding', 'Union Levies', 'Business Forums', 'Private Donations', 'Investments']),
+                    datasets: [{
+                        data: mixData,
+                        backgroundColor: mixColors,
+                        borderColor: '#1F1F1F',
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom', // FIXED FOR MOBILE SAFETY
+                            labels: {
+                                color: '#F5E5DC',
+                                font: { family: 'IBM Plex Sans', size: 11 },
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(31, 31, 31, 0.95)',
+                            titleColor: '#B85C38',
+                            bodyColor: '#F9F9F9',
+                            borderColor: '#B85C38',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 0,
+                            displayColors: false
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        });
+    </script>
+</body>
+</html>
